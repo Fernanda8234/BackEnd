@@ -62,7 +62,7 @@ entradaDeDados.question(`Nome do Cliente: `, function(nomeCliente){
                         } // opcão 1
                         
                             // Parcelas em Anos
-                            else if (opcao === "2"){
+                            if (opcao === "2"){
                                 if(nomeCliente == '' || produto == '' || valorCompra == '' || juros == '' || tempoPagamento == ''){
                                     console.log('Erro: é obrigatório o preenchimento de todos os dados!')
                                 } 
