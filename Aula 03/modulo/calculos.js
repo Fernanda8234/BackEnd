@@ -178,7 +178,7 @@ function mediaFinal(m1, m2, m3, m4, valor2){
 
     return {
         inicial: mediaAluno,
-        final: calculo
+        final: calculo.toFixed(2)
     }
 }
 
@@ -283,13 +283,13 @@ function imparOuPar(n1, n2, escolha){
     numero++
     }
 
-    if (escolha === 'a' || escolha === 'ambos') {
+    if (escolha === 'p' || escolha === 'a') {
         console.log("Lista de números Pares:")
         console.log(dados.listaPares)
         console.log(`Qtde de números encontrados: ${dados.qtdePares}`)
     }
 
-    if (escolha === 'b' || escolha === 'ambos') {
+    if (escolha === 'i' || escolha === 'a') {
         console.log("\nLista de números Impares:")
         console.log(dados.listaImpares)
         console.log(`Qtde de números encontrados: ${dados.qtdeImpares}`)
@@ -302,6 +302,21 @@ function imparOuParValidacao(valor1, valor2, escolha){
     
     if(valor1 == '' || isNaN(n1) || valor2 == '' || isNaN(n2)){
         console.log('Digite valores válidos em todos os campos!')
+        return false
+    } else if (n1 < 0 || n1 > 500 || n2 < 100 || n2 > 1000) {
+        console.log('Erro: O valor inicial deve ser entre 0-500 e o final entre 100-1000.')
+        return false
+    }
+
+    // impedir números iguais
+    else if (n1 === n2) {
+        console.log('Erro: Os números não podem ser iguais.')
+        return false
+    }
+
+    // impedir Inicial MAIOR que Final
+    else if (n1 > n2) {
+        console.log('Erro: O número inicial não pode ser maior que o final.')
         return false
     }
     else {

@@ -29,7 +29,7 @@ entradaDeDados.question(`Digite o nome do(a) aluno(a): `, function(nomeAluno){
                                     entradaDeDados.question(`Digite a nota 4: `, function(nota4){
 
                                         let m = calculos.media(nota1, nota2, nota3, nota4) // calculo da media
-                                        let resultado = calculos.validarMedia(m, sexoAluno) // status do aluno
+                                        let resultado = calculos.statusMedia(m, sexoAluno) // status do aluno
 
                                         let gen = generos.tratarGeneros(sexoAluno, sexoProfessor); // tratamento de genero
 
