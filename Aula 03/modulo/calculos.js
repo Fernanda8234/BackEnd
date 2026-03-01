@@ -1,8 +1,8 @@
 /**************************************************************************
- * Objetivo: Correção de erros com 0
- * Data: 13/02/2026
+ * Objetivo: Novas funções e correções
+ * Data: 28/02/2026
  * Autor: Fernanda
- * Versão: 1.2
+ * Versão: 1.3
  *************************************************************************/
 
 /* 
@@ -55,84 +55,65 @@ function percentual(numero){
 }
 
 // calcula a soma dos números
-function soma(soma1, soma2){
-    let n1 = Number(soma1.replace(',', '.'))
-    let n2 = Number(soma2.replace(',', '.'))
+function soma(n1, n2){
 
-    // validação de entradas vazias ou de letras
-    if(soma1.trim() == '' || isNaN(n1) || soma2.trim() == '' || isNaN(n2)){
-        console.log('Erro: Digite um número válido')
-        return false
-    }else {
-        // processamento do calculo
-        let calculo = n1 + n2
-        return Number(calculo.toFixed(2))
-    }
+    // processamento do calculo
+    let calculo = Number(n1) + Number(n2)
+    return Number(calculo.toFixed(2))
+    
 }
 
 // calcula a subtração dos números
-function subtracao(subtracao1, subtracao2){
-    let n1 = Number(subtracao1.replace(',', '.'))
-    let n2 = Number(subtracao2.replace(',', '.'))
+function subtracao(n1, n2){
 
-    // validação de entradas vazias ou de letras
-    if(subtracao1.trim() == '' || isNaN(n1) || subtracao2.trim() == '' || isNaN(n2)){
-        console.log('Erro: Digite um número válido')
-        return false
-    }else {
-        // processamento do calculo
-        let calculo = n1 - n2
-        return Number(calculo.toFixed(2))
-    }
+    // processamento do calculo
+    let calculo = Number(n1) - Number(n2)
+    return Number(calculo.toFixed(2))
+
 }
 
 // calcula a multiplicação dos números
-function multiplicacao(multiplicacao1, multiplicacao2){
-    let n1 = Number(multiplicacao1.replace(',', '.'))
-    let n2 = Number(multiplicacao2.replace(',', '.'))
+function multiplicacao(n1, n2){
 
-    // validação de entradas vazias ou de letras
-    if(multiplicacao1.trim() == '' || isNaN(n1) || multiplicacao2.trim() == '' || isNaN(n2)){
-        console.log('Erro: Digite um número válido')
-        return false
-    }else {
-        // processamento do calculo
-        let calculo = n1 * n2
-        return Number(calculo.toFixed(2))
-    }
+    // processamento do calculo
+    let calculo = Number(n1) * Number(n2)
+    return Number(calculo.toFixed(2))
 }
 
 // calcula a divisão dos números
-function divisao(divisao1, divisao2){
-    let n1 = Number(divisao1.replace(',', '.'))
-    let n2 = Number(divisao2.replace(',', '.'))
-
-    // validação de entradas vazias ou de letras
-    if(n1 == '' || isNaN(n1) || n2 == '' || isNaN(n2)){
-        console.log('Erro: Digite um número válido')
-        return false
-    }
-    else {
-        // processamento do calculo
-        let calculo = n1 / n2
-        return Number(calculo.toFixed(2))
-    }
+function divisao(n1, n2) {
+    if (n2 === 0) return false // evita erro de divisão por zero
+    
+    let calculo = Number(n1) / Number(n2)
+    return Number(calculo.toFixed(2))
 }
 
-function imc(valor1, valor2){
-    let n1 = Number(valor1.replace(',', '.'))
-    let n2 = Number(valor2.replace(',', '.'))
-
-    // validação de entradas vazias ou de letras
+function validacaoOperacoesBasicas(valor1, valor2, operador){
+    let n1 = Number(String(valor1).replace(',', '.')) 
+    let n2 = Number(String(valor2).replace(',', '.'))
+    
     if(n1 == '' || isNaN(n1) || n2 == '' || isNaN(n2)){
         console.log('Erro: Digite um número válido')
         return false
     }
     else {
-        // processamento do calculo
-        let calculo = n1 / ((n2/100) ** 2 )
-        return Number(calculo.toFixed(2))
+       
+        if (operador === 'soma') {
+            return soma(n1, n2)
+        } else if (operador === 'subtração') {
+            return subtracao(n1, n2)
+        } else if (operador === 'multiplicação') {
+            return multiplicacao(n1, n2)
+        } else if (operador === 'divisão') {
+            return divisao(n1, n2)
+        } 
     }
+    return true
+}
+
+function imc(n1, n2){
+    let calculo = Number(n1) / Number((n2/100) ** 2 )
+    return Number(calculo.toFixed(2))
 }
 
 function imcPeso(m){
@@ -148,7 +129,7 @@ function imcPeso(m){
         resultado = 'Obesidade I'
     } else if(m >= 35 && m <= 39.9){
         resultado = 'Obesidade II'
-    } else{
+    } else if(m >= 40){
         resultado = 'Obesidade III'
     }
 
@@ -156,10 +137,10 @@ function imcPeso(m){
 }
 
 function media(valor1, valor2, valor3, valor4){
-    let n1 = Number(valor1.replace(',', '.'))
-    let n2 = Number(valor2.replace(',', '.'))
-    let n3 = Number(valor3.replace(',', '.'))
-    let n4 = Number(valor4.replace(',', '.'))
+    let n1 = Number(String(valor1).replace(',', '.'))
+    let n2 = Number(String(valor2).replace(',', '.'))
+    let n3 = Number(String(valor3).replace(',', '.'))
+    let n4 = Number(String(valor4).replace(',', '.'))
 
     // validação de entradas vazias ou de letras
     if(n1 == '' || isNaN(n1) || n2 == '' || isNaN(n2)){
@@ -173,45 +154,192 @@ function media(valor1, valor2, valor3, valor4){
     }
 }
 
-// funcoes.js
-function validarMedia(m, sexo) {
-    let statusAluno;
+function statusMedia(m, sexo) {
+    let statusAluno
 
     // Define se termina com O ou A
-    let sufixo = (sexo && sexo.toLowerCase() === 'feminino') ? 'a' : 'o';
+    let sufixo = (sexo && sexo.toLowerCase() === 'feminino') ? 'a' : 'o'
 
     if (m >= 70) {
-        statusAluno = `aprovad${sufixo}`;
+        statusAluno = `aprovad${sufixo}`
     } else if (m >= 50 && m < 70) {
-        statusAluno = 'recuperação';
+        statusAluno = 'recuperação'
     } else {
-        statusAluno = `reprovad${sufixo}`;
+        statusAluno = `reprovad${sufixo}`
     }
-
-    return statusAluno;
+    return statusAluno
 }
 
-function mediaFinal(m, valor2){
-    let mediaAluno = media(m)
-    let n2 = Number(valor2.replace(',', '.'))
+function mediaFinal(m1, m2, m3, m4, valor2){
+    let mediaAluno = media(m1, m2, m3, m4)
+    let n2 = Number(String(valor2 || "0").replace(',', '.'))
 
     let calculo = (mediaAluno + n2) / 2
 
-    return calculo
+    return {
+        inicial: mediaAluno,
+        final: calculo
+    }
 }
 
-// tornando as duas funções públicas para este projeto
+// função para imprimir a tabuada usando While/Enquanto
+function tabuada(n1, n2, n3, n4){
+
+    // recebe a tabuada a ser gerada
+    let tabInicio = Number(n1)
+    let tabFinal =  Number(n2)
+    let contInicio =  Number(n3)
+    let contFinal =  Number(n4)
+
+        if (tabInicio > tabFinal || contInicio > contFinal) {
+        console.log("Não é possível fazer o cálculo da tabuada em formato decrescente.")
+        return false // Retorna false para encerrar a função aqui
+        }   else if(tabInicio >= 2 && tabFinal <= 100 && contInicio >= 0 && contFinal <= 50){
+                while (tabInicio <= tabFinal){
+                    let contador = contInicio
+                    console.log(`\nTabuada do [${tabInicio}]`) 
+
+        // WHILE DE DENTRO (Controla as linhas: x1, x2, x3...)
+                    while (contador <= contFinal) {
+                
+                        let resultado = tabInicio * contador
+                        console.log(`${tabInicio} x ${contador} = ${resultado}`)
+            
+                        contador++ // Faz a linha subir (1, 2, 3...) 
+                }
+        tabInicio++
+            } 
+        }else {
+        console.log("Valores inválidos! Verifique os limites.")
+    }
+}
+
+function fatorial(n1){
+    let fat = Number(n1)
+
+    if (fat === 0) return false
+    
+        let resultado = 1
+        let sequencia = "" // mochila para guardar a frase "5x4x3..."
+        let numero = n1
+    
+        while (fat >= 1) {
+            
+            resultado *= fat
+
+            if (fat > 1) {
+            sequencia += fat + " x "
+            } else {
+            sequencia += fat
+        }
+
+        // agora, diminuímos o 'fat' em 1 para a próxima volta
+        fat = fat - 1
+    }
+    console.log(`O fatorial de ${numero} é ${sequencia} = ${resultado}`)
+    return resultado
+}
+
+function validacao(valor1, valor2 = 0){
+    let n1 = Number(String(valor1).replace(',', '.')) 
+    let n2 = Number(String(valor2).replace(',', '.'))
+    
+    if(valor1 == '' || isNaN(n1) || isNaN(n2)){
+        console.log('Erro: Digite um número válido')
+        return false
+    }
+    else {
+       return [n1, n2]
+    }
+}
+
+function imparOuPar(n1, n2, escolha){
+    let numero = Number(n1) 
+    let numero2 = Number(n2)
+
+    // objeto organizado
+    let dados = {
+        listaPares: "",    // Mochila vazia para os nomes dos pares
+        listaImpares: "",  // Mochila vazia para os nomes dos ímpares
+        qtdePares: 0,
+        qtdeImpares: 0
+    }
+
+    while(numero <= numero2){
+
+    if (numero % 2 == 0) {
+    // se o resto da divisão por 2 for igual a zero...
+        dados.listaPares += numero + "\n"
+        dados.qtdePares++  
+    }
+    // aumenta o seu "balde" de quantidade de pares
+     else {
+    // caso contrário (se sobrar 1)...
+        dados.listaImpares += numero + "\n"
+    // aumenta o seu "balde" de quantidade de impares
+        dados.qtdeImpares++
+        }
+
+    numero++
+    }
+
+    if (escolha === 'a' || escolha === 'ambos') {
+        console.log("Lista de números Pares:")
+        console.log(dados.listaPares)
+        console.log(`Qtde de números encontrados: ${dados.qtdePares}`)
+    }
+
+    if (escolha === 'b' || escolha === 'ambos') {
+        console.log("\nLista de números Impares:")
+        console.log(dados.listaImpares)
+        console.log(`Qtde de números encontrados: ${dados.qtdeImpares}`)
+    }
+}
+
+function imparOuParValidacao(valor1, valor2, escolha){
+    let n1 = Number(String(valor1).replace(',', '.')) 
+    let n2 = Number(String(valor2).replace(',', '.'))
+    
+    if(valor1 == '' || isNaN(n1) || valor2 == '' || isNaN(n2)){
+        console.log('Digite valores válidos em todos os campos!')
+        return false
+    }
+    else {
+       return imparOuPar(n1, n2, escolha)
+    }
+}
+
+// tornando as funções públicas
 module.exports = {
     jurosCompostos,
     percentual,
+
+    // para as operações basicas da matemática
     soma,
     subtracao,
     multiplicacao,
     divisao,
+    validacaoOperacoesBasicas,
+
+    // para IMC
     imc,
     imcPeso,
+
+    // para média
     media,
-    validarMedia,
+    statusMedia,
     mediaFinal,
-    exame
+
+    // para tabuada
+    tabuada,
+
+    // para fatorial
+    fatorial,
+
+    // validação para IMC e fatorial
+    validacao,
+
+    // para impar e par
+    imparOuPar,
+    imparOuParValidacao
 }

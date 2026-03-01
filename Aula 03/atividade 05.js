@@ -7,10 +7,21 @@
 
 // biblioteca
 const readline = require('readline')
-const tabuada = require('./modulo/tabuada.js')
+const calculo = require('./modulo/calculos.js')
 
 // entrada de dados
 const entradaDeDados = readline.createInterface({
     input: process.stdin,
     output: process.stdout
+})
+
+entradaDeDados.question(`Digite a tabuada inicial:`, function(tabuInicial){
+    entradaDeDados.question(`Digite a tabuada final:`, function(tabuFinal){
+        entradaDeDados.question(`Digite o contador inicial:`, function(contaInicial){
+            entradaDeDados.question(`Digite o contador final:`, function(contaFinal){
+                calculo.tabuada(tabuInicial, tabuFinal, contaInicial, contaFinal)
+                    entradaDeDados.close()
+            })
+        })
+    })
 })

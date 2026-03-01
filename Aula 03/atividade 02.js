@@ -1,13 +1,14 @@
 /********************************************************************
- * Objetivo: Criar um sistema para operações básicas de matemática
- * Data: 13/02/2026
+ * Objetivo: Melhorias no código
+ * Data: 28/02/2026
  * Autor: Fernanda
- * Versão: 1.0
+ * Versão: 1.1
  *******************************************************************/
 
 // biblioteca
 const readline = require('readline')
 const calculos = require('./modulo/calculos.js')
+const menu = 'Escolha uma opção \nsoma \nsubtração \nmultiplicação \ndivisão \nOpção: '
 
 // entrada de dados
 const entradaDeDados = readline.createInterface({
@@ -17,38 +18,43 @@ const entradaDeDados = readline.createInterface({
 
 entradaDeDados.question('Digite o primeiro número: ', function(numero1){
     entradaDeDados.question('Digite o segundo número: ', function(numero2){
-        entradaDeDados.question('Escolha uma opção \nSoma \nSubtração \nMultiplicação \nDivisão \nOpção: ', function escolhaPergunta(escolha){
+        entradaDeDados.question(menu, function escolhaPergunta(escolha){
             if(escolha == '' || escolha == null){
                 console.log('Erro: é obrigatório o escolher uma das opções!')
-                return entradaDeDados.question('Escolha uma opção \nSoma \nSubtração \nMultiplicação \nDivisão \nOpção:', escolhaPergunta)
-                } else if (escolha !== 'Soma' && escolha !== 'Subtração' && escolha !== 'Multiplicação' && escolha !== 'Divisão') {
-                    console.log('Erro: Opção inválida! Escolha Soma, Subtração, Multiplicação ou Divisão.');
-                    return entradaDeDados.question('Escolha uma opção \nSoma \nSubtração \nMultiplicação \nDivisão \nOpção:', escolhaPergunta)
+                return entradaDeDados.question(menu, escolhaPergunta)
+                } else if (escolha !== 'soma' && escolha !== 'subtração' && escolha !== 'multiplicação' && escolha !== 'divisão') {
+                    console.log('Erro: Opção inválida! Escolha soma, subtração, multiplicação ou divisão.')
+                    return entradaDeDados.question(menu, escolhaPergunta)
                     }
 
-                    // soma
-                    if (escolha === 'Soma') {
-                        let m = calculos.calcularSoma(numero1, numero2);
-                        if (m !== false) console.log(`Resultado: ${m.toFixed(2)}`);
-                        } // soma
+                    let n1 = Number(String(numero1).replace(',', '.'))
+                    let n2 = Number(String(numero2).replace(',', '.'))
+                    let resultado = calculos.validacaoOperacoesBasicas(n1, n2, escolha)
 
-                            // subtração
-                            if(escolha === 'Subtração'){
-                                let m = calculos.calcularSubtracao(numero1, numero2);
-                                if (m !== false) console.log(`Resultado: ${m.toFixed(2)}`);
-                    } // subtração
+                    switch (escolha) {
+                            case 'soma': // if
+                                resultado = calculos.soma(n1, n2)
+                                    break
+                                    
+                                    case 'subtração': // else if
+                                        resultado = calculos.subtracao(n1, n2)
+                                            break
+                    
+                                            case 'multiplicação': // else if
+                                                resultado = calculos.multiplicacao(n1, n2)
+                                                    break
+                    
+                                                    case 'divisão': // else if
+                                                        resultado = calculos.divisao(n1, n2)
+                                                            break
+                } // switch
+           
+            if (resultado ==! NaN) {
+                console.log(`O resultado da operação é: ${resultado}`)
+            }
 
-                                // multiplicação
-                                if(escolha === 'Multiplicação'){
-                                    let m = calculos.calcularMultiplicacao(numero1, numero2);
-                                    if (m !== false) console.log(`Resultado: ${m.toFixed(2)}`);
-                } // multiplicação
-
-                                    // divisão
-                                    if(escolha === 'Divisão'){
-                                        let m = calculos.calcularDivisao(numero1, numero2);
-                                        if (m !== false) console.log(`Resultado: ${m.toFixed(2)}`);
-            } // divisão
+            // mata o processo do readline e volta para o prompt do sistema (PS C:\...>)
+            entradaDeDados.close()
         }) // opções
     }) // segundo número
 }) // primeiro número

@@ -8,18 +8,18 @@ function tratarGeneros(sexoAluno, sexoProfessor) {
     };
 
     if (sexoAluno.toLowerCase() === 'feminino') {
-        dados.aluno = 'aluna';
-        dados.artigo = 'A';
+        dados.aluno = 'aluna'
+        dados.artigo = 'A'
         dados.do = 'da'
     }
 
     if (sexoProfessor.toLowerCase() === 'feminino') {
-        dados.professor = 'Professora';
+        dados.professor = 'Professora'
     } else {
-        dados.professor = 'Professor';
+        dados.professor = 'Professor'
     }
 
-    return dados; // Importante: devolve os nomes prontos
+    return dados // Importante: devolve os nomes prontos
 }
 
 // tornando as duas funções públicas para este projeto
