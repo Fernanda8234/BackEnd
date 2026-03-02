@@ -1,5 +1,5 @@
 /********************************************************************
- * Objetivo: Calcular juros compostos de produtos
+ * Objetivo: Criar funções com as entradas de dados
  * Data: 01/03/2026
  * Autor: Fernanda
  * Versão: 1.0

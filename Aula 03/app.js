@@ -1,5 +1,5 @@
 /********************************************************************
- * Objetivo: Calcular juros compostos de produtos
+ * Objetivo: Criar um sistema multifuncional para uma empresa
  * Data: 01/03/2026
  * Autor: Fernanda
  * Versão: 1.0
@@ -52,4 +52,4 @@ entradaDeDados.question('\nEscolha uma opção: ', function(opcao) {
                                                     entradaDeDados.close()
                                                         break
                     } // switch
-})
+}) // opção

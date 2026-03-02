@@ -1,6 +1,5 @@
 /********************************************************************
- * Objetivo: Criar um sistema que gerencie as médias escolares de uma
-universidade
+ * Objetivo: Criar um sistema que gerencie as médias escolares de uma universidade
  * Data: 25/02/2026
  * Autor: Fernanda
  * Versão: 1.0

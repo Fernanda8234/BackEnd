@@ -5,7 +5,7 @@
  * Versão: 1.1
  *******************************************************************/
 
-// biblioteca
+// bibliotecas
 const readline = require('readline')
 const calculos = require('./modulo/calculos.js')
 const menu = 'Escolha uma opção \nsoma \nsubtração \nmultiplicação \ndivisão \nOpção: '

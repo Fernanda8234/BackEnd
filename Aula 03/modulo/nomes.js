@@ -1,3 +1,9 @@
+/********************************************************************
+ * Objetivo: Criar uma função para tratar os gêneros
+ * Data: 01/03/2026
+ * Autor: Fernanda
+ * Versão: 1.0
+ *******************************************************************/
 function tratarGeneros(sexoAluno, sexoProfessor) {
     // Definindo padrões (Masculino por padrão)
     let dados = {
