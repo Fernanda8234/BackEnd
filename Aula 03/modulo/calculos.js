@@ -157,7 +157,7 @@ function media(valor1, valor2, valor3, valor4){
 function statusMedia(m, sexo) {
     let statusAluno
 
-    // Define se termina com O ou A
+    // define se termina com O ou A
     let sufixo = (sexo && sexo.toLowerCase() === 'feminino') ? 'a' : 'o'
 
     if (m >= 70) {
@@ -199,7 +199,7 @@ function tabuada(n1, n2, n3, n4){
                     let contador = contInicio
                     console.log(`\nTabuada do [${tabInicio}]`) 
 
-        // WHILE DE DENTRO (Controla as linhas: x1, x2, x3...)
+        // while de dentro (Controla as linhas: x1, x2, x3...)
                     while (contador <= contFinal) {
                 
                         let resultado = tabInicio * contador
@@ -207,7 +207,7 @@ function tabuada(n1, n2, n3, n4){
             
                         contador++ // Faz a linha subir (1, 2, 3...) 
                 }
-        tabInicio++
+            tabInicio++
             } 
         }else {
         console.log("Valores inválidos! Verifique os limites.")
@@ -220,7 +220,7 @@ function fatorial(n1){
     if (fat === 0) return false
     
         let resultado = 1
-        let sequencia = "" // mochila para guardar a frase "5x4x3..."
+        let sequencia = "" // mochila para guardar "5x4x3..."
         let numero = n1
     
         while (fat >= 1) {
@@ -259,8 +259,8 @@ function imparOuPar(n1, n2, escolha){
 
     // objeto organizado
     let dados = {
-        listaPares: "",    // Mochila vazia para os nomes dos pares
-        listaImpares: "",  // Mochila vazia para os nomes dos ímpares
+        listaPares: "",    // Mochila vazia para os pares
+        listaImpares: "",  // Mochila vazia para os ímpares
         qtdePares: 0,
         qtdeImpares: 0
     }
@@ -303,7 +303,7 @@ function imparOuParValidacao(valor1, valor2, escolha){
     if(valor1 == '' || isNaN(n1) || valor2 == '' || isNaN(n2)){
         console.log('Digite valores válidos em todos os campos!')
         return false
-    } else if (n1 < 0 || n1 > 500 || n2 < 100 || n2 > 1000) {
+    } else if (n1 >= 0 || n1 <= 500 || n2 >= 100 || n2 <= 1000) {
         console.log('Erro: O valor inicial deve ser entre 0-500 e o final entre 100-1000.')
         return false
     }

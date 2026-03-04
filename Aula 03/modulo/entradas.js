@@ -27,8 +27,8 @@ const iniciarIMC = function(entradaDeDados){
                 let faixa = calculos.imcPeso(valorImc)
                 console.log(`Seu IMC é: ${valorImc}\nVocê está na faixa de: ${faixa}`)
                 entradaDeDados.close()
-        })
-    })
+        }) // altura
+    }) // peso
 }
 
 const iniciarSistemaNotas = function(entradaDeDados){
@@ -46,7 +46,7 @@ const iniciarSistemaNotas = function(entradaDeDados){
                                             let m = calculos.media(nota1, nota2, nota3, nota4) // calculo da media
                                             let resultado = calculos.statusMedia(m, sexoAluno) // status do aluno
     
-                                            let gen = generos.tratarGeneros(sexoAluno, sexoProfessor); // tratamento de genero
+                                            let gen = generos.tratarGeneros(sexoAluno, sexoProfessor) // tratamento de genero
     
                                             if(resultado === 'recuperação'){
                                                 entradaDeDados.question(`Digite a nota do exame: `, function(notaExame){
@@ -94,10 +94,10 @@ const iniciarTabuada = function(entradaDeDados){
                 entradaDeDados.question(`Digite o contador final:`, function(contaFinal){
                     calculos.tabuada(tabuInicial, tabuFinal, contaInicial, contaFinal)
                         entradaDeDados.close()
-                })
-            })
-        })
-    })
+                }) // contador final
+            }) // contador inicial
+        }) // tabuada final
+    }) // tabuada inicial
 }
 
 const iniciarFatorial = function(entradaDeDados){
@@ -112,7 +112,7 @@ const iniciarFatorial = function(entradaDeDados){
             calculos.fatorial(f[0])
             
             entradaDeDados.close()
-    })
+    }) // número
 }
 
 const iniciarImparOuPar = function(entradaDeDados){
@@ -127,9 +127,9 @@ const iniciarImparOuPar = function(entradaDeDados){
                 calculos.imparOuParValidacao(n1, n2, escolha)
     
                 entradaDeDados.close()
-            })
-        })
-    })
+            }) // opção
+        }) // segundo número
+    }) // primeiro número
 }
 
 module.exports = {
