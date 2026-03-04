@@ -1,8 +1,8 @@
 /**************************************************************************
- * Objetivo: Novas funções e correções
- * Data: 28/02/2026
+ * Objetivo: Novas funções e melhorias
+ * Data: 04/03/2026
  * Autor: Fernanda
- * Versão: 1.3
+ * Versão: 1.4
  *************************************************************************/
 
 /* 
@@ -119,15 +119,15 @@ function imc(n1, n2){
 function imcPeso(m){
     let resultado 
 
-    if(m <= 18.5){
+    if(m < 18.5){
         resultado = 'Abaixo do peso'
-    } else if(m >= 18.5 && m <= 24.9){ 
+    } else if(m <= 24.9){ 
         resultado = 'Peso normal'
-    } else if(m >= 25 && m <= 29.9){
+    } else if(m <= 29.9){
         resultado = 'Sobrepeso'
-    } else if(m >= 30 && m <= 34.9){
+    } else if(m <= 34.9){
         resultado = 'Obesidade I'
-    } else if(m >= 35 && m <= 39.9){
+    } else if(m <= 39.9){
         resultado = 'Obesidade II'
     } else if(m >= 40){
         resultado = 'Obesidade III'
@@ -136,21 +136,38 @@ function imcPeso(m){
     return resultado
 }
 
-function media(valor1, valor2, valor3, valor4){
+// função para converter metros para cm
+function metrosParaCm(metros){
+    let m = Number(String(metros).replace(',', '.')) 
+    
+    let calculo = Number(m * 100)
+
+    return Number(calculo.toFixed(2))
+
+}
+
+function media(n1, n2, n3, n4){
+    // processamento do calculo
+    let calculo = Number(n1 + n2 + n3 + n4) / 4
+    return Number(calculo.toFixed(2))
+}
+
+function validarMedia(valor1, valor2, valor3, valor4){
     let n1 = Number(String(valor1).replace(',', '.'))
     let n2 = Number(String(valor2).replace(',', '.'))
     let n3 = Number(String(valor3).replace(',', '.'))
     let n4 = Number(String(valor4).replace(',', '.'))
 
     // validação de entradas vazias ou de letras
-    if(n1 == '' || isNaN(n1) || n2 == '' || isNaN(n2)){
+    if(n1 == '' || isNaN(n1) || n2 == '' || isNaN(n2) || n3 == '' || isNaN(n3) || n4 == '' || isNaN(n4)){
         console.log('Erro: Digite um número válido')
         return false
     }
-    else {
-        // processamento do calculo
-        let calculo = (n1 + n2 + n3 + n4) / 4
-        return Number(calculo.toFixed(2))
+    else if (n1 < 0 || n1 > 100 || n2 < 0 || n2 > 100 || n3 < 0 || n3 > 100 || n4 < 0 || n4 > 100) {
+    console.log('Erro: As notas devem estar no intervalo de 0 a 100.')
+    return false
+    } else {
+        return [n1, n2, n3, n4]
     }
 }
 
@@ -170,11 +187,11 @@ function statusMedia(m, sexo) {
     return statusAluno
 }
 
-function mediaFinal(m1, m2, m3, m4, valor2){
-    let mediaAluno = media(m1, m2, m3, m4)
-    let n2 = Number(String(valor2 || "0").replace(',', '.'))
+function mediaFinal(n1, n2, n3, n4, valor2){
+    let mediaAluno = media(n1, n2, n3, n4)
+    let exame = Number(String(valor2 || "0").replace(',', '.'))
 
-    let calculo = (mediaAluno + n2) / 2
+    let calculo = (mediaAluno + exame) / 2
 
     return {
         inicial: mediaAluno,
@@ -251,6 +268,7 @@ function validacao(valor1, valor2 = 0){
     else {
        return [n1, n2]
     }
+    
 }
 
 function imparOuPar(n1, n2, escolha){
@@ -339,9 +357,11 @@ module.exports = {
     // para IMC
     imc,
     imcPeso,
+    metrosParaCm,
 
     // para média
     media,
+    validarMedia,
     statusMedia,
     mediaFinal,
 

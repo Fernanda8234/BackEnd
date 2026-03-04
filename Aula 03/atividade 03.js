@@ -15,22 +15,27 @@ const entradaDeDados = readline.createInterface({
     output: process.stdout
 })
 
-// fazer escolha entre cm e metros
 entradaDeDados.question(`Digite o seu peso: `, function(peso){
-    entradaDeDados.question(`Digite a sua altura em cm: `, function(altura){
-
-        let m = calculos.validacao(peso, altura)
-
-        if(m === false){
-            entradaDeDados.close()
-            return
+    entradaDeDados.question(`Escolha uma opção \n(1) Em cm \n(2) Em metros \nOpção: `, function perguntaOpcao(opcao){ 
+        if (opcao !== '1' && opcao !== '2') {
+            console.log('Erro: Opção inválida!')
+            return perguntaOpcao()
         }
-            // como 'm' é uma lista [n1, n2], passamos esses valores para o imc()
-            let valorImc = calculos.imc(m[0], m[1])
 
-            // e seguimos com a classificação
+        entradaDeDados.question(`Digite a sua altura: `, function(altura) {
+            // valida os dados uma única vez
+            let m = calculos.validacao(peso, altura)
+            if (!m) return entradaDeDados.close()
+
+            // define a altura final (se for opção 2, converte; se não, usa direto)
+            let metros = (opcao === "2") ? calculos.metrosParaCm(m[1]) : m[1]
+
+            // calcula e mostra o resultado (sem repetir código!)
+            let valorImc = calculos.imc(m[0], metros)
             let faixa = calculos.imcPeso(valorImc)
-            console.log(`Seu IMC é: ${valorImc}\nVocê está na faixa de: ${faixa}`)
+
+            console.log(`\nSeu IMC é: ${valorImc}\nVocê está na faixa de: ${faixa}`)
             entradaDeDados.close()
+        })
     })
 })

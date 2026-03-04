@@ -10,25 +10,30 @@ const calculos = require('./calculos.js')
 const generos = require('./nomes.js')
 
 const iniciarIMC = function(entradaDeDados){
-    // fazer escolha entre cm e metros
     entradaDeDados.question(`Digite o seu peso: `, function(peso){
-        entradaDeDados.question(`Digite a sua altura em cm: `, function(altura){
-    
-            let m = calculos.validacao(peso, altura)
-    
-            if(m === false){
-                entradaDeDados.close()
-                return
+        entradaDeDados.question(`Escolha uma opção \n(1) Em cm \n(2) Em metros \nOpção: `, function perguntaOpcao(opcao){ 
+            if (opcao !== '1' && opcao !== '2') {
+                console.log('Erro: Opção inválida!')
+                return perguntaOpcao()
             }
-                // como 'm' é uma lista [n1, n2], passamos esses valores para o imc()
-                let valorImc = calculos.imc(m[0], m[1])
-    
-                // e seguimos com a classificação
+
+            entradaDeDados.question(`Digite a sua altura: `, function(altura) {
+                // valida os dados uma única vez
+                let m = calculos.validacao(peso, altura)
+                if (!m) return entradaDeDados.close()
+
+                // define a altura final (se for opção 2, converte; se não, usa direto)
+                let metros = (opcao === "2") ? calculos.metrosParaCm(m[1]) : m[1]
+
+                // calcula e mostra o resultado (sem repetir código!)
+                let valorImc = calculos.imc(m[0], metros)
                 let faixa = calculos.imcPeso(valorImc)
-                console.log(`Seu IMC é: ${valorImc}\nVocê está na faixa de: ${faixa}`)
+
+                console.log(`\nSeu IMC é: ${valorImc}\nVocê está na faixa de: ${faixa}`)
                 entradaDeDados.close()
-        }) // altura
-    }) // peso
+            })
+        })
+    })
 }
 
 const iniciarSistemaNotas = function(entradaDeDados){
@@ -43,38 +48,50 @@ const iniciarSistemaNotas = function(entradaDeDados){
                                     entradaDeDados.question(`Digite a nota 3: `, function(nota3){
                                         entradaDeDados.question(`Digite a nota 4: `, function(nota4){
     
-                                            let m = calculos.media(nota1, nota2, nota3, nota4) // calculo da media
+                                            let mA = calculos.validarMedia(nota1, nota2, nota3, nota4) // calculo da media
+    
+                                            if (mA === false) {
+                                                entradaDeDados.close() 
+                                                return
+                                            }
+    
+                                            let m = calculos.media(mA[0], mA[1], mA[2], mA[3])
+    
                                             let resultado = calculos.statusMedia(m, sexoAluno) // status do aluno
     
                                             let gen = generos.tratarGeneros(sexoAluno, sexoProfessor) // tratamento de genero
     
-                                            if(resultado === 'recuperação'){
-                                                entradaDeDados.question(`Digite a nota do exame: `, function(notaExame){
-    
-                                                    let mediaExame = calculos.mediaFinal(nota1, nota2, nota3, nota4, notaExame)
-                                                    let resultadoExame = mediaExame.final >= 70 ? `aprovad${gen.artigo.toLocaleLowerCase()}` : `reprovad${gen.artigo.toLocaleLowerCase()}`
-                                                    console.log(`
-                                                        \nRelatório ${gen.do} ${gen.aluno}:
-                                                        \n${gen.artigo} ${gen.aluno} ${nomeAluno} foi ${resultadoExame} na disciplina ${nomeDisciplina}.
-                                                        \nCurso: ${nomeCurso}
-                                                        \n${gen.professor}: ${nomeProfessor}
-                                                        \nNotas ${gen.do} ${gen.aluno}: ${nota1}, ${nota2}, ${nota3}, ${nota4}
-                                                        \nMédia Final: ${m.toFixed(2)}
-                                                        \nMédia final do Exame: ${mediaExame.final}
-                                            `)
-                                                        entradaDeDados.close()
-                                        })
-                                    } else { 
+                                            function imprimirRelatorio(statusFinal, notaDoExame = null) {
                                                 console.log(`
                                                     \nRelatório ${gen.do} ${gen.aluno}:
-                                                    \n${gen.artigo} ${gen.aluno} ${nomeAluno} foi ${resultado} na disciplina ${nomeDisciplina}.
+                                                    \n${gen.artigo} ${gen.aluno} ${nomeAluno} foi ${statusFinal} na disciplina ${nomeDisciplina}.
                                                     \nCurso: ${nomeCurso}
                                                     \n${gen.professor}: ${nomeProfessor}
                                                     \nNotas ${gen.do} ${gen.aluno}: ${nota1}, ${nota2}, ${nota3}, ${nota4}
                                                     \nMédia Final: ${m.toFixed(2)}
-                                            `)
-                                             entradaDeDados.close()
-                                            } // else           
+                                                    ${notaDoExame ? `\nMédia Final do Exame: ${notaDoExame}` : ''}
+                                                `)
+                                            
+                                                // Fecha a entrada de dados aqui dentro para garantir que o programa encerre.
+                                                entradaDeDados.close()
+                                            }                                        
+                                            if (resultado === 'recuperação') {
+                                                entradaDeDados.question(`Digite a nota do exame: `, function(notaExame) {
+                                                    
+                                                    let mediaExame = calculos.mediaFinal(nota1, nota2, nota3, nota4, notaExame)
+                                                    
+                                                    // define se foi aprovado ou reprovado no exame (usando o artigo correto: o/a)
+                                                    let statusExame = Number(mediaExame.final) >= 70 
+                                                        ? `aprovad${gen.artigo.toLowerCase()}` 
+                                                        : `reprovad${gen.artigo.toLowerCase()}`
+                                            
+                                                    // chamada da função: Passamos o status novo e a nota que ele tirou no exame
+                                                    imprimirRelatorio(statusExame, mediaExame.final)
+                                                })
+                                            
+                                            } else {
+                                                imprimirRelatorio(resultado)
+                                            }
                                         }) // nota 4
                                     }) // nota 3
                                 }) // nota 2
