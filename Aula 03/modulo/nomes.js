@@ -11,7 +11,7 @@ function tratarGeneros(sexoAluno, sexoProfessor) {
         aluno: 'aluno',
         do: 'do',
         professor: 'Professor'
-    };
+    }
 
     if (sexoAluno.toLowerCase() === 'feminino') {
         dados.aluno = 'aluna'
