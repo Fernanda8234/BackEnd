@@ -148,7 +148,7 @@ function metrosParaCm(metros){
 
 function media(n1, n2, n3, n4){
     // processamento do calculo
-    let calculo = Number(n1 + n2 + n3 + n4) / 4
+    let calculo = (Number(n1) + Number(n2) + Number(n3) + Number(n4)) / 4
     return Number(calculo.toFixed(2))
 }
 
@@ -211,7 +211,7 @@ function tabuada(n1, n2, n3, n4){
         if (tabInicio > tabFinal || contInicio > contFinal) {
         console.log("Não é possível fazer o cálculo da tabuada em formato decrescente.")
         return false // Retorna false para encerrar a função aqui
-        }   else if(tabInicio >= 2 && tabFinal <= 100 && contInicio >= 0 && contFinal <= 50){
+        }   else if(tabInicio >= 2 && tabFinal <= 100 && contInicio >= 1 && contFinal <= 50){
                 while (tabInicio <= tabFinal){
                     let contador = contInicio
                     console.log(`\nTabuada do [${tabInicio}]`) 
@@ -227,7 +227,7 @@ function tabuada(n1, n2, n3, n4){
             tabInicio++
             } 
         }else {
-        console.log("Valores inválidos! Verifique os limites.")
+        console.log("Valores inválidos! Selecione uma tabuada entre 2 e 100 com multiplicadores de 1 a 50.")
     }
 }
 
@@ -235,6 +235,7 @@ function fatorial(n1){
     let fat = Number(n1)
 
     if (fat === 0) return false
+    if (fat === 1) return console.log('O fatorial requer um valor superior a 1.')
     
         let resultado = 1
         let sequencia = "" // mochila para guardar "5x4x3..."
@@ -321,7 +322,7 @@ function imparOuParValidacao(valor1, valor2, escolha){
     if(valor1 == '' || isNaN(n1) || valor2 == '' || isNaN(n2)){
         console.log('Digite valores válidos em todos os campos!')
         return false
-    } else if (n1 >= 0 || n1 <= 500 || n2 >= 100 || n2 <= 1000) {
+    } else if (n1 < 0 || n1 > 500 || n2 < 100 || n2 > 1000) {
         console.log('Erro: O valor inicial deve ser entre 0-500 e o final entre 100-1000.')
         return false
     }

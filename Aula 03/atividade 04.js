@@ -60,7 +60,7 @@ entradaDeDados.question(`Digite o nome do(a) aluno(a): `, function(nomeAluno){
                                                 let mediaExame = calculos.mediaFinal(nota1, nota2, nota3, nota4, notaExame)
                                                 
                                                 // define se foi aprovado ou reprovado no exame (usando o artigo correto: o/a)
-                                                let statusExame = Number(mediaExame.final) >= 70 
+                                                let statusExame = Number(mediaExame.final) >= 60 
                                                     ? `aprovad${gen.artigo.toLowerCase()}` 
                                                     : `reprovad${gen.artigo.toLowerCase()}`
                                         
