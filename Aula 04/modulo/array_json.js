@@ -260,11 +260,9 @@ const cadastroDeProdutos = function(){
             "id": 2, 
             "produto": "Teclado",
             "descricao": "Teclado mecanico RGB",
-            "marca": [
-                marcas[5].marca
-            ],
+            "marca": [marcas[5].marca],
             "qtde": 200,
-            "cor": [cores],
+            "cor": cores,
             "valor": 150
         }, // indice 1
         {
@@ -278,23 +276,58 @@ const cadastroDeProdutos = function(){
             ],
             "qtde": 500,
             "cor": [
-                cores[0].cor,
-                cores[1].cor,
-                cores[4].cor
+                cores[0],
+                cores[1],
+                cores[4]
             ],
             "valor": 80
         } // indice 3
     ]
 
-    console.table(produtos)
+    // console.table(produtos)
+
+    // percorre o objeto de produto para trazer os dados de cada produto
     
-    /*
-    console.log(produtos[0].cor)
-    console.log(produtos[0].cor[1].cor)
-    produtos[0].cor.forEach(function(nomeCor){
-        console.log('A cor do produto é: ' + nomeCor.cor)
+    console.log(`--------------------Produtos--------------------`)
+    produtos.forEach(function(itemProduto){
+        console.log(`Produto: ${itemProduto.produto}`)
+            
+        // percorre o objeto de marca dentro de cada produto, para trazer as marcas
+        itemProduto.marca.forEach(function(itemMarca){
+                console.log(`Marca: ${itemMarca}`)
+            })
+        
+            // percorre o objeto de cor dentro de cada produto, para trazer as cores
+            itemProduto.cor.forEach(function(itemCor){
+                console.log(`Cor: ${itemCor.cor}`)
+                })
+    }) 
+
+    // pesquisando um produto pelo nome
+    console.log(`--------------------Pesquisando produtos pelo nome--------------------`)
+    let produto = 'Monitor'
+
+    produtos.forEach(function(itemProduto){
+        if(String(itemProduto.produto).toUpperCase() == String(produto).toUpperCase()){
+            console.log(itemProduto)
+        }
     })
-    */
+
+    // pesquisando um produto pela cor
+    console.log(`--------------------Pesquisando produtos pela cor--------------------`)
+    let cor = 'Rosa'
+    let status = false
+
+    produtos.forEach(function(itemProduto){
+       itemProduto.cor.forEach(function(itemCor){
+        if(String(itemCor.cor).toUpperCase() == String(cor).toUpperCase()){
+            console.log(itemProduto)
+            status = true
+            }
+        })  
+    })
+    if(!status)
+        console.log('O item pesquisado não foi encontrado')
 }
 
 /*
