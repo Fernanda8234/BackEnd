@@ -1,48 +1,72 @@
 /* *********************************************************************
 * Objetivo: Funções para a lista de estados
-* Data: 18/02/2026  
+* Data: 18/03/2026  
 * Autor: Fernanda
 * **********************************************************************/
-const estadosCidades = require(`./estados_cidades.js`)
+const arquivoEstados = require(`./estados_cidades.js`)
 
-const lista = []
+const getListaDeEstados = function(){
 
-// criar uma função (getListaDeEstados) que retorna a lista de todos os estados do Brasil
-const listaDeEstados = function(){
+    let resultado = {
+    uf: [],        // lista vazia esperando as siglas
+    quantidade: 0  // zero por enquanto
+    }
 
-    estadosCidades.listaDeEstados.estados.forEach(function(uf) {
-        lista.push(uf.sigla)
+    arquivoEstados.listaDeEstados.estados.forEach(function(estado) {
+        resultado.uf.push(estado.sigla)
     })
-    console.log(lista)
+    resultado.quantidade = resultado.uf.length
+    return resultado
+    
 }
 
-listaDeEstados()
+const getDadosEstados = function(uf){
+    let resultado = {
+        uf: uf
+    }
 
-// criar uma função (getDadosEstado) que retorna as informações referente a um estado do Brasil, onde a sigla do estado será o critério de filtro
-const dadosEstados = function(){
-
-    estadosCidades.listaDeEstados.estados.forEach(function(dadosDosEstado) {
-        console.log(dadosDosEstado)
+    arquivoEstados.listaDeEstados.estados.forEach(function(dadosDoEstado) {
+        if(String(dadosDoEstado.sigla).toUpperCase() == String(uf).toUpperCase()){
+            resultado.descricao = dadosDoEstado.nome
+            resultado.capital = dadosDoEstado.capital
+            resultado.regiao = dadosDoEstado.regiao
+        }
     })
+    return resultado
 }
 
-// criar uma função (getCapitalEstado) que retorna as informações referente a capital de um estado do Brasil, onde a sigla do estado será o critério de filtro
-const capitalEstados = function(){
+const getCapitalEstados = function(uf){
+    let resultado = { 
+        uf: uf
+    }
 
-    estadosCidades.listaDeEstados.estados.forEach(function(capitalEstados) {
-        console.log(capitalEstados.capital)
-    })
+    arquivoEstados.listaDeEstados.estados.forEach(function(capitalDosEstados){
+        if(String(capitalDosEstados.sigla).toUpperCase() == String(uf).toUpperCase()){
+            resultado.descricao = capitalDosEstados.nome
+            resultado.capital = capitalDosEstados.capital
+            }
+        })
+    return resultado
 }
 
-// capitalEstados()
+const getEstadosRegiao = function(regiao){
+    let resultado = {
+    regiao: regiao,
+    estados: []
+    }
 
-// criar uma função (getEstadosRegiao) que retorna as informações referente aos estados do Brasil conforme a sua região, onde a região será o critério de filtro
-const estadosRegiao = function(){
-
-    estadosCidades.listaDeEstados.estados.forEach(function(estadosRegiao) {
-        console.log(estadosRegiao.sigla)
-        console.log(estadosRegiao.cidades)
+    arquivoEstados.listaDeEstados.estados.forEach(function(estado) {
+        if(String(estado.regiao).toUpperCase() == String(regiao).toUpperCase()){
+            resultado.estados.push({
+            uf: estado.sigla,
+            descricao: estado.nome
+            })
+        }
     })
+    return resultado
 }
-
-// estadosRegiao() - nop
+    
+console.log(getListaDeEstados())
+console.log(getDadosEstados('ac'))
+console.log(getCapitalEstados('Ma'))
+console.log(getEstadosRegiao('SUL'))
