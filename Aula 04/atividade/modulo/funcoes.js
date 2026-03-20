@@ -31,6 +31,9 @@ const getDadosEstados = function(uf){
             })
         }
     })
+        if(resultado.length == 0){
+            return 'UF não encontrada'
+    }
     return resultado
 }
 
@@ -45,6 +48,9 @@ const getCapitalEstados = function(uf){
             resultado.capital = capitalDosEstados.capital
             }
         })
+        if(!resultado.descricao){
+            return 'UF não encontrada'
+    }
     return resultado
 }
 
@@ -62,6 +68,9 @@ const getEstadosRegiao = function(regiao){
             })
         }
     })
+        if(resultado.estados.length == 0){
+            return 'Região não encontrada'
+    }
     return resultado
 }
 
@@ -105,11 +114,14 @@ const getCidades = function(uf){
             })
         }
     })
-        return resultado
+        if(resultado.length == 0){
+            return 'UF não encontrada'
+    }
+    return resultado
 }
 console.log(getListaDeEstados())
 console.log(getDadosEstados('sp'))
 console.log(getCapitalEstados('Ac'))
 console.log(getEstadosRegiao('Sul'))
 console.log(getCapitalPais())
-console.log(getCidades('aC'))
+console.log(getCidades('AC'))

@@ -87,15 +87,15 @@ entradaDeDados.question('Digite o nome do aluno:', function(nome){
 
                     */
 
-                                            /*
+                        /*
                             Conversões de tipos de dados
                                 parseInt() -> Permite converter uma String para número INTEIRO
                                 parseFloat() -> Permite converter uma String para número DECIMAL
                                 Number() -> Permite converter uma String para NUMERO (INTEIRO OU DECIMAL)
                                 String() -> Permite converter um conteúdo para STRING
                                 Boolean() -> Permite converter um conteúdo para BOOLEANO
-                            typeof() -> Permite verificar o tipo de dados de uma variável
-                            toFixed() -> Permite fixar a qtde de casas decimais.
+                                typeof() -> Permite verificar o tipo de dados de uma variável
+                                toFixed() -> Permite fixar a qtde de casas decimais.
                         */
                   
                    //Validação de entrada vazia
@@ -106,9 +106,11 @@ entradaDeDados.question('Digite o nome do aluno:', function(nome){
                         }else if(nota1 < 0 || nota1 > 100 || nota2 < 0 || nota2 > 100 || nota3 < 0 || nota3 > 100 || nota4 < 0 || nota4 > 100){
                             console.log('ERRO: Somente é permitido a entrada de valores entre 0 e 100.')
                             
-                            /*Validação para a entrada de letras nas notas
-                              isNaN() -> permite validar se o conteúdo da 
-                              variável tem algum caracter ao invés de número*/
+                            /*
+                            Validação para a entrada de letras nas notas
+                            isNaN() -> permite validar se o conteúdo da 
+                                variável tem algum caracter ao invés de número
+                            */
 
                             }else if(isNaN(nota1) || isNaN(nota2) || isNaN(nota3) || isNaN(nota4)){
                                 console.log('ERRO: Não é possível calcular a média com a entrada de letras nas notas do aluno!!!')
@@ -128,11 +130,8 @@ entradaDeDados.question('Digite o nome do aluno:', function(nome){
                                             }
                         
                         //Saída do boletim do aluno
-                        console.log(`ALUNO: ${nomeAluno} \nMédia Final: ${media.toFixed(2)} \nStatus do Aluno: ${statusAluno}`)
-                        
+                        console.log(`ALUNO: ${nomeAluno} \nMédia Final: ${media.toFixed(2)} \nStatus do Aluno: ${statusAluno}`)   
                     }
-
-
                 })//Fecha a nota 4
             })//Fecha a nota 3
         })//Fecha a nota 2
