@@ -125,3 +125,12 @@ const getCidades = function(uf){
 //console.log(getEstadosRegiao('Sul'))
 //console.log(getCapitalPais())
 //console.log(getCidades('AC'))
+
+module.exports = {
+    getListaDeEstados,
+    getDadosEstados,
+    getCapitalEstados,
+    getEstadosRegiao,
+    getCapitalPais,
+    getCidades
+}
