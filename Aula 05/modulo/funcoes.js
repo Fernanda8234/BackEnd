@@ -1,6 +1,6 @@
 /* *********************************************************************
-* Objetivo: Funções para a lista de estados
-* Data: 20/03/2026  
+* Objetivo: Mensagem de erro
+* Data: 02/04/2026  
 * Autor: Fernanda
 * **********************************************************************/
 const arquivoEstados = require(`./estados_cidades.js`)
@@ -32,8 +32,8 @@ const getDadosEstados = function(uf){
         }
     })
         if(resultado.length == 0){
-            return 'UF não encontrada'
-    }
+            return ({"message": "O estado informado não foi encontrado"}) 
+        }
     return resultado
 }
 
@@ -49,8 +49,8 @@ const getCapitalEstados = function(uf){
             }
         })
         if(!resultado.descricao){
-            return 'UF não encontrada'
-    }
+            return ({"message": "O estado informado não foi encontrado"}) 
+        }
     return resultado
 }
 
@@ -69,8 +69,8 @@ const getEstadosRegiao = function(regiao){
         }
     })
         if(resultado.estados.length == 0){
-            return 'Região não encontrada'
-    }
+            return ({"message": "A região informada não foi encontrada"}) 
+        }
     return resultado
 }
 
@@ -115,16 +115,10 @@ const getCidades = function(uf){
         }
     })
         if(resultado.length == 0){
-            return 'UF não encontrada'
-    }
+            return ({"message": "O estado informado não foi encontrado"})          
+        }
     return resultado
 }
-//console.log(getListaDeEstados())
-//console.log(getDadosEstados('sp'))
-//console.log(getCapitalEstados('Ac'))
-//console.log(getEstadosRegiao('Sul'))
-//console.log(getCapitalPais())
-//console.log(getCidades('AC'))
 
 module.exports = {
     getListaDeEstados,
