@@ -24,5 +24,4 @@ module.exports = {
     },
    
     // Você pode adicionar configurações para produção, testes, etc.
-  };
-
+};
