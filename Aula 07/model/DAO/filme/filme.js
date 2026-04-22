@@ -16,32 +16,41 @@ const knexConex = knex(knexConfig.development)
 
 // função para inserir dados na tabela de filme
 const insertFilme = async function(filme){
-    let sql =   `insert into tbl_filme 	(
-						nome, 
-                        data_lancamento, 
-                        duracao, 
-                        sinopse, 
-                        avaliacao, 
-                        valor, 
-                        capa
-						)
-                values 	(
-                        '${filme.nome}', 
-                        '${filme.data_lancamento}', 
-                        '${filme.duracao}', 
-                        '${filme.sinopse}',
-                        '${filme.avaliacao}',
-                        '${filme.valor},
-                        '${filme.capa}'
-                        );`
+    try {
+        
+    // console.log(sql) e colar o script no banco para ver se está tudo certo
+    
+        let sql =   `insert into tbl_filme 	(
+                            nome, 
+                            data_lancamento, 
+                            duracao, 
+                            sinopse, 
+                            avaliacao, 
+                            valor, 
+                            capa
+                            )
+                    values 	(
+                            '${filme.nome}', 
+                            '${filme.data_lancamento}', 
+                            '${filme.duracao}', 
+                            '${filme.sinopse}',
+                            if('${filme.avaliacao}' = '', null, '${filme.avaliacao}'),
+                            '${filme.valor}',
+                            '${filme.capa}'
+                            );`
 
-    // executar o ScriptSQL no banco de dados
-    let result = await knexConex.raw(sql)
+        // executar o ScriptSQL no banco de dados
+        let result = await knexConex.raw(sql)
 
-    if(result)
-        return true
-    else
-        return false
+        if(result)
+            return true
+        else
+            return false
+    
+        } catch (error) {
+            //console.log(error)
+            return false
+    }
 }
 
 // função para atualizar um filme existente na tabela
