@@ -66,6 +66,48 @@ app.get('/v1/senai/locadora/filme/:id', async function(request, response){
     response.json(result)
 })
 
+app.put('/v1/senai/locadora/filme/:id', bodyParserJSON, async function(request, response){
+
+    // recebe o content type da requisição
+    let contentType = request.headers['content-type']
+
+    // recebe o ID do registro a ser atualizado
+    let id = request.params.id
+
+    // recebe os dados enviados no corpo da requisição
+    let dados = request.body
+
+    /*
+        chama a função de atualizar na controller e encaminha os dados, id e content-type
+        obedecendo a ordem de criação na função da controller
+    */
+    let result = await controllerFilme.atualizarFilme(dados, contentType, id)
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+app.delete('/v1/senai/locadora/filme/:id', bodyParserJSON, async function(request, response){
+
+    // recebe o content type da requisição
+    let contentType = request.headers['content-type']
+
+    // recebe o ID do registro a ser deletado
+    let id = request.params.id
+
+    // recebe os dados enviados no corpo da requisição
+    let dados = request.body
+
+    /*
+        chama a função de deletar na controller e encaminha os dados, id e content-type
+        obedecendo a ordem de criação na função da controller
+    */
+    let result = await controllerFilme.excluirFilme(dados, contentType, id)
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
 app.listen(8080, function(){
     console.log('API funcionando e aguardando novas requisições')
 })

@@ -25,7 +25,15 @@ const ERRO_NOT_FOUND                    = {status: false, status_code: 404, mess
 
 // mensagens de sucesso da API
 const SUCCESS_CREATED_ITEM  = {status: true, status_code: 201, message: 'Registro inserido com sucesso.'}
+
+    // retornos para GET 200
 const SUCCESS_RESPONSE      = {status: true, status_code: 200}
+
+    // retornos para PUT 200
+const SUCCESS_UPDATED_ITEM  = {status: true, status_code: 200, message: 'Registro atualizado com sucesso.'}
+
+    // retornos para DELETE 200
+const SUCCESS_DELETE_ITEM   = {status: true, status_code: 200, message: 'Registro deletado com sucesso.'}
 
 module.exports = {
     DEFAULT_MESSAGE,
@@ -35,5 +43,7 @@ module.exports = {
     ERROR_CONTENT_TYPE,
     ERRO_NOT_FOUND,
     SUCCESS_CREATED_ITEM,
-    SUCCESS_RESPONSE
+    SUCCESS_RESPONSE,
+    SUCCESS_UPDATED_ITEM,
+    SUCCESS_DELETE_ITEM
 }

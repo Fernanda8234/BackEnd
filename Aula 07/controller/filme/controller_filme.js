@@ -63,8 +63,57 @@ const inserirNovoFilme = async function(filme, contentType){
 }
 
 // função para atualizar um filme
-const atualizarFilme = async function(){
-    
+const atualizarFilme = async function(filme, contentType, id){
+
+    let message = JSON.parse(JSON.stringify(config_message)) 
+
+    try {
+        // validação do content type para receber apenas JSON
+        if(String(contentType).toUpperCase() == 'APPLICATION/JSON'){
+
+            // validação para o ID incorreto
+            let resultBuscarID = await buscarFilme(id)
+
+            /*  
+                se a função buscar e encontrar o filme, o atributo status do JSON será verdadeiro
+                isso significa que o filme existe na base, caso não retorne true, então
+                o retorno da função poderá ser um 400 ou 404 ou até mesmo um 500
+            */
+            if(resultBuscarID.status){
+                let validar = await validarDados(filme)
+
+                // validação de campos obrigatórios para a atualização (body)
+                if(!validar){
+
+                    // adiciono o atributo ID do filme no JSON para ser enviado ao DAO
+                    filme.id = id
+
+                    // chama a função do DAO para atualizar o Filme (dados e o ID)
+                    let result = await filmeDAO.updateFilme(filme)
+
+                    if(result){
+                        message.DEFAULT_MESSAGE.status      = message.SUCCESS_UPDATED_ITEM.status
+                        message.DEFAULT_MESSAGE.status_code = message.SUCCESS_UPDATED_ITEM.status_code
+                        message.DEFAULT_MESSAGE.message     = message.SUCCESS_UPDATED_ITEM.message
+
+                        return message.DEFAULT_MESSAGE // 200 (atualizado)
+                    } else{
+                        return message.ERROR_INTERNAL_SERVER_MODEL // 500
+                    }
+
+                } else{
+                    return validar // 400
+                }
+            } else{
+                return resultBuscarID // 400, 404 ou 500
+            }
+            
+        } else{
+            return message.ERROR_CONTENT_TYPE // 415
+        }
+    } catch (error) {
+        return message.ERROR_INTERNAL_SERVER_CONTROLLER // 500 (controller)
+    }
 }
 
 // função para retornar todos os filmes
@@ -131,8 +180,50 @@ const buscarFilme = async function(id){
 }
 
 // função para excluir um filme
-const excluirFilme = async function(){
+const excluirFilme = async function(filme, contentType, id){
+    let message = JSON.parse(JSON.stringify(config_message))
     
+    try {
+        // validação do content type para receber apenas JSON
+        if(String(contentType).toUpperCase() == 'APPLICATION/JSON'){
+
+            // validação para o ID incorreto
+            let resultBuscarID = await buscarFilme(id)
+            if(resultBuscarID.status){
+                let validar = await validarDados(filme)
+
+                // validação de campos obrigatórios para deletar
+                if(!validar){
+
+                    // adiciono o atributo ID do filme no JSON para ser enviado ao DAO
+                    filme.id = id
+
+                    // chama a função do DAO para deletar o Filme (dados e o ID)
+                    let result = await filmeDAO.deleteFilme(filme)
+
+                    if(result){
+                        message.DEFAULT_MESSAGE.status      = message.SUCCESS_DELETE_ITEM.status
+                        message.DEFAULT_MESSAGE.status_code = message.SUCCESS_DELETE_ITEM.status_code
+                        message.DEFAULT_MESSAGE.message     = message.SUCCESS_DELETE_ITEM.message
+
+                        return message.DEFAULT_MESSAGE // 200 (deletado)
+                    } else{
+                        return message.ERROR_INTERNAL_SERVER_MODEL // 500
+                    }
+
+                } else{
+                    return validar // 400
+                }
+            } else{
+                return resultBuscarID // 400, 404 ou 500
+            }
+            
+        } else{
+            return message.ERROR_CONTENT_TYPE // 415
+        }
+    } catch (error) {
+        return message.ERROR_INTERNAL_SERVER_CONTROLLER // 500
+    }
 }
 
 /* 
@@ -180,6 +271,8 @@ const validarDados = async function(filme){
 
 module.exports = {
     inserirNovoFilme,
+    atualizarFilme,
     listarFilme,
-    buscarFilme
+    buscarFilme,
+    excluirFilme
 }

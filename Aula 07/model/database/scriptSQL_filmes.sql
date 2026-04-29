@@ -42,3 +42,18 @@ select * from tbl_filme;
 select * from tbl_filme order by id desc;
 
 delete from tbl_filme where id > 0;
+
+update tbl_filme set
+		nome = 'Super Mario Galaxy: O Filme',
+		data_lancamento = '2026-04-02',
+		duracao = '01:39:00',
+		sinopse = 'Uma nova aventura leva Mario a enfrentar um inédito e ameaçador super vilão. Em Super Mario Galaxy: O Filme, o bigodudo encanador italiano e seus aliados embarcam numa aventura galáctica repleta de ação e momentos emocionantes depois de salvar o Reino dos Cogumelos.',
+		avaliacao = '3',
+		valor = '30', 
+		capa = 'https://br.web.img3.acsta.net/c_310_420/img/5b/ea/5bea1aeac3323aeaaf82449a34fafbbf.jpg'
+    where id = 1;
+    
+delete from tbl_filme
+    where id = 44;
+    
+
