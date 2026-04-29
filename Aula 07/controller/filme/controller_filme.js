@@ -58,6 +58,7 @@ const inserirNovoFilme = async function(filme, contentType){
         }
 
         } catch (error) {
+            console.log(error)
             return message.ERROR_INTERNAL_SERVER_CONTROLLER // 500 (controller)
     }
 }
@@ -180,20 +181,13 @@ const buscarFilme = async function(id){
 }
 
 // função para excluir um filme
-const excluirFilme = async function(filme, contentType, id){
+const excluirFilme = async function(filme, id){
     let message = JSON.parse(JSON.stringify(config_message))
     
     try {
-        // validação do content type para receber apenas JSON
-        if(String(contentType).toUpperCase() == 'APPLICATION/JSON'){
-
             // validação para o ID incorreto
             let resultBuscarID = await buscarFilme(id)
             if(resultBuscarID.status){
-                let validar = await validarDados(filme)
-
-                // validação de campos obrigatórios para deletar
-                if(!validar){
 
                     // adiciono o atributo ID do filme no JSON para ser enviado ao DAO
                     filme.id = id
@@ -210,17 +204,10 @@ const excluirFilme = async function(filme, contentType, id){
                     } else{
                         return message.ERROR_INTERNAL_SERVER_MODEL // 500
                     }
-
-                } else{
-                    return validar // 400
-                }
             } else{
                 return resultBuscarID // 400, 404 ou 500
             }
             
-        } else{
-            return message.ERROR_CONTENT_TYPE // 415
-        }
     } catch (error) {
         return message.ERROR_INTERNAL_SERVER_CONTROLLER // 500
     }
@@ -258,7 +245,7 @@ const validarDados = async function(filme){
 
     } else if(filme.valor == '' || filme.valor == null || filme.valor == undefined || filme.valor.split('.')[0].length > 3 || isNaN(filme.valor) /*||  filme.valor.split('.')[1].length > 2*/){
         message.ERROR_BAD_REQUEST.field = '[VALOR] INVÁLIDO'
-        return message.ERROR_BAD_REQUEST
+        return message.ERROR_BAD_REQUEST/*filme.valor.split('.')[0].length  */
 
     } else if(filme.capa.length > 255){
         message.ERROR_BAD_REQUEST.field = '[CAPA] INVÁLIDA'

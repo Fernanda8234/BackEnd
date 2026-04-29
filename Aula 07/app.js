@@ -89,20 +89,17 @@ app.put('/v1/senai/locadora/filme/:id', bodyParserJSON, async function(request, 
 
 app.delete('/v1/senai/locadora/filme/:id', bodyParserJSON, async function(request, response){
 
-    // recebe o content type da requisição
-    let contentType = request.headers['content-type']
-
     // recebe o ID do registro a ser deletado
     let id = request.params.id
 
     // recebe os dados enviados no corpo da requisição
-    let dados = request.body
+    let dados = request
 
     /*
         chama a função de deletar na controller e encaminha os dados, id e content-type
         obedecendo a ordem de criação na função da controller
     */
-    let result = await controllerFilme.excluirFilme(dados, contentType, id)
+    let result = await controllerFilme.excluirFilme(dados, id)
 
     response.status(result.status_code)
     response.json(result)

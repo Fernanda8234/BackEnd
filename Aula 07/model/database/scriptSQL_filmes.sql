@@ -55,5 +55,3 @@ update tbl_filme set
     
 delete from tbl_filme
     where id = 44;
-    
-
