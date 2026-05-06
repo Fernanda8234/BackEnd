@@ -42,10 +42,20 @@ const inserirNovoFilme = async function(filme, contentType){
             // encaminha os dados do filme para o DAO
             let result = await filmeDAO.insertFilme(filme)
 
+            //console.log(result)
+
             if(result){ // 201
+
+                /*
+                    criando o atributo ID do JSON do filme e colocando
+                    o ID gerado após o insert
+                */
+                filme.id = result
+
                 message.DEFAULT_MESSAGE.status      = message.SUCCESS_CREATED_ITEM.status
                 message.DEFAULT_MESSAGE.status_code = message.SUCCESS_CREATED_ITEM.status_code
                 message.DEFAULT_MESSAGE.message     = message.SUCCESS_CREATED_ITEM.message
+                message.DEFAULT_MESSAGE.response = filme
             } else{     // 500
                 return message.ERROR_INTERNAL_SERVER_MODEL
             }
@@ -96,6 +106,7 @@ const atualizarFilme = async function(filme, contentType, id){
                         message.DEFAULT_MESSAGE.status      = message.SUCCESS_UPDATED_ITEM.status
                         message.DEFAULT_MESSAGE.status_code = message.SUCCESS_UPDATED_ITEM.status_code
                         message.DEFAULT_MESSAGE.message     = message.SUCCESS_UPDATED_ITEM.message
+                        message.DEFAULT_MESSAGE.response    = filme
 
                         return message.DEFAULT_MESSAGE // 200 (atualizado)
                     } else{
@@ -181,19 +192,18 @@ const buscarFilme = async function(id){
 }
 
 // função para excluir um filme
-const excluirFilme = async function(filme, id){
+const excluirFilme = async function(id){
     let message = JSON.parse(JSON.stringify(config_message))
     
     try {
-            // validação para o ID incorreto
+            // validação do erro 400 e 404
             let resultBuscarID = await buscarFilme(id)
+
+            // validação para verificar se o status é verdadeiro(se existe o filme)
             if(resultBuscarID.status){
 
-                    // adiciono o atributo ID do filme no JSON para ser enviado ao DAO
-                    filme.id = id
-
-                    // chama a função do DAO para deletar o Filme (dados e o ID)
-                    let result = await filmeDAO.deleteFilme(filme)
+                    // chama a função do DAO para excluir o filme
+                    let result = await filmeDAO.deleteFilme(id)
 
                     if(result){
                         message.DEFAULT_MESSAGE.status      = message.SUCCESS_DELETE_ITEM.status
@@ -201,6 +211,8 @@ const excluirFilme = async function(filme, id){
                         message.DEFAULT_MESSAGE.message     = message.SUCCESS_DELETE_ITEM.message
 
                         return message.DEFAULT_MESSAGE // 200 (deletado)
+
+                        // return message.SUCCESS_DELETE_ITEM
                     } else{
                         return message.ERROR_INTERNAL_SERVER_MODEL // 500
                     }
@@ -209,6 +221,7 @@ const excluirFilme = async function(filme, id){
             }
             
     } catch (error) {
+        console.log(error)
         return message.ERROR_INTERNAL_SERVER_CONTROLLER // 500
     }
 }

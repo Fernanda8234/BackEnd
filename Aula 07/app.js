@@ -30,6 +30,8 @@ const corsOptions = {
 app.use(cors(corsOptions))
 
 // endpoints
+
+// endpoint para inserir o filme
 app.post('/v1/senai/locadora/filme', bodyParserJSON, async function(request, response){
     // console.log(dados) para ver se está tudo certo
 
@@ -49,6 +51,7 @@ app.post('/v1/senai/locadora/filme', bodyParserJSON, async function(request, res
     response.json(result)
 })
 
+// endpoint para listar todos os filmes
 app.get('/v1/senai/locadora/filme', async function(request, response) {
     let result = await controllerFilme.listarFilme()
 
@@ -56,6 +59,7 @@ app.get('/v1/senai/locadora/filme', async function(request, response) {
     response.json(result)
 })
 
+// endpoint para buscar o filme pelo id
 app.get('/v1/senai/locadora/filme/:id', async function(request, response){
     // recebe o ID via parametro
     let id = request.params.id
@@ -66,6 +70,7 @@ app.get('/v1/senai/locadora/filme/:id', async function(request, response){
     response.json(result)
 })
 
+// endpoint para atualizar o filme pelo id
 app.put('/v1/senai/locadora/filme/:id', bodyParserJSON, async function(request, response){
 
     // recebe o content type da requisição
@@ -87,19 +92,17 @@ app.put('/v1/senai/locadora/filme/:id', bodyParserJSON, async function(request, 
     response.json(result)
 })
 
-app.delete('/v1/senai/locadora/filme/:id', bodyParserJSON, async function(request, response){
+// endpoint para deletar o filme pelo id
+app.delete('/v1/senai/locadora/filme/:id', async function(request, response){
 
     // recebe o ID do registro a ser deletado
     let id = request.params.id
-
-    // recebe os dados enviados no corpo da requisição
-    let dados = request
 
     /*
         chama a função de deletar na controller e encaminha os dados, id e content-type
         obedecendo a ordem de criação na função da controller
     */
-    let result = await controllerFilme.excluirFilme(dados, id)
+    let result = await controllerFilme.excluirFilme(id)
 
     response.status(result.status_code)
     response.json(result)

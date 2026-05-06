@@ -32,8 +32,8 @@ const SUCCESS_RESPONSE      = {status: true, status_code: 200}
     // retornos para PUT 200
 const SUCCESS_UPDATED_ITEM  = {status: true, status_code: 200, message: 'Registro atualizado com sucesso.'}
 
-    // retornos para DELETE 200
-const SUCCESS_DELETE_ITEM   = {status: true, status_code: 200, message: 'Registro deletado com sucesso.'}
+    // retornos para DELETE (200 ou 204)
+const SUCCESS_DELETE_ITEM   = {status: true, status_code: 200, message: 'Registro excluído com sucesso.'}
 
 module.exports = {
     DEFAULT_MESSAGE,

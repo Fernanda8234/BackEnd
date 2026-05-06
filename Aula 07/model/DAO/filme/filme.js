@@ -42,8 +42,10 @@ const insertFilme = async function(filme){
         // executar o ScriptSQL no banco de dados
         let result = await knexConex.raw(sql)
 
+        //console.log(result)
+
         if(result)
-            return true
+            return result[0].insertId // retorna o ID gerado no BD
         else
             return false
     
@@ -128,7 +130,7 @@ const selectByIdFilme = async function(id){
 // função para excluir um filme pelo ID
 const deleteFilme = async function(id){
     try {
-        let sql = `delete from tbl_filme where id = ${id.id}`
+        let sql = `delete from tbl_filme where id = ${id}`
         
         // executa o script SQL no BD
         let result = await knexConex.raw(sql)
