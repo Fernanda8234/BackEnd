@@ -55,3 +55,52 @@ update tbl_filme set
     
 delete from tbl_filme
     where id = 44;
+    
+
+create table tbl_classificacao_indicativa (
+	id 			int not null primary key auto_increment,
+    codigo 		varchar(3) not null,
+    nome 		varchar(15) not null,
+    descricao 	varchar(255) not null
+);
+
+create table tbl_genero (
+	id 			int not null primary key auto_increment,
+    nome 		varchar(25) not null
+);
+
+create table tbl_elenco (
+	id 					int not null primary key auto_increment,
+    nome 				varchar(255) not null,
+    data_nascimento 	date
+);
+
+create table tbl_nacionalidade (
+	id 		int not null primary key auto_increment,
+    nome 	varchar(50) not null
+);
+
+create table tbl_atividades (
+	id 		int not null primary key auto_increment,
+    nome 	varchar(40) not null
+);
+
+create table tbl_nome_artistico (
+	id 		int not null primary key auto_increment,
+    nome 	varchar(255)
+);
+
+create table tbl_filmografia (
+	id 		int not null primary key auto_increment,
+    filmes 	varchar(150)
+);
+
+create table tbl_biografia (
+	id 			int not null primary key auto_increment,
+    texto 		text
+);
+
+create table tbl_valor_aluguel (
+	id 		int not null primary key auto_increment,
+    preco 	decimal(5,2) not null
+);
