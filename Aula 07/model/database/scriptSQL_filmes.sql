@@ -57,12 +57,31 @@ delete from tbl_filme
     where id = 44;
     
 
+
+###########################################################
 create table tbl_classificacao_indicativa (
 	id 			int not null primary key auto_increment,
     codigo 		varchar(3) not null,
     nome 		varchar(15) not null,
     descricao 	varchar(255) not null
 );
+
+insert into tbl_classificacao_indicativa (
+	codigo,
+    nome,
+    descricao
+)
+values 	(
+		'L', 
+		'Livre', 
+        'Não expõe crianças a conteúdos potencialmente prejudiciais'
+        );
+        
+select * from tbl_classificacao_indicativa;
+select * from tbl_classificacao_indicativa order by id desc;
+###########################################################
+
+
 
 create table tbl_genero (
 	id 			int not null primary key auto_increment,
@@ -98,9 +117,4 @@ create table tbl_filmografia (
 create table tbl_biografia (
 	id 			int not null primary key auto_increment,
     texto 		text
-);
-
-create table tbl_valor_aluguel (
-	id 		int not null primary key auto_increment,
-    preco 	decimal(5,2) not null
 );

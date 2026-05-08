@@ -12,6 +12,7 @@ const bodyParser    = require('body-parser')
 
 /* import das CONTROLLERS do projeto */
 const controllerFilme = require('./controller/filme/controller_filme.js')
+const controllerClassificacaoIndicativa = require('./controller/classificacao_indicativa/controller_classificacao_indicativa.js')
 
 /* criando um objeto para manipular dados do body da API em formato JSON */
 const bodyParserJSON = bodyParser.json()
@@ -103,6 +104,61 @@ app.delete('/v1/senai/locadora/filme/:id', async function(request, response){
         obedecendo a ordem de criação na função da controller
     */
     let result = await controllerFilme.excluirFilme(id)
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+// endpoint para inserir a classificação
+
+// tem q manipular o body
+app.post('/v1/senai/locadora/indicativa_classificacao', bodyParserJSON, async function(request, response){
+    
+    let dados = request.body
+
+    let contentType = request.headers['content-type']
+
+    let result = await controllerClassificacaoIndicativa.inserirClassificacao(dados, contentType)
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+app.get('/v1/senai/locadora/indicativa_classificacao', async function(request, response) {
+    let result = await controllerClassificacaoIndicativa.listarClassificacao()
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+app.get('/v1/senai/locadora/indicativa_classificacao/:id', async function(request, response){
+    let id = request.params.id
+
+    let result = await controllerClassificacaoIndicativa.buscarClassificacao(id)
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+app.put('/v1/senai/locadora/indicativa_classificacao/:id', bodyParserJSON, async function(request, response){
+
+    let id = request.params.id
+
+    let contentType = request.headers['content-type']
+
+    let dados = request.body
+
+    let result = await controllerClassificacaoIndicativa.atualizarClassificacao(dados, contentType, id)
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+app.delete('/v1/senai/locadora/indicativa_classificacao/:id', async function(request, response){
+
+    let id = request.params.id
+
+    let result = await controllerClassificacaoIndicativa.excluirClassificacao(id)
 
     response.status(result.status_code)
     response.json(result)
