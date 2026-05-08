@@ -1,7 +1,7 @@
 /* ******************************************************************************
 * Objetivo: Arquivo responsável pela validação, tratamento e manipulação de
 *   dados para o CRUD de classificação indicativa
-* Data: 17/04/2026  
+* Data: 08/05/2026  
 * Autor: Fernanda
 * Versão: 1.0
 ********************************************************************************/
@@ -40,7 +40,7 @@ const inserirClassificacao = async function(classificacao, contentType){
             return message.DEFAULT_MESSAGE
             }
         } else{
-            return message.ERROR_CONTENT_TYPE // 415
+            return message.ERROR_CONTENT_TYPE 
         }
     } catch(error) {
         return message.ERROR_INTERNAL_SERVER_CONTROLLER // tem algo de errado aqui po
@@ -56,7 +56,7 @@ const atualizarClassificacao = async function(classificacao, contentType, id){
             let resultBuscarID = await buscarClassificacao(id) // pelo id
 
             if(resultBuscarID.status){
-                let validar = validarDados(classificacao) // validação :p
+                let validar = await validarDados(classificacao) // validação :p
 
                 if(!validar){ // para ser obrigatória
 
@@ -81,7 +81,7 @@ const atualizarClassificacao = async function(classificacao, contentType, id){
                 return resultBuscarID
             }
         } else{
-            return message.ERROR_CONTENT_TYPE // 415
+            return message.ERROR_CONTENT_TYPE 
         }
     } catch (error) {
         return message.ERROR_INTERNAL_SERVER_CONTROLLER // tem algo de errado aqui po
@@ -101,7 +101,7 @@ const listarClassificacao = async function(){
                 message.DEFAULT_MESSAGE.status          = message.SUCCESS_RESPONSE.status
                 message.DEFAULT_MESSAGE.status_code     = message.SUCCESS_RESPONSE.status_code
                 message.DEFAULT_MESSAGE.response.count  = result.length
-                message.DEFAULT_MESSAGE.response.filme  = result
+                message.DEFAULT_MESSAGE.response.classificacao  = result
 
                 return message.DEFAULT_MESSAGE // mostra tudo
             } else{
@@ -124,7 +124,7 @@ const buscarClassificacao = async function(id){
 
         if(id == undefined || id == null || id == '' || isNaN(id)){
             message.ERROR_BAD_REQUEST.field = '[ID] INVÁLIDO'
-            return message.ERROR_BAD_REQUEST // 400
+            return message.ERROR_BAD_REQUEST
         } else{
             let result = await classificacaoDAO.selectByIdClassificacao(id)
     
@@ -132,18 +132,18 @@ const buscarClassificacao = async function(id){
                 if(result.length > 0){
                     message.DEFAULT_MESSAGE.status          = message.SUCCESS_RESPONSE.status
                     message.DEFAULT_MESSAGE.status_code     = message.SUCCESS_RESPONSE.status_code
-                    message.DEFAULT_MESSAGE.response.filme  = result
+                    message.DEFAULT_MESSAGE.response.classificacao  = result
     
-                    return message.DEFAULT_MESSAGE // 200
+                    return message.DEFAULT_MESSAGE 
                 } else{
-                    return message.ERRO_NOT_FOUND // 404
+                    return message.ERRO_NOT_FOUND 
                 } 
             } else{
-                return message.ERROR_INTERNAL_SERVER_MODEL // 500
+                return message.ERROR_INTERNAL_SERVER_MODEL 
             }
         }
     } catch (error) {
-        return message.ERROR_INTERNAL_SERVER_CONTROLLER // 500
+        return message.ERROR_INTERNAL_SERVER_CONTROLLER 
     }
 }
 
@@ -151,12 +151,10 @@ const excluirClassificacao = async function(id){
     let message = JSON.parse(JSON.stringify(config_message)) 
 
     try {
-        let resultBuscarID = await buscarFilme(id)
+        let resultBuscarID = await buscarClassificacao(id)
         
-            // validação para verificar se o status é verdadeiro(se existe o filme)
             if(resultBuscarID.status){
         
-                // chama a função do DAO para excluir o filme
                 let result = await classificacaoDAO.deleteClassificacao(id)
         
                     if(result){
@@ -166,10 +164,10 @@ const excluirClassificacao = async function(id){
         
                         return message.DEFAULT_MESSAGE
                 } else{
-                    return message.ERROR_INTERNAL_SERVER_MODEL // 500
+                    return message.ERROR_INTERNAL_SERVER_MODEL
                 }
             } else{
-            return resultBuscarID // 400, 404 ou 500
+            return resultBuscarID 
         }
     } catch (error) {
         return message.ERROR_INTERNAL_SERVER_CONTROLLER 

@@ -76,6 +76,15 @@ values 	(
 		'Livre', 
         'Não expõe crianças a conteúdos potencialmente prejudiciais'
         );
+
+update tbl_classificacao_indicativa set
+                    codigo      = '10',
+                    nome        = '10 anos',
+                    descricao   = 'algo'
+                    where id = 3;
+                    
+delete from tbl_classificacao_indicativa
+    where id = 4;
         
 select * from tbl_classificacao_indicativa;
 select * from tbl_classificacao_indicativa order by id desc;

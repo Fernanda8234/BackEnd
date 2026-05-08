@@ -37,21 +37,21 @@ const insertClassificacaoIndicativa = async function(classificacao){
         else
             return false
     } catch (error) {
+        console.log(error)
         return false
     }
 }
 
 const updateClassificacao = async function(classificacao){
     try {
-        let sql = `update tbl_classificacao_indicativa set
-                    codigo      = '${classificacao.codigo}',
-                    nome        = '${classificacao.nome}',
-                    descricao   = '${classificacao.descricao}'
-                where id        =  ${classificacao.id}`
+        let sql = `
+        update tbl_classificacao_indicativa set
+            codigo      = '${classificacao.codigo}',
+            nome        = '${classificacao.nome}',
+            descricao   = '${classificacao.descricao}'
+        where id = ${classificacao.id}`
                 
         let result = await knexConex.raw(sql)
-
-        console.log(result)
             
         if(result)
             return true
@@ -71,6 +71,7 @@ const selectAllClassificacao = async function(){
         let result = await knexConex.raw(sql)
 
         if(Array.isArray(result)){
+           
             return result[0]
         } else{
             return false

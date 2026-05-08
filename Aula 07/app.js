@@ -111,9 +111,7 @@ app.delete('/v1/senai/locadora/filme/:id', async function(request, response){
 
 // endpoint para inserir a classificação
 
-// tem q manipular o body
 app.post('/v1/senai/locadora/indicativa_classificacao', bodyParserJSON, async function(request, response){
-    
     let dados = request.body
 
     let contentType = request.headers['content-type']
@@ -141,12 +139,11 @@ app.get('/v1/senai/locadora/indicativa_classificacao/:id', async function(reques
 })
 
 app.put('/v1/senai/locadora/indicativa_classificacao/:id', bodyParserJSON, async function(request, response){
-
     let id = request.params.id
 
-    let contentType = request.headers['content-type']
-
     let dados = request.body
+
+    let contentType = request.headers['content-type']
 
     let result = await controllerClassificacaoIndicativa.atualizarClassificacao(dados, contentType, id)
 
@@ -155,7 +152,6 @@ app.put('/v1/senai/locadora/indicativa_classificacao/:id', bodyParserJSON, async
 })
 
 app.delete('/v1/senai/locadora/indicativa_classificacao/:id', async function(request, response){
-
     let id = request.params.id
 
     let result = await controllerClassificacaoIndicativa.excluirClassificacao(id)
