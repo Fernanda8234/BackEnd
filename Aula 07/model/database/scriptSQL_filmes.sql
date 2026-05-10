@@ -4,6 +4,8 @@ create database db_filmes_20261_a;
 # ativa o uso do database de filmes
 use db_filmes_20261_a;
 
+show tables;
+
 # cria a tabela de filme
 create table tbl_filme (
 	id 				int not null primary key auto_increment,
@@ -15,8 +17,6 @@ create table tbl_filme (
     valor 			decimal(5,2) not null default 0,
     capa 			varchar(255)
 );
-
-show tables;
 
 # inserir dados
 insert into tbl_filme 	(
@@ -56,9 +56,7 @@ update tbl_filme set
 delete from tbl_filme
     where id = 44;
     
-
-
-###########################################################
+    
 create table tbl_classificacao_indicativa (
 	id 			int not null primary key auto_increment,
     codigo 		varchar(3) not null,
@@ -85,17 +83,28 @@ update tbl_classificacao_indicativa set
                     
 delete from tbl_classificacao_indicativa
     where id = 4;
-        
+    
 select * from tbl_classificacao_indicativa;
 select * from tbl_classificacao_indicativa order by id desc;
-###########################################################
-
-
-
+ 
+ ##############################################################
 create table tbl_genero (
 	id 			int not null primary key auto_increment,
     nome 		varchar(25) not null
 );
+
+insert into tbl_genero (nome) values ('aventura');
+
+update tbl_genero set
+		nome = 'ação'
+        where id = 2;
+        
+delete from tbl_genero
+	where id = 3;
+    
+select * from tbl_genero;
+select * from tbl_genero order by id desc;
+###############################################################
 
 create table tbl_elenco (
 	id 					int not null primary key auto_increment,

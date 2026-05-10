@@ -1,6 +1,6 @@
 /* *********************************************************************
 * Objetivo: Arquivo responsável pela criação da API
-* Data: 17/04/2026  
+* Data: 09/05/2026  
 * Autor: Fernanda
 * Versão: 1.0
 ***********************************************************************/
@@ -13,6 +13,7 @@ const bodyParser    = require('body-parser')
 /* import das CONTROLLERS do projeto */
 const controllerFilme = require('./controller/filme/controller_filme.js')
 const controllerClassificacaoIndicativa = require('./controller/classificacao_indicativa/controller_classificacao_indicativa.js')
+const controllerGeneroFilme = require('./controller/genero_filme/controller_genero_filme.js')
 
 /* criando um objeto para manipular dados do body da API em formato JSON */
 const bodyParserJSON = bodyParser.json()
@@ -155,6 +156,57 @@ app.delete('/v1/senai/locadora/indicativa_classificacao/:id', async function(req
     let id = request.params.id
 
     let result = await controllerClassificacaoIndicativa.excluirClassificacao(id)
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+
+// endpoint para inserir os gêneros
+app.post('/v1/senai/locadora/genero_filme', bodyParserJSON, async function(request, response){
+    let dados = request.body
+
+    let contentType = request.headers['content-type']
+
+    let result = await controllerGeneroFilme.inserirGenero(dados, contentType)
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+app.get('/v1/senai/locadora/genero_filme', async function(request, response){
+    let result = await controllerGeneroFilme.listarGenero()
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+app.get('/v1/senai/locadora/genero_filme/:id', async function(request, response){
+    let id = request.params.id
+
+    let result = await controllerGeneroFilme.buscarGenero(id)
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+app.put('/v1/senai/locadora/genero_filme/:id', bodyParserJSON, async function(request, response){
+    let id = request.params.id
+
+    let dados = request.body
+
+    let contentType = request.headers['content-type']
+
+    let result = await controllerGeneroFilme.atualizarGenero(dados, contentType, id)
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+app.delete('/v1/senai/locadora/genero_filme/:id', async function(request, response){
+    let id = request.params.id
+    
+    let result = await controllerGeneroFilme.excluirGenero(id)
 
     response.status(result.status_code)
     response.json(result)

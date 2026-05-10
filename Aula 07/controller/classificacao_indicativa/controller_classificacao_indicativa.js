@@ -9,7 +9,7 @@
 // import do arquivo de padronização de mensagens
 const config_message = require('../modulo/configMessages.js')
 
-// import do arquivo DAO para fazer o CRUD do filme no banco de dados
+// import do arquivo DAO para fazer o CRUD da classificacao indicativa no banco de dados
 const classificacaoDAO = require('../../model/DAO/classificacao_indicativa/classificacao_indicativa.js')
 
 const inserirClassificacao = async function(classificacao, contentType){
@@ -105,7 +105,7 @@ const listarClassificacao = async function(){
 
                 return message.DEFAULT_MESSAGE // mostra tudo
             } else{
-                return message.ERRO_NOT_FOUND // não encontrado
+                return message.ERROR_NOT_FOUND // não encontrado
             }
 
         } else{
@@ -136,7 +136,7 @@ const buscarClassificacao = async function(id){
     
                     return message.DEFAULT_MESSAGE 
                 } else{
-                    return message.ERRO_NOT_FOUND 
+                    return message.ERROR_NOT_FOUND 
                 } 
             } else{
                 return message.ERROR_INTERNAL_SERVER_MODEL 
