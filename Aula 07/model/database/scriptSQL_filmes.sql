@@ -104,7 +104,6 @@ delete from tbl_genero
 select * from tbl_genero;
 select * from tbl_genero order by id desc;
 
-###############################################################
 create table tbl_elenco (
 	id 					int not null primary key auto_increment,
     nome 				varchar(255) not null,
@@ -120,8 +119,8 @@ insert into tbl_elenco (
 );
 
 update tbl_elenco set
-			nome = '',
-            data_nascimento = ''
+			nome = 'Stanley Kubrick',
+            data_nascimento = '1928-07-26'
             where id = 2;
             
 delete from tbl_elenco
@@ -129,7 +128,6 @@ delete from tbl_elenco
     
 select * from tbl_elenco;
 select * from tbl_elenco order by id desc;
-###############################################################
 
 create table tbl_nacionalidade (
 	id 		int not null primary key auto_increment,
@@ -143,15 +141,10 @@ create table tbl_atividades (
 
 create table tbl_nome_artistico (
 	id 		int not null primary key auto_increment,
-    nome 	varchar(255)
-);
-
-create table tbl_filmografia (
-	id 		int not null primary key auto_increment,
-    filmes 	varchar(150)
+    nome 	varchar(255) default null
 );
 
 create table tbl_biografia (
 	id 			int not null primary key auto_increment,
-    texto 		text
+    texto 		text default null
 );
