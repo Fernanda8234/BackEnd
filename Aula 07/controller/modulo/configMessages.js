@@ -21,7 +21,7 @@ const ERROR_BAD_REQUEST                 = {status: false, status_code: 400, mess
 const ERROR_INTERNAL_SERVER_MODEL       = {status: false, status_code: 500, message: 'Não foi possível processar a requisição por conta de erro na API [ERRO NA MODELAGEM DE DADOS].'}
 const ERROR_INTERNAL_SERVER_CONTROLLER  = {status: false, status_code: 500, message: 'Não foi possível processar a requisição por conta de erro na API [ERRO NA CONTROLLER].'}
 const ERROR_CONTENT_TYPE                = {status: false, status_code: 415, message: 'Não foi possível processar a requisição, pois o formato de dados aceito pela API é somente JSON.'}
-const ERRO_NOT_FOUND                    = {status: false, status_code: 404, message: 'Não foi possível encontrar nenhum dado para retorno.'}
+const ERROR_NOT_FOUND                    = {status: false, status_code: 404, message: 'Não foi possível encontrar nenhum dado para retorno.'}
 
 // mensagens de sucesso da API
 const SUCCESS_CREATED_ITEM  = {status: true, status_code: 201, message: 'Registro inserido com sucesso.'}
@@ -41,7 +41,7 @@ module.exports = {
     ERROR_INTERNAL_SERVER_MODEL,
     ERROR_INTERNAL_SERVER_CONTROLLER,
     ERROR_CONTENT_TYPE,
-    ERRO_NOT_FOUND,
+    ERROR_NOT_FOUND,
     SUCCESS_CREATED_ITEM,
     SUCCESS_RESPONSE,
     SUCCESS_UPDATED_ITEM,

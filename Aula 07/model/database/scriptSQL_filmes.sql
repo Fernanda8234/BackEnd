@@ -87,7 +87,6 @@ delete from tbl_classificacao_indicativa
 select * from tbl_classificacao_indicativa;
 select * from tbl_classificacao_indicativa order by id desc;
  
- ##############################################################
 create table tbl_genero (
 	id 			int not null primary key auto_increment,
     nome 		varchar(25) not null
@@ -96,21 +95,41 @@ create table tbl_genero (
 insert into tbl_genero (nome) values ('aventura');
 
 update tbl_genero set
-		nome = 'ação'
-        where id = 2;
+		nome = 'terror'
+        where id = 3;
         
 delete from tbl_genero
 	where id = 3;
     
 select * from tbl_genero;
 select * from tbl_genero order by id desc;
-###############################################################
 
+###############################################################
 create table tbl_elenco (
 	id 					int not null primary key auto_increment,
     nome 				varchar(255) not null,
-    data_nascimento 	date
+    data_nascimento 	date default null
 );
+
+insert into tbl_elenco (
+			nome,
+            data_nascimento
+) values(
+			'David Fincher',
+            '1962-08-28'
+);
+
+update tbl_elenco set
+			nome = '',
+            data_nascimento = ''
+            where id = 2;
+            
+delete from tbl_elenco
+	where id = 2;
+    
+select * from tbl_elenco;
+select * from tbl_elenco order by id desc;
+###############################################################
 
 create table tbl_nacionalidade (
 	id 		int not null primary key auto_increment,

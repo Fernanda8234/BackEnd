@@ -148,7 +148,7 @@ const listarFilme = async function(){
 
                 return message.DEFAULT_MESSAGE // 200 (dados do filme)
             } else{
-                return message.ERRO_NOT_FOUND // 404
+                return message.ERROR_NOT_FOUND // 404
             }
 
         } else{
@@ -180,7 +180,7 @@ const buscarFilme = async function(id){
 
                     return message.DEFAULT_MESSAGE // 200
                 } else{
-                    return message.ERRO_NOT_FOUND // 404
+                    return message.ERROR_NOT_FOUND // 404
                 } 
             } else{
                 return message.ERROR_INTERNAL_SERVER_MODEL // 500
