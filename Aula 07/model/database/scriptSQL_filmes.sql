@@ -6,7 +6,7 @@ use db_filmes_20261_a;
 
 show tables;
 
-# cria a tabela de filme
+#-------------------[ Tabela de Filme ]--------------------#
 create table tbl_filme (
 	id 				int not null primary key auto_increment,
     nome 			varchar(80) not null,
@@ -55,8 +55,9 @@ update tbl_filme set
     
 delete from tbl_filme
     where id = 44;
-    
-    
+#----------------------------------------------------------#
+
+#-------------------[ Tabela de Classificação Indicativa ]--------------------#
 create table tbl_classificacao_indicativa (
 	id 			int not null primary key auto_increment,
     codigo 		varchar(3) not null,
@@ -86,7 +87,9 @@ delete from tbl_classificacao_indicativa
     
 select * from tbl_classificacao_indicativa;
 select * from tbl_classificacao_indicativa order by id desc;
- 
+#-----------------------------------------------------------------------------#
+
+#-------------------[ Tabela de Gênero ]--------------------#
 create table tbl_genero (
 	id 			int not null primary key auto_increment,
     nome 		varchar(25) not null
@@ -103,7 +106,9 @@ delete from tbl_genero
     
 select * from tbl_genero;
 select * from tbl_genero order by id desc;
+#-----------------------------------------------------------#
 
+#-------------------[ Tabela de Elenco ]--------------------#
 create table tbl_elenco (
 	id 					int not null primary key auto_increment,
     nome 				varchar(255) not null,
@@ -128,23 +133,48 @@ delete from tbl_elenco
     
 select * from tbl_elenco;
 select * from tbl_elenco order by id desc;
+#-----------------------------------------------------------#
 
+#-------------------[ Tabela de Nacionalidade ]--------------------#
 create table tbl_nacionalidade (
 	id 		int not null primary key auto_increment,
     nome 	varchar(50) not null
 );
 
+insert into tbl_nacionalidade (
+			nome
+) values(
+			'Brasileiro'
+);
+
+update tbl_nacionalidade set
+			nome = 'estadounidense'
+            where id = 2;
+            
+delete from tbl_nacionalidade
+	where id = 2;
+    
+select * from tbl_nacionalidade;
+select * from tbl_nacionalidade order by id desc;
+#------------------------------------------------------------------#
+
+#-------------------[ Tabela de Atividade ]--------------------#
 create table tbl_atividades (
 	id 		int not null primary key auto_increment,
     nome 	varchar(40) not null
 );
+#--------------------------------------------------------------#
 
+#-------------------[ Tabela de Nome Artistico ]--------------------#
 create table tbl_nome_artistico (
 	id 		int not null primary key auto_increment,
     nome 	varchar(255) default null
 );
+#-------------------------------------------------------------------#
 
+#-------------------[ Tabela de Biografia ]--------------------#
 create table tbl_biografia (
 	id 			int not null primary key auto_increment,
     texto 		text default null
 );
+#--------------------------------------------------------------#
