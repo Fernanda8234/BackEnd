@@ -17,6 +17,7 @@ const controllerGeneroFilme             = require('./controller/genero_filme/con
 const controllerElencoFilme             = require('./controller/elenco/controller_elenco.js')
 const controllerNacionalidade           = require('./controller/nacionalidade/controller_nacionalidade.js')
 const controllerAtividades              = require('./controller/atividades/controller_atividades.js')
+const controllerNomeArtistico           = require('./controller/nome_artistico/controller_nome_artistico.js')
 
 /* criando um objeto para manipular dados do body da API em formato JSON */
 const bodyParserJSON = bodyParser.json()
@@ -358,6 +359,55 @@ app.delete('/v1/senai/locadora/atividades/:id', async function(request, response
     let id = request.params.id
     
     let result = await controllerAtividades.excluirAtividades(id)
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+// endpoint para nome artistico
+app.post('/v1/senai/locadora/artistico_nome', bodyParserJSON, async function(request, response){
+    let dados = request.body
+
+    let contentType = request.headers['content-type']
+
+    let result = await controllerNomeArtistico.inserirNomeArtistico(dados, contentType)
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+app.get('/v1/senai/locadora/artistico_nome', async function(request, response){
+    let result = await controllerNomeArtistico.listarNomeArtistico()
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+app.get('/v1/senai/locadora/artistico_nome/:id', async function(request, response){
+    let id = request.params.id
+
+    let result = await controllerNomeArtistico.buscarNomeArtistico(id)
+    response.status(result.status_code)
+    response.json(result)
+})
+
+app.put('/v1/senai/locadora/artistico_nome/:id', bodyParserJSON, async function(request, response){
+    let id = request.params.id
+
+    let dados = request.body
+
+    let contentType = request.headers['content-type']
+
+    let result = await controllerNomeArtistico.atualizarNomeArtistico(dados, contentType, id)
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+app.delete('/v1/senai/locadora/artistico_nome/:id', async function(request, response){
+    let id = request.params.id
+    
+    let result = await controllerNomeArtistico.excluirNomeArtistico(id)
 
     response.status(result.status_code)
     response.json(result)
