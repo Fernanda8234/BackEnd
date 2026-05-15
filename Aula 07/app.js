@@ -18,6 +18,7 @@ const controllerElencoFilme             = require('./controller/elenco/controlle
 const controllerNacionalidade           = require('./controller/nacionalidade/controller_nacionalidade.js')
 const controllerAtividades              = require('./controller/atividades/controller_atividades.js')
 const controllerNomeArtistico           = require('./controller/nome_artistico/controller_nome_artistico.js')
+const controllerBiografia               = require('./controller/biografia/controller_biografia.js')
 
 /* criando um objeto para manipular dados do body da API em formato JSON */
 const bodyParserJSON = bodyParser.json()
@@ -408,6 +409,55 @@ app.delete('/v1/senai/locadora/artistico_nome/:id', async function(request, resp
     let id = request.params.id
     
     let result = await controllerNomeArtistico.excluirNomeArtistico(id)
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+// endpoint para biografia
+app.post('/v1/senai/locadora/biografia', bodyParserJSON, async function(request, response){
+    let dados = request.body
+
+    let contentType = request.headers['content-type']
+
+    let result = await controllerBiografia.inserirBiografia(dados, contentType)
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+app.get('/v1/senai/locadora/biografia', async function(request, response){
+    let result = await controllerBiografia.listarBiografia()
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+app.get('/v1/senai/locadora/biografia/:id', async function(request, response){
+    let id = request.params.id
+
+    let result = await controllerBiografia.buscarBiografia(id)
+    response.status(result.status_code)
+    response.json(result)
+})
+
+app.put('/v1/senai/locadora/biografia/:id', bodyParserJSON, async function(request, response){
+    let id = request.params.id
+
+    let dados = request.body
+
+    let contentType = request.headers['content-type']
+
+    let result = await controllerBiografia.atualizarBiografia(dados, contentType, id)
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+app.delete('/v1/senai/locadora/biografia/:id', async function(request, response){
+    let id = request.params.id
+    
+    let result = await controllerBiografia.excluirBiografia(id)
 
     response.status(result.status_code)
     response.json(result)

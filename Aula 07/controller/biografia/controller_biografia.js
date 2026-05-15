@@ -1,39 +1,39 @@
 /********************************************************************************
 * Objetivo: Arquivo responsável pela validação, tratamento e manipulação de
-*   dados para o CRUD de nome artistico
-* Data: 13/05/2026  
+*   dados para o CRUD de biografia
+* Data: 15/05/2026  
 * Autor: Fernanda
 * Versão: 1.0
 ********************************************************************************/
 
 const config_message = require('../modulo/configMessages.js')
 
-const nomeArtisticoDAO = require('../../model/DAO/nome_artistico/nome_artistico.js')
+const biografiaDAO = require('../../model/DAO/biografia/biografia.js')
 
-const inserirNomeArtistico = async function(nomeArtistico, contentType){
+const inserirBiografia = async function(biografia, contentType){
     let message = JSON.parse(JSON.stringify(config_message)) 
 
     try {
         if(String(contentType).toUpperCase() == 'APPLICATION/JSON'){ 
             // se tá sendo cadastrado tem que ter algo
-            let validar = await validarNome(nomeArtistico) 
+            let validar = await validarTexto(biografia) 
             
             if(validar){
                 return validar
             } else{
-                let result = await nomeArtisticoDAO.insertNomeArtistico(nomeArtistico)
+                let result = await biografiaDAO.insertBiografia(biografia)
                             
                 if(result){
-                    nomeArtistico.id = result 
+                    biografia.id = result 
                             
                     message.DEFAULT_MESSAGE.status      = message.SUCCESS_CREATED_ITEM.status 
                     message.DEFAULT_MESSAGE.status_code = message.SUCCESS_CREATED_ITEM.status_code
                     message.DEFAULT_MESSAGE.message     = message.SUCCESS_CREATED_ITEM.message
-                    message.DEFAULT_MESSAGE.response    = nomeArtistico
+                    message.DEFAULT_MESSAGE.response    = biografia
                 } else{
                     return message.ERROR_INTERNAL_SERVER_MODEL 
                 }
-                return message.DEFAULT_MESSAGE
+            return message.DEFAULT_MESSAGE
             }
         } else{
             return message.ERROR_CONTENT_TYPE
@@ -43,24 +43,24 @@ const inserirNomeArtistico = async function(nomeArtistico, contentType){
     }
 }
 
-// pode atualizar para vazio (caso a pessoa não queira mais usar um nome artistico)
-const atualizarNomeArtistico = async function(nomeArtistico, contentType, id){
+// pode atualizar para vazio (caso a pessoa não queira mais usar essa biografia)
+const atualizarBiografia = async function(biografia, contentType, id){
     let message = JSON.parse(JSON.stringify(config_message)) 
 
     try {
         if(String(contentType).toUpperCase() == 'APPLICATION/JSON'){
-            let resultBuscarID = await buscarNomeArtistico(id)
+            let resultBuscarID = await buscarBiografia(id)
 
             if(resultBuscarID.status){ 
-                    nomeArtistico.id = id 
+                    biografia.id = id 
 
-                    let result = await nomeArtisticoDAO.updateNomeArtistico(nomeArtistico)
+                    let result = await biografiaDAO.updateBiografia(biografia)
 
                     if(result){
                         message.DEFAULT_MESSAGE.status      = message.SUCCESS_UPDATED_ITEM.status
                         message.DEFAULT_MESSAGE.status_code = message.SUCCESS_UPDATED_ITEM.status_code
                         message.DEFAULT_MESSAGE.message     = message.SUCCESS_UPDATED_ITEM.message
-                        message.DEFAULT_MESSAGE.response    = nomeArtistico
+                        message.DEFAULT_MESSAGE.response    = biografia
 
                         return message.DEFAULT_MESSAGE
                     } else{
@@ -77,18 +77,18 @@ const atualizarNomeArtistico = async function(nomeArtistico, contentType, id){
     }
 }
 
-const listarNomeArtistico = async function(){
+const listarBiografia = async function(){
     let message = JSON.parse(JSON.stringify(config_message)) 
 
     try {
-        let result = await nomeArtisticoDAO.selectAllNomeArtistico()
+        let result = await biografiaDAO.selectAllBiografia()
 
         if(result){
             if(result.length > 0){
-                message.DEFAULT_MESSAGE.status                      = message.SUCCESS_RESPONSE.status
-                message.DEFAULT_MESSAGE.status_code                 = message.SUCCESS_RESPONSE.status_code
-                message.DEFAULT_MESSAGE.response.count              = result.length
-                message.DEFAULT_MESSAGE.response.nome_artistico     = result
+                message.DEFAULT_MESSAGE.status              = message.SUCCESS_RESPONSE.status
+                message.DEFAULT_MESSAGE.status_code         = message.SUCCESS_RESPONSE.status_code
+                message.DEFAULT_MESSAGE.response.count      = result.length
+                message.DEFAULT_MESSAGE.response.biografia  = result
 
                 return message.DEFAULT_MESSAGE 
             } else{
@@ -102,7 +102,7 @@ const listarNomeArtistico = async function(){
     }
 }
 
-const buscarNomeArtistico = async function(id){
+const buscarBiografia = async function(id){
     let message = JSON.parse(JSON.stringify(config_message))
 
     try {
@@ -110,13 +110,13 @@ const buscarNomeArtistico = async function(id){
             message.ERROR_BAD_REQUEST.field = '[ID] INVÁLIDO'
             return message.ERROR_BAD_REQUEST
         } else{
-            let result = await nomeArtisticoDAO.selectByIdNomeArtistico(id)
+            let result = await biografiaDAO.selectByIdBiografia(id)
             
             if(result){
                 if(result.length > 0){
-                    message.DEFAULT_MESSAGE.status                      = message.SUCCESS_RESPONSE.status
-                    message.DEFAULT_MESSAGE.status_code                 = message.SUCCESS_RESPONSE.status_code
-                    message.DEFAULT_MESSAGE.response.nome_artistico     = result
+                    message.DEFAULT_MESSAGE.status              = message.SUCCESS_RESPONSE.status
+                    message.DEFAULT_MESSAGE.status_code         = message.SUCCESS_RESPONSE.status_code
+                    message.DEFAULT_MESSAGE.response.biografia  = result
             
                     return message.DEFAULT_MESSAGE 
                 } else{
@@ -131,14 +131,14 @@ const buscarNomeArtistico = async function(id){
     }
 }
 
-const excluirNomeArtistico = async function(id){
+const excluirBiografia = async function(id){
     let message = JSON.parse(JSON.stringify(config_message))
 
     try {
-        let resultBuscarID = await buscarNomeArtistico(id)
+        let resultBuscarID = await buscarBiografia(id)
         
         if(resultBuscarID.status){
-            let result = await nomeArtisticoDAO.deleteNomeArtistico(id)
+            let result = await biografiaDAO.deleteBiografia(id)
 
             if(result){
                 message.DEFAULT_MESSAGE.status      = message.SUCCESS_DELETE_ITEM.status
@@ -157,11 +157,11 @@ const excluirNomeArtistico = async function(id){
     }
 }
 
-const validarNome = async function(nomeArtistico){
+const validarTexto = async function(biografia){
     let message = JSON.parse(JSON.stringify(config_message))
 
-    if(nomeArtistico.nome == undefined || nomeArtistico.nome == null || nomeArtistico.nome == ''){
-        message.ERROR_BAD_REQUEST.field = '[NOME] INVÁLIDO'
+    if(biografia.texto == undefined || biografia.texto == null || biografia.texto == ''){
+        message.ERROR_BAD_REQUEST.field = '[BIOGRAFIA] INVÁLIDA'
         return message.ERROR_BAD_REQUEST 
     } else{
         return false
@@ -170,9 +170,9 @@ const validarNome = async function(nomeArtistico){
 
 
 module.exports = {
-    inserirNomeArtistico,
-    atualizarNomeArtistico,
-    listarNomeArtistico,
-    buscarNomeArtistico,
-    excluirNomeArtistico
+    inserirBiografia,
+    atualizarBiografia,
+    listarBiografia,
+    buscarBiografia,
+    excluirBiografia
 }

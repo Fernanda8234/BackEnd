@@ -26,7 +26,8 @@ insert into tbl_filme 	(
                         sinopse, 
                         avaliacao, 
                         valor, 
-                        capa
+                        capa,
+                        id_classificacao_indicativa
 						)
 values 	(
 		'AA', 
@@ -35,10 +36,18 @@ values 	(
         'BBBBBBBBBB.',
         '4',
         '40.00',
-        'capa'
+        'capa',
+        '1'
         );
     
 select * from tbl_filme;
+
+select tbl_filme.nome as nome_filme, tbl_filme.sinopse, tbl_filme.data_lancamento, tbl_filme.capa,
+		tbl_classificacao_indicativa.codigo, tbl_classificacao_indicativa.nome as nome_classificacao_indicativa
+from tbl_filme
+	inner join tbl_classificacao_indicativa
+		on tbl_classificacao_indicativa.id = tbl_filme.id_classificacao_indicativa;
+
 select * from tbl_filme order by id desc;
 
 delete from tbl_filme where id > 0;
