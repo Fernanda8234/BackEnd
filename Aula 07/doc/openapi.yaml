@@ -1,0 +1,1207 @@
+# shift + alt + p
+openapi: 3.0.3
+info:
+  title: Projeto de Filmes - SENAI Jandira 
+  description: API destinada para controlar filmes
+  termsOfService: http://swagger.io/terms/
+  version: 1.0.0
+externalDocs:
+  description: Find out more about Swagger
+  url: http://swagger.io
+servers:
+  - url: http://
+paths:
+
+#------------------[ inserir e listar filme ]-------------------#
+  /v1/senai/locadora/filme:
+    post:
+      tags:
+        - Filme
+      summary: Adiciona um novo filme
+      description: Adiciona um novo filme no Banco de Dados
+      requestBody:
+        description: Registra um filme
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Filme'
+        required: true
+      responses:
+        '201':
+          description: Registro inserido com sucesso
+        '415':
+          description: Não foi possível processar a requisição, pois o formato de dados aceito pela API é somente JSON
+        '500':
+          description: Erro na Model ou Controller
+
+    get:
+      tags:
+        - Filme
+      summary: Lista todos os filmes
+      description: Listagem de todos os filmes registrados no sistema
+      responses:
+        '200':
+          description: Busca feita com sucesso
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Filme'          
+           
+        '404':
+          description: Não foi possível encontrar nenhum dado para retorno
+        '500':
+          description: Erro na Model ou Controller
+#---------------------------------------------------------------#
+
+#----------[ ver, atualizar e deletar filme pelo ID ]-----------#
+  /v1/senai/locadora/filme/{id}:
+    get:
+      tags:
+        - Filme
+      summary: Busca um filme pelo seu ID
+      description: Retorna um filme pelo ID
+      parameters:
+        - name: id
+          in: path
+          description: Retorna um filme pelo seu ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Busca feita com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Filme'          
+        '400':
+          description: Os dados enviados na requisição não estão corretos
+        '404':
+          description: Não foi possível encontrar nenhum dado para retorno
+        '500':
+          description: Erro na Model ou Controller
+
+    put:
+      tags:
+        - Filme
+      summary: Atualizar um filme existente pelo ID
+      description: Localizar e atualizar um filme buscando pelo ID
+      parameters:
+        - name: id
+          in: path
+          description: ID para localizar e atualizar o filme
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Dados para atualizar o filme
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Filme'
+        required: true
+      responses:
+        '200':
+          description: Registro atualizado com sucesso
+        '400':
+          description: Os dados enviados na requisição não estão corretos
+        '404':
+          description: Não foi possível encontrar nenhum dado para retorno
+        '415':
+          description: Não foi possível processar a requisição, pois o formato de dados aceito pela API é somente JSON
+        '500':
+          description: Erro na Model ou Controller
+       
+    delete:
+      tags:
+        - Filme
+      summary: Excluir um filme existente pelo ID
+      description: Excluir um filme pelo ID
+      parameters:
+        - name: id
+          in: path
+          description: ID para localizar e excluir o filme
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Registro excluído com sucesso
+        '400':
+          description: Os dados enviados na requisição não estão corretos
+        '404':
+          description: Não foi possível encontrar nenhum dado para retorno
+        '500':
+          description: Erro na Model ou Controller
+#---------------------------------------------------------------#
+ 
+#-------[ inserir e listar classificação indicativa ]-----------#
+  /v1/senai/locadora/indicativa_classificacao:
+    post:
+      tags:
+        - ClassificacaoIndicativa
+      summary: Adiciona uma nova classificação indicativa
+      description: Adiciona uma nova classificação indicativa no Banco de Dados
+      requestBody:
+        description: Registra uma classificação indicativa
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClassificacaoIndicativa'
+        required: true
+      responses:
+        '201':
+          description: Registro inserido com sucesso
+        '415':
+          description: Não foi possível processar a requisição, pois o formato de dados aceito pela API é somente JSON
+        '500':
+          description: Erro na Model ou Controller
+
+    get:
+      tags:
+        - ClassificacaoIndicativa
+      summary: Lista todas as classificações indicativas
+      description: Listagem de todas as classificações indicativas registradas no sistema
+      responses:
+        '200':
+          description: Busca feita com sucesso
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ClassificacaoIndicativa'          
+           
+        '404':
+          description: Não foi possível encontrar nenhum dado para retorno
+        '500':
+          description: Erro na Model ou Controller
+#---------------------------------------------------------------#  
+
+#-[ ver, atualizar e deletar classificação indicativa pelo ID ]-#
+  /v1/senai/locadora/indicativa_classificacao/{id}:
+    get:
+      tags:
+        - ClassificacaoIndicativa
+      summary: Busca uma classificação indicativa pelo seu ID
+      description: Retorna uma classificação indicativa pelo ID
+      parameters:
+        - name: id
+          in: path
+          description: Retorna uma classificação indicativa pelo seu ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Busca feita com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClassificacaoIndicativa'          
+        '400':
+          description: Os dados enviados na requisição não estão corretos
+        '404':
+          description: Não foi possível encontrar nenhum dado para retorno
+        '500':
+          description: Erro na Model ou Controller
+
+    put:
+      tags:
+        - ClassificacaoIndicativa
+      summary: Atualizar uma classificação indicativa existente pelo ID
+      description: Localizar e atualizar uma classificação indicativa buscando pelo ID
+      parameters:
+        - name: id
+          in: path
+          description: ID para localizar e atualizar a classificação indicativa
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Dados para atualizar a classificação indicativa
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClassificacaoIndicativa'
+        required: true
+      responses:
+        '200':
+          description: Registro atualizado com sucesso
+        '400':
+          description: Os dados enviados na requisição não estão corretos
+        '404':
+          description: Não foi possível encontrar nenhum dado para retorno
+        '415':
+          description: Não foi possível processar a requisição, pois o formato de dados aceito pela API é somente JSON
+        '500':
+          description: Erro na Model ou Controller
+       
+    delete:
+      tags:
+        - ClassificacaoIndicativa
+      summary: Excluir uma classificação indicativa existente pelo ID
+      description: Excluir uma classificação indicativa pelo ID
+      parameters:
+        - name: id
+          in: path
+          description: ID para localizar e excluir a classificação indicativa
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Registro excluído com sucesso
+        '400':
+          description: Os dados enviados na requisição não estão corretos
+        '404':
+          description: Não foi possível encontrar nenhum dado para retorno
+        '500':
+          description: Erro na Model ou Controller
+#---------------------------------------------------------------#
+
+#------------------[ inserir e listar gênero ]------------------#
+  /v1/senai/locadora/genero:
+    post:
+      tags:
+        - Genero
+      summary: Adiciona um novo gênero de filme
+      description: Adiciona um novo gênero de filme no Banco de Dados
+      requestBody:
+        description: Registra um gênero de filme
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Genero'
+        required: true
+      responses:
+        '201':
+          description: Registro inserido com sucesso
+        '415':
+          description: Não foi possível processar a requisição, pois o formato de dados aceito pela API é somente JSON
+        '500':
+          description: Erro na Model ou Controller
+
+    get:
+      tags:
+        - Genero
+      summary: Lista todos os gêneros do filme
+      description: Listagem de todos os gêneros do filme registrados no sistema
+      responses:
+        '200':
+          description: Busca feita com sucesso
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Genero'          
+           
+        '404':
+          description: Não foi possível encontrar nenhum dado para retorno
+        '500':
+          description: Erro na Model ou Controller
+#---------------------------------------------------------------#
+
+#----------[ ver, atualizar e deletar gênero pelo ID ]----------#
+  /v1/senai/locadora/genero/{id}:
+    get:
+      tags:
+        - Genero
+      summary: Busca um gênero pelo seu ID
+      description: Retorna um gênero pelo ID
+      parameters:
+        - name: id
+          in: path
+          description: Retorna um gênero pelo seu ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Busca feita com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Genero'          
+        '400':
+          description: Os dados enviados na requisição não estão corretos
+        '404':
+          description: Não foi possível encontrar nenhum dado para retorno
+        '500':
+          description: Erro na Model ou Controller
+
+    put:
+      tags:
+        - Genero
+      summary: Atualizar um gênero existente pelo ID
+      description: Localizar e atualizar um gênero buscando pelo ID
+      parameters:
+        - name: id
+          in: path
+          description: ID para localizar e atualizar o gênero
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Dados para atualizar o gênero
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Genero'
+        required: true
+      responses:
+        '200':
+          description: Registro atualizado com sucesso
+        '400':
+          description: Os dados enviados na requisição não estão corretos
+        '404':
+          description: Não foi possível encontrar nenhum dado para retorno
+        '415':
+          description: Não foi possível processar a requisição, pois o formato de dados aceito pela API é somente JSON
+        '500':
+          description: Erro na Model ou Controller
+       
+    delete:
+      tags:
+        - Genero
+      summary: Excluir um gênero existente pelo ID
+      description: Excluir um gênero pelo ID
+      parameters:
+        - name: id
+          in: path
+          description: ID para localizar e excluir o gênero
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Registro excluído com sucesso
+        '400':
+          description: Os dados enviados na requisição não estão corretos
+        '404':
+          description: Não foi possível encontrar nenhum dado para retorno
+        '500':
+          description: Erro na Model ou Controller       
+#---------------------------------------------------------------#
+
+#------------------[ inserir e listar elenco ]------------------#
+  /v1/senai/locadora/elenco:
+    post:
+      tags:
+        - Elenco
+      summary: Adiciona uma nova pessoa ao elenco
+      description: Adiciona uma nova pessoa ao elenco no Banco de Dados
+      requestBody:
+        description: Registra uma nova pessoa
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Elenco'
+        required: true
+      responses:
+        '201':
+          description: Registro inserido com sucesso
+        '415':
+          description: Não foi possível processar a requisição, pois o formato de dados aceito pela API é somente JSON
+        '500':
+          description: Erro na Model ou Controller
+
+    get:
+      tags:
+        - Elenco
+      summary: Lista todas as pessoas no elenco
+      description: Listagem de todas as pessoas do elenco registradas no sistema
+      responses:
+        '200':
+          description: Busca feita com sucesso
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Elenco'          
+           
+        '404':
+          description: Não foi possível encontrar nenhum dado para retorno
+        '500':
+          description: Erro na Model ou Controller
+#---------------------------------------------------------------#
+
+#----------[ ver, atualizar e deletar elenco pelo ID ]----------#
+  /v1/senai/locadora/elenco/{id}:
+    get:
+      tags:
+        - Elenco
+      summary: Busca uma pessoa pelo seu ID
+      description: Retorna uma pessoa pelo ID
+      parameters:
+        - name: id
+          in: path
+          description: Retorna uma pessoa pelo seu ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Busca feita com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Elenco'          
+        '400':
+          description: Os dados enviados na requisição não estão corretos
+        '404':
+          description: Não foi possível encontrar nenhum dado para retorno
+        '500':
+          description: Erro na Model ou Controller
+
+    put:
+      tags:
+        - Elenco
+      summary: Atualizar uma pessoa existente no elenco pelo ID
+      description: Localizar e atualizar uma pessoa buscando pelo ID
+      parameters:
+        - name: id
+          in: path
+          description: ID para localizar e atualizar o elenco
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Dados para atualizar o elenco
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Elenco'
+        required: true
+      responses:
+        '200':
+          description: Registro atualizado com sucesso
+        '400':
+          description: Os dados enviados na requisição não estão corretos
+        '404':
+          description: Não foi possível encontrar nenhum dado para retorno
+        '415':
+          description: Não foi possível processar a requisição, pois o formato de dados aceito pela API é somente JSON
+        '500':
+          description: Erro na Model ou Controller
+       
+    delete:
+      tags:
+        - Elenco
+      summary: Excluir uma pessoa existente no elenco pelo ID
+      description: Excluir uma pessoa pelo ID
+      parameters:
+        - name: id
+          in: path
+          description: ID para localizar e excluir o elenco
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Registro excluído com sucesso
+        '400':
+          description: Os dados enviados na requisição não estão corretos
+        '404':
+          description: Não foi possível encontrar nenhum dado para retorno
+        '500':
+          description: Erro na Model ou Controller    
+#---------------------------------------------------------------#
+
+#---------------[ inserir e listar nacionalidade ]--------------#
+  /v1/senai/locadora/nacionalidade:
+    post:
+      tags:
+        - Nacionalidade
+      summary: Adiciona uma nova nacionalidade
+      description: Adiciona uma nova nacionalidade no Banco de Dados
+      requestBody:
+        description: Registra uma nova nacionalidade
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Nacionalidade'
+        required: true
+      responses:
+        '201':
+          description: Registro inserido com sucesso
+        '415':
+          description: Não foi possível processar a requisição, pois o formato de dados aceito pela API é somente JSON
+        '500':
+          description: Erro na Model ou Controller
+
+    get:
+      tags:
+        - Nacionalidade
+      summary: Lista todas as nacionalidades
+      description: Listagem de todas as nacionalidades registradas no sistema
+      responses:
+        '200':
+          description: Busca feita com sucesso
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Nacionalidade'          
+           
+        '404':
+          description: Não foi possível encontrar nenhum dado para retorno
+        '500':
+          description: Erro na Model ou Controller
+#---------------------------------------------------------------#
+
+#------[ ver, atualizar e deletar nacionalidade pelo ID ]-------#
+  /v1/senai/locadora/nacionalidade/{id}:
+    get:
+      tags:
+        - Nacionalidade
+      summary: Busca uma nacionalidade pelo seu ID
+      description: Retorna uma nacionalidade pelo ID
+      parameters:
+        - name: id
+          in: path
+          description: Retorna uma nacionalidade pelo seu ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Busca feita com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Nacionalidade'          
+        '400':
+          description: Os dados enviados na requisição não estão corretos
+        '404':
+          description: Não foi possível encontrar nenhum dado para retorno
+        '500':
+          description: Erro na Model ou Controller
+
+    put:
+      tags:
+        - Nacionalidade
+      summary: Atualizar uma nacionalidade existente pelo ID
+      description: Localizar e atualizar uma nacionalidade buscando pelo ID
+      parameters:
+        - name: id
+          in: path
+          description: ID para localizar e atualizar a nacionalidade
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Dados para atualizar a nacionalidade
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Nacionalidade'
+        required: true
+      responses:
+        '200':
+          description: Registro atualizado com sucesso
+        '400':
+          description: Os dados enviados na requisição não estão corretos
+        '404':
+          description: Não foi possível encontrar nenhum dado para retorno
+        '415':
+          description: Não foi possível processar a requisição, pois o formato de dados aceito pela API é somente JSON
+        '500':
+          description: Erro na Model ou Controller
+       
+    delete:
+      tags:
+        - Nacionalidade
+      summary: Excluir uma nacionalidade existente pelo ID
+      description: Excluir uma nacionalidade pelo ID
+      parameters:
+        - name: id
+          in: path
+          description: ID para localizar e excluir a nacionalidade
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Registro excluído com sucesso
+        '400':
+          description: Os dados enviados na requisição não estão corretos
+        '404':
+          description: Não foi possível encontrar nenhum dado para retorno
+        '500':
+          description: Erro na Model ou Controller    
+#---------------------------------------------------------------#
+
+#----------------[ inserir e listar atividades ]----------------#
+  /v1/senai/locadora/atividades:
+    post:
+      tags:
+        - Atividades
+      summary: Adiciona uma nova atividade
+      description: Adiciona uma nova atividade no Banco de Dados
+      requestBody:
+        description: Registra uma nova atividade
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Atividades'
+        required: true
+      responses:
+        '201':
+          description: Registro inserido com sucesso
+        '415':
+          description: Não foi possível processar a requisição, pois o formato de dados aceito pela API é somente JSON
+        '500':
+          description: Erro na Model ou Controller
+
+    get:
+      tags:
+        - Atividades
+      summary: Lista todas as atividades
+      description: Listagem de todas as atividades registradas no sistema
+      responses:
+        '200':
+          description: Busca feita com sucesso
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Atividades'          
+           
+        '404':
+          description: Não foi possível encontrar nenhum dado para retorno
+        '500':
+          description: Erro na Model ou Controller
+#---------------------------------------------------------------#
+
+#--------[ ver, atualizar e deletar atividades pelo ID ]--------#
+  /v1/senai/locadora/atividades/{id}:
+    get:
+      tags:
+        - Atividades
+      summary: Busca uma atividade pelo seu ID
+      description: Retorna uma atividade pelo ID
+      parameters:
+        - name: id
+          in: path
+          description: Retorna uma atividade pelo seu ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Busca feita com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Atividades'          
+        '400':
+          description: Os dados enviados na requisição não estão corretos
+        '404':
+          description: Não foi possível encontrar nenhum dado para retorno
+        '500':
+          description: Erro na Model ou Controller
+
+    put:
+      tags:
+        - Atividades
+      summary: Atualizar uma atividade existente pelo ID
+      description: Localizar e atualizar uma atividade buscando pelo ID
+      parameters:
+        - name: id
+          in: path
+          description: ID para localizar e atualizar a atividade
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Dados para atualizar a atividade
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Atividades'
+        required: true
+      responses:
+        '200':
+          description: Registro atualizado com sucesso
+        '400':
+          description: Os dados enviados na requisição não estão corretos
+        '404':
+          description: Não foi possível encontrar nenhum dado para retorno
+        '415':
+          description: Não foi possível processar a requisição, pois o formato de dados aceito pela API é somente JSON
+        '500':
+          description: Erro na Model ou Controller
+       
+    delete:
+      tags:
+        - Atividades
+      summary: Excluir uma atividade existente pelo ID
+      description: Excluir uma atividade pelo ID
+      parameters:
+        - name: id
+          in: path
+          description: ID para localizar e excluir a atividade
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Registro excluído com sucesso
+        '400':
+          description: Os dados enviados na requisição não estão corretos
+        '404':
+          description: Não foi possível encontrar nenhum dado para retorno
+        '500':
+          description: Erro na Model ou Controller    
+#---------------------------------------------------------------#
+
+#--------------[ inserir e listar nome artístico ]--------------#
+  /v1/senai/locadora/artistico_nome:
+    post:
+      tags:
+        - NomeArtistico
+      summary: Adiciona um novo nome artístico
+      description: Adiciona um novo nome artístico no Banco de Dados
+      requestBody:
+        description: Registra um novo nome artístico
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NomeArtistico'
+        required: true
+      responses:
+        '201':
+          description: Registro inserido com sucesso
+        '415':
+          description: Não foi possível processar a requisição, pois o formato de dados aceito pela API é somente JSON
+        '500':
+          description: Erro na Model ou Controller
+
+    get:
+      tags:
+        - NomeArtistico
+      summary: Lista todos os nomes artísticos 
+      description: Listagem de todos os nomes artísticos registrados no sistema
+      responses:
+        '200':
+          description: Busca feita com sucesso
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/NomeArtistico'          
+           
+        '404':
+          description: Não foi possível encontrar nenhum dado para retorno
+        '500':
+          description: Erro na Model ou Controller
+#---------------------------------------------------------------#
+
+#------[ ver, atualizar e deletar nome artístico pelo ID ]------#
+  /v1/senai/locadora/artistico_nome/{id}:
+    get:
+      tags:
+        - NomeArtistico
+      summary: Busca um nome artístico pelo seu ID
+      description: Retorna um nome artístico pelo ID
+      parameters:
+        - name: id
+          in: path
+          description: Retorna um nome artístico pelo seu ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Busca feita com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NomeArtistico'          
+        '400':
+          description: Os dados enviados na requisição não estão corretos
+        '404':
+          description: Não foi possível encontrar nenhum dado para retorno
+        '500':
+          description: Erro na Model ou Controller
+
+    put:
+      tags:
+        - NomeArtistico
+      summary: Atualizar um nome artístico existente pelo ID
+      description: Localizar e atualizar um nome artístico buscando pelo ID
+      parameters:
+        - name: id
+          in: path
+          description: ID para localizar e atualizar o nome artístico
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Dados para atualizar o nome artístico
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NomeArtistico'
+        required: true
+      responses:
+        '200':
+          description: Registro atualizado com sucesso
+        '400':
+          description: Os dados enviados na requisição não estão corretos
+        '404':
+          description: Não foi possível encontrar nenhum dado para retorno
+        '415':
+          description: Não foi possível processar a requisição, pois o formato de dados aceito pela API é somente JSON
+        '500':
+          description: Erro na Model ou Controller
+       
+    delete:
+      tags:
+        - NomeArtistico
+      summary: Excluir um nome artístico existente pelo ID
+      description: Excluir um nome artístico pelo ID
+      parameters:
+        - name: id
+          in: path
+          description: ID para localizar e excluir o nome artístico
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Registro excluído com sucesso
+        '400':
+          description: Os dados enviados na requisição não estão corretos
+        '404':
+          description: Não foi possível encontrar nenhum dado para retorno
+        '500':
+          description: Erro na Model ou Controller    
+#---------------------------------------------------------------#
+
+#-----------------[ inserir e listar biografia ]----------------#
+  /v1/senai/locadora/biografia:
+    post:
+      tags:
+        - Biografia
+      summary: Adiciona uma nova biografia
+      description: Adiciona uma nova biografia no Banco de Dados
+      requestBody:
+        description: Registra uma nova biografia
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Biografia'
+        required: true
+      responses:
+        '201':
+          description: Registro inserido com sucesso
+        '415':
+          description: Não foi possível processar a requisição, pois o formato de dados aceito pela API é somente JSON
+        '500':
+          description: Erro na Model ou Controller
+
+    get:
+      tags:
+        - Biografia
+      summary: Lista todas as biografias 
+      description: Listagem de todas as biografias registradas no sistema
+      responses:
+        '200':
+          description: Busca feita com sucesso
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Biografia'          
+           
+        '404':
+          description: Não foi possível encontrar nenhum dado para retorno
+        '500':
+          description: Erro na Model ou Controller
+#---------------------------------------------------------------#
+
+#---------[ ver, atualizar e deletar biografia pelo ID ]--------#
+  /v1/senai/locadora/biografia/{id}:
+    get:
+      tags:
+        - Biografia
+      summary: Busca uma biografia pelo seu ID
+      description: Retorna uma biografia pelo ID
+      parameters:
+        - name: id
+          in: path
+          description: Retorna uma biografia pelo seu ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Busca feita com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Biografia'          
+        '400':
+          description: Os dados enviados na requisição não estão corretos
+        '404':
+          description: Não foi possível encontrar nenhum dado para retorno
+        '500':
+          description: Erro na Model ou Controller
+
+    put:
+      tags:
+        - Biografia
+      summary: Atualizar uma biografia existente pelo ID
+      description: Localizar e atualizar uma biografia buscando pelo ID
+      parameters:
+        - name: id
+          in: path
+          description: ID para localizar e atualizar a biografia
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Dados para atualizar a biografia
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Biografia'
+        required: true
+      responses:
+        '200':
+          description: Registro atualizado com sucesso
+        '400':
+          description: Os dados enviados na requisição não estão corretos
+        '404':
+          description: Não foi possível encontrar nenhum dado para retorno
+        '415':
+          description: Não foi possível processar a requisição, pois o formato de dados aceito pela API é somente JSON
+        '500':
+          description: Erro na Model ou Controller
+       
+    delete:
+      tags:
+        - Biografia
+      summary: Excluir uma biografia existente pelo ID
+      description: Excluir uma biografia pelo ID
+      parameters:
+        - name: id
+          in: path
+          description: ID para localizar e excluir a biografia
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Registro excluído com sucesso
+        '400':
+          description: Os dados enviados na requisição não estão corretos
+        '404':
+          description: Não foi possível encontrar nenhum dado para retorno
+        '500':
+          description: Erro na Model ou Controller    
+#---------------------------------------------------------------#
+
+components:
+  schemas:
+    Filme:
+      required:
+        - nome
+        - data_lancamento
+        - duracao
+        - sinopse
+        - valor
+
+      type: object
+      properties:
+        id:
+          type: integer
+        nome:
+          type: string
+        data_lancamento:
+          type: string
+          format: date
+        duracao:
+          type: string
+          format: time
+        sinopse:
+          type: string
+        avaliacao:
+          type: number
+        valor:
+          type: number
+        capa:
+          type: string
+
+    ClassificacaoIndicativa:
+      required:
+        - codigo
+        - nome
+        - descricao
+
+      type: object
+      properties:
+        id:
+          type: integer
+        codigo:
+          type: string
+        nome:
+          type: string
+        descricao:
+          type: string
+
+    Genero:
+      required:
+        - nome
+
+      type: object
+      properties:
+        id:
+          type: integer
+        nome:
+          type: string
+
+    Elenco:
+      required:
+        - nome
+
+      type: object
+      properties:
+        id:
+          type: integer
+        nome:
+          type: string
+        data_nascimento:
+          type: string
+          format: date
+
+    Nacionalidade:
+      required:
+        - nome
+
+      type: object
+      properties:
+        id:
+          type: integer
+        nome:
+          type: string
+
+    Atividades:
+      required:
+        - nome
+
+      type: object
+      properties:
+        id:
+          type: integer
+        nome:
+          type: string
+
+    NomeArtistico:
+
+      type: object
+      properties:
+        id:
+          type: integer
+        nome:
+          type: string
+
+    Biografia:
+
+      type: object
+      properties:
+        id:
+          type: integer
+        texto:
+          type: string
+
+  requestBodies:
+    Filme:
+      description: Objeto Filme
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Filme'
+
+    ClassificacaoIndicativa:
+      description: Objeto Classificação Indicativa
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ClassificacaoIndicativa'
+
+    Genero:
+      description: Objeto Gênero
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Genero'
+
+    Elenco:
+      description: Objeto Elenco
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Elenco'
+
+    Nacionalidade:
+      description: Objeto Nacionalidade
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Nacionalidade'
+
+    Atividades:
+      description: Objeto Atividades
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Atividades'
+
+    NomeArtistico:
+      description: Objeto Nome Artístico
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/NomeArtistico'
+
+    Biografia:
+      description: Objeto Biografia
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Biografia'

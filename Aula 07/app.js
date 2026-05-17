@@ -13,8 +13,8 @@ const bodyParser    = require('body-parser')
 /* import das CONTROLLERS do projeto */
 const controllerFilme                   = require('./controller/filme/controller_filme.js')
 const controllerClassificacaoIndicativa = require('./controller/classificacao_indicativa/controller_classificacao_indicativa.js')
-const controllerGeneroFilme             = require('./controller/genero_filme/controller_genero_filme.js')
-const controllerElencoFilme             = require('./controller/elenco/controller_elenco.js')
+const controllerGenero                  = require('./controller/genero_filme/controller_genero_filme.js')
+const controllerElenco                  = require('./controller/elenco/controller_elenco.js')
 const controllerNacionalidade           = require('./controller/nacionalidade/controller_nacionalidade.js')
 const controllerAtividades              = require('./controller/atividades/controller_atividades.js')
 const controllerNomeArtistico           = require('./controller/nome_artistico/controller_nome_artistico.js')
@@ -115,8 +115,7 @@ app.delete('/v1/senai/locadora/filme/:id', async function(request, response){
     response.json(result)
 })
 
-// endpoint para inserir a classificação
-
+// endpoints para a classificação
 app.post('/v1/senai/locadora/indicativa_classificacao', bodyParserJSON, async function(request, response){
     let dados = request.body
 
@@ -167,107 +166,107 @@ app.delete('/v1/senai/locadora/indicativa_classificacao/:id', async function(req
 })
 
 
-// endpoint para inserir os gêneros
-app.post('/v1/senai/locadora/genero_filme', bodyParserJSON, async function(request, response){
+// endpoints para os gêneros
+app.post('/v1/senai/locadora/genero', bodyParserJSON, async function(request, response){
     let dados = request.body
 
     let contentType = request.headers['content-type']
 
-    let result = await controllerGeneroFilme.inserirGenero(dados, contentType)
+    let result = await controllerGenero.inserirGenero(dados, contentType)
 
     response.status(result.status_code)
     response.json(result)
 })
 
-app.get('/v1/senai/locadora/genero_filme', async function(request, response){
-    let result = await controllerGeneroFilme.listarGenero()
+app.get('/v1/senai/locadora/genero', async function(request, response){
+    let result = await controllerGenero.listarGenero()
 
     response.status(result.status_code)
     response.json(result)
 })
 
-app.get('/v1/senai/locadora/genero_filme/:id', async function(request, response){
+app.get('/v1/senai/locadora/genero/:id', async function(request, response){
     let id = request.params.id
 
-    let result = await controllerGeneroFilme.buscarGenero(id)
+    let result = await controllerGenero.buscarGenero(id)
 
     response.status(result.status_code)
     response.json(result)
 })
 
-app.put('/v1/senai/locadora/genero_filme/:id', bodyParserJSON, async function(request, response){
+app.put('/v1/senai/locadora/genero/:id', bodyParserJSON, async function(request, response){
     let id = request.params.id
 
     let dados = request.body
 
     let contentType = request.headers['content-type']
 
-    let result = await controllerGeneroFilme.atualizarGenero(dados, contentType, id)
+    let result = await controllerGenero.atualizarGenero(dados, contentType, id)
 
     response.status(result.status_code)
     response.json(result)
 })
 
-app.delete('/v1/senai/locadora/genero_filme/:id', async function(request, response){
+app.delete('/v1/senai/locadora/genero/:id', async function(request, response){
     let id = request.params.id
     
-    let result = await controllerGeneroFilme.excluirGenero(id)
+    let result = await controllerGenero.excluirGenero(id)
 
     response.status(result.status_code)
     response.json(result)
 })
 
-// endpoint para inserir o elenco
-app.post('/v1/senai/locadora/elenco_filme', bodyParserJSON, async function(request, response){
+// endpoints para o elenco
+app.post('/v1/senai/locadora/elenco', bodyParserJSON, async function(request, response){
     let dados = request.body
 
     let contentType = request.headers['content-type']
 
-    let result = await controllerElencoFilme.inserirElenco(dados, contentType)
+    let result = await controllerElenco.inserirElenco(dados, contentType)
 
     response.status(result.status_code)
     response.json(result)
 })
 
-app.get('/v1/senai/locadora/elenco_filme', async function(request, response){
-    let result = await controllerElencoFilme.listarElenco()
+app.get('/v1/senai/locadora/elenco', async function(request, response){
+    let result = await controllerElenco.listarElenco()
 
     response.status(result.status_code)
     response.json(result)
 })
 
-app.get('/v1/senai/locadora/elenco_filme/:id', async function(request, response){
+app.get('/v1/senai/locadora/elenco/:id', async function(request, response){
     let id = request.params.id
 
-    let result = await controllerElencoFilme.buscarElenco(id)
+    let result = await controllerElenco.buscarElenco(id)
 
     response.status(result.status_code)
     response.json(result)
 })
 
-app.put('/v1/senai/locadora/elenco_filme/:id', bodyParserJSON, async function(request, response){
+app.put('/v1/senai/locadora/elenco/:id', bodyParserJSON, async function(request, response){
     let id = request.params.id
 
     let dados = request.body
 
     let contentType = request.headers['content-type']
 
-    let result = await controllerElencoFilme.atualizarElenco(dados, contentType, id)
+    let result = await controllerElenco.atualizarElenco(dados, contentType, id)
 
     response.status(result.status_code)
     response.json(result)
 })
 
-app.delete('/v1/senai/locadora/elenco_filme/:id', async function(request, response){
+app.delete('/v1/senai/locadora/elenco/:id', async function(request, response){
     let id = request.params.id
     
-    let result = await controllerElencoFilme.excluirElenco(id)
+    let result = await controllerElenco.excluirElenco(id)
 
     response.status(result.status_code)
     response.json(result)
 })
 
-// endpoint para inserir a nacionalidade
+// endpoints para a nacionalidade
 app.post('/v1/senai/locadora/nacionalidade', bodyParserJSON, async function(request, response){
     let dados = request.body
 
@@ -316,7 +315,7 @@ app.delete('/v1/senai/locadora/nacionalidade/:id', async function(request, respo
     response.json(result)
 })
 
-// endpoint para atividades
+// endpoints para atividades
 app.post('/v1/senai/locadora/atividades', bodyParserJSON, async function(request, response){
     let dados = request.body
 
@@ -365,7 +364,7 @@ app.delete('/v1/senai/locadora/atividades/:id', async function(request, response
     response.json(result)
 })
 
-// endpoint para nome artistico
+// endpoints para nome artístico
 app.post('/v1/senai/locadora/artistico_nome', bodyParserJSON, async function(request, response){
     let dados = request.body
 
@@ -414,7 +413,7 @@ app.delete('/v1/senai/locadora/artistico_nome/:id', async function(request, resp
     response.json(result)
 })
 
-// endpoint para biografia
+// endpoints para biografia
 app.post('/v1/senai/locadora/biografia', bodyParserJSON, async function(request, response){
     let dados = request.body
 
