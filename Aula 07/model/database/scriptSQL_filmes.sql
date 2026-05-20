@@ -187,3 +187,35 @@ create table tbl_biografia (
     texto 		text default null
 );
 #--------------------------------------------------------------#
+
+
+#-------------------[ Tabela de diretoria ]--------------------#
+create table tbl_diretoria (
+	id 					int not null primary key auto_increment,
+    marca_estilistica   varchar(120) not null,
+    franquias_famosas 	varchar(200) default null
+);
+#------------------------------------------------------------#
+
+#-------------------[ Tabela de atuacao ]--------------------#
+create table tbl_atuacao (
+	id 				int not null primary key auto_increment,
+    papel_obra   	varchar(150) not null,
+    tipo_personagem varchar(100) not null
+);
+#---------------------------------------------------------#
+
+#-------------------[ Tabela de dublagem ]--------------------#
+create table tbl_dublagem (
+	id 			int not null primary key auto_increment,
+    personagem 	varchar(120) not null
+);
+#-------------------------------------------------------------#
+
+#-------------------[ Tabela de roteirizacao ]--------------------#
+create table tbl_roteirizacao (
+	id 					int not null primary key auto_increment,
+    estilo_narrativo 	varchar(120) not null,
+    tema_recorrente		varchar(100) not null
+);
+#---------------------------------------------------------------#

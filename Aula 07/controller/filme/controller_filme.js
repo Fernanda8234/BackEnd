@@ -12,6 +12,9 @@ const config_message = require('../modulo/configMessages.js')
 // import do arquivo DAO para fazer o CRUD do filme no banco de dados
 const filmeDAO = require('../../model/DAO/filme/filme.js')
 
+// import de arquivos de Controller
+const controller_classificacao = require('../classificacao_indicativa/controller_classificacao_indicativa.js')
+
 // função para inserir um novo filme
 const inserirNovoFilme = async function(filme, contentType){
 
@@ -139,6 +142,26 @@ const listarFilme = async function(){
         // validação para verificar se o DAO conseguiu processar os dados
         if(result){
 
+            // percorre o Array de filmes para identificar os dados da classificação
+            for(filme of result){
+                // busca na controller da classificação indicativa o ID referente aos dados
+                let resultClassificacaoIndicativa = await controller_classificacao.buscarClassificacao(filme.id_classificacao_indicativa)
+
+                // se a classificação indicativa foi encontrada
+                if(resultClassificacaoIndicativa.status){
+
+                    /* 
+                        cria o atributo classificação indicativa no filme 
+                        e adiciona os dados referente a classificação
+                    */
+                    filme.classificacao_indicativa = resultClassificacaoIndicativa.response.classificacao
+                    
+
+                    // apaga o atributo id_classificacao_indicativa do filme para não ficar repetido
+                    delete filme.id_classificacao_indicativa
+                }
+            } 
+
             // validação para verificar se existe conteúdo no Array
             if(result.length > 0){
                 message.DEFAULT_MESSAGE.status          = message.SUCCESS_RESPONSE.status
@@ -174,6 +197,26 @@ const buscarFilme = async function(id){
 
             if(result){
                 if(result.length > 0){
+
+                    for(filme of result){
+                        // busca na controller da classificação indicativa o ID referente aos dados
+                        let resultClassificacaoIndicativa = await controller_classificacao.buscarClassificacao(filme.id_classificacao_indicativa)
+        
+                        // se a classificação indicativa foi encontrada
+                        if(resultClassificacaoIndicativa.status){
+        
+                            /* 
+                                cria o atributo classificação indicativa no filme 
+                                e adiciona os dados referente a classificação
+                            */
+                            filme.classificacao_indicativa = resultClassificacaoIndicativa.response.classificacao
+                            
+        
+                            // apaga o atributo id_classificacao_indicativa do filme para não ficar repetido
+                            delete filme.id_classificacao_indicativa
+                        }
+                    } 
+
                     message.DEFAULT_MESSAGE.status          = message.SUCCESS_RESPONSE.status
                     message.DEFAULT_MESSAGE.status_code     = message.SUCCESS_RESPONSE.status_code
                     message.DEFAULT_MESSAGE.response.filme  = result
@@ -236,7 +279,7 @@ const validarDados = async function(filme){
     // cria um clone da const message
     let message = JSON.parse(JSON.stringify(config_message))
 
-    if(filme.nome == '' || filme.nome == null || filme.nome == undefined || filme.nome.length > 80){
+    if(filme.nome == undefined || filme.nome == '' || filme.nome == null || filme.nome.length > 80){
         message.ERROR_BAD_REQUEST.field = '[NOME] INVÁLIDO'
         return message.ERROR_BAD_REQUEST // 400
 
@@ -244,11 +287,11 @@ const validarDados = async function(filme){
         message.ERROR_BAD_REQUEST.field = '[DATA_LANCAMENTO] INVÁLIDO'
         return message.ERROR_BAD_REQUEST
 
-    } else if(filme.duracao == '' || filme.duracao == undefined || filme.duracao.length < 5){
+    } else if(filme.duracao == undefined || filme.duracao == '' || filme.duracao.length < 5){
         message.ERROR_BAD_REQUEST.field = '[DURAÇÃO] INVÁLIDA'
         return message.ERROR_BAD_REQUEST
 
-    } else if(filme.sinopse == '' || filme.sinopse == null || filme.sinopse == undefined){
+    } else if(filme.sinopse == undefined || filme.sinopse == '' || filme.sinopse == null){
         message.ERROR_BAD_REQUEST.field = '[SINOPSE] INVÁLIDA'
         return message.ERROR_BAD_REQUEST
 
@@ -256,12 +299,17 @@ const validarDados = async function(filme){
         message.ERROR_BAD_REQUEST.field = '[AVALIAÇÃO] INVÁLIDA'
         return message.ERROR_BAD_REQUEST
 
-    } else if(filme.valor == '' || filme.valor == null || filme.valor == undefined || filme.valor.split('.')[0].length > 3 || isNaN(filme.valor) /*||  filme.valor.split('.')[1].length > 2*/){
+    } else if(filme.valor == undefined || filme.valor == '' || filme.valor == null || filme.valor.split('.')[0].length > 3 || isNaN(filme.valor) /*||  filme.valor.split('.')[1].length > 2*/){
         message.ERROR_BAD_REQUEST.field = '[VALOR] INVÁLIDO'
         return message.ERROR_BAD_REQUEST/*filme.valor.split('.')[0].length  */
 
     } else if(filme.capa.length > 255){
         message.ERROR_BAD_REQUEST.field = '[CAPA] INVÁLIDA'
+        return message.ERROR_BAD_REQUEST
+
+    // validação para a FK da classificação indicativa
+    } else if(filme.id_classificacao_indicativa == undefined || filme.id_classificacao_indicativa == '' || filme.id_classificacao_indicativa == null || isNaN(filme.id_classificacao_indicativa) || filme.id_classificacao_indicativa <=0){
+        message.ERROR_BAD_REQUEST.field = '[ID_CLASSIFICAÇÃO_INDICATIVA] INVÁLIDA'
         return message.ERROR_BAD_REQUEST
 
     } else{

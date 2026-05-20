@@ -27,7 +27,8 @@ const insertFilme = async function(filme){
                             sinopse, 
                             avaliacao, 
                             valor, 
-                            capa
+                            capa,
+                            id_classificacao_indicativa
                             )
                     values 	(
                             '${filme.nome}', 
@@ -36,7 +37,8 @@ const insertFilme = async function(filme){
                             '${filme.sinopse}',
                             if('${filme.avaliacao}' = '', null, '${filme.avaliacao}'),
                             '${filme.valor}',
-                            '${filme.capa}'
+                            '${filme.capa}',
+                            ${filme.id_classificacao_indicativa}
                             );`
 
         // executar o ScriptSQL no banco de dados
@@ -62,14 +64,15 @@ const updateFilme = async function(filme){
     // script para atualizar os dados do BD
     let sql = 
     `update tbl_filme set
-            nome            = '${filme.nome}',
-            data_lancamento = '${filme.data_lancamento}',
-            duracao         = '${filme.duracao}',
-            sinopse         = '${filme.sinopse}',
-            avaliacao       = if('${filme.avaliacao}' = '', null, '${filme.avaliacao}'),
-            valor           = '${filme.valor}', 
-            capa            = '${filme.capa}'
-    where id                =  ${filme.id}`
+            nome                            = '${filme.nome}',
+            data_lancamento                 = '${filme.data_lancamento}',
+            duracao                         = '${filme.duracao}',
+            sinopse                         = '${filme.sinopse}',
+            avaliacao                       = if('${filme.avaliacao}' = '', null, '${filme.avaliacao}'),
+            valor                           = '${filme.valor}', 
+            capa                            = '${filme.capa}',
+            id_classificacao_indicativa     = ${filme.id_classificacao_indicativa}
+    where id                                =  ${filme.id}`
 
     // executa o script SQL no BD
     let result = await knexConex.raw(sql)
