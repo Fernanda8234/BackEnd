@@ -1036,6 +1036,517 @@ paths:
           description: Erro na Model ou Controller    
 #---------------------------------------------------------------#
 
+#----------------[ inserir e listar diretoria ]-----------------#
+  /v1/senai/locadora/diretoria:
+    post:
+      tags:
+        - Diretoria
+      summary: Adiciona uma nova diretoria
+      description: Adiciona uma nova diretoria no Banco de Dados
+      requestBody:
+        description: Registra uma nova diretoria
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Diretoria'
+        required: true
+      responses:
+        '201':
+          description: Registro inserido com sucesso
+        '415':
+          description: Não foi possível processar a requisição, pois o formato de dados aceito pela API é somente JSON
+        '500':
+          description: Erro na Model ou Controller
+
+    get:
+      tags:
+        - Diretoria
+      summary: Lista todas as diretorias 
+      description: Listagem de todas as diretorias registradas no sistema
+      responses:
+        '200':
+          description: Busca feita com sucesso
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Diretoria'          
+           
+        '404':
+          description: Não foi possível encontrar nenhum dado para retorno
+        '500':
+          description: Erro na Model ou Controller
+#---------------------------------------------------------------#
+
+#--------[ ver, atualizar e deletar diretoria pelo ID ]---------#
+  /v1/senai/locadora/diretoria/{id}:
+    get:
+      tags:
+        - Diretoria
+      summary: Busca uma diretoria pelo seu ID
+      description: Retorna uma diretoria pelo ID
+      parameters:
+        - name: id
+          in: path
+          description: Retorna uma diretoria pelo seu ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Busca feita com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Diretoria'          
+        '400':
+          description: Os dados enviados na requisição não estão corretos
+        '404':
+          description: Não foi possível encontrar nenhum dado para retorno
+        '500':
+          description: Erro na Model ou Controller
+
+    put:
+      tags:
+        - Diretoria
+      summary: Atualizar uma diretoria existente pelo ID
+      description: Localizar e atualizar uma diretoria buscando pelo ID
+      parameters:
+        - name: id
+          in: path
+          description: ID para localizar e atualizar a diretoria
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Dados para atualizar a diretoria
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Diretoria'
+        required: true
+      responses:
+        '200':
+          description: Registro atualizado com sucesso
+        '400':
+          description: Os dados enviados na requisição não estão corretos
+        '404':
+          description: Não foi possível encontrar nenhum dado para retorno
+        '415':
+          description: Não foi possível processar a requisição, pois o formato de dados aceito pela API é somente JSON
+        '500':
+          description: Erro na Model ou Controller
+       
+    delete:
+      tags:
+        - Diretoria
+      summary: Excluir uma diretoria existente pelo ID
+      description: Excluir uma diretoria pelo ID
+      parameters:
+        - name: id
+          in: path
+          description: ID para localizar e excluir a diretoria
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Registro excluído com sucesso
+        '400':
+          description: Os dados enviados na requisição não estão corretos
+        '404':
+          description: Não foi possível encontrar nenhum dado para retorno
+        '500':
+          description: Erro na Model ou Controller 
+#---------------------------------------------------------------#
+
+#-----------------[ inserir e listar atuação ]------------------#
+  /v1/senai/locadora/atuacao:
+    post:
+      tags:
+        - Atuacao
+      summary: Adiciona uma nova atuação
+      description: Adiciona uma nova atuação no Banco de Dados
+      requestBody:
+        description: Registra uma nova atuação
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Atuacao'
+        required: true
+      responses:
+        '201':
+          description: Registro inserido com sucesso
+        '415':
+          description: Não foi possível processar a requisição, pois o formato de dados aceito pela API é somente JSON
+        '500':
+          description: Erro na Model ou Controller
+
+    get:
+      tags:
+        - Atuacao
+      summary: Lista todas as atuações 
+      description: Listagem de todas as atuações registradas no sistema
+      responses:
+        '200':
+          description: Busca feita com sucesso
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Atuacao'          
+           
+        '404':
+          description: Não foi possível encontrar nenhum dado para retorno
+        '500':
+          description: Erro na Model ou Controller
+#---------------------------------------------------------------#
+
+#---------[ ver, atualizar e deletar atuação pelo ID ]----------#
+  /v1/senai/locadora/atuacao/{id}:
+    get:
+      tags:
+        - Atuacao
+      summary: Busca uma atuação pelo seu ID
+      description: Retorna uma atuação pelo ID
+      parameters:
+        - name: id
+          in: path
+          description: Retorna uma atuação pelo seu ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Busca feita com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Atuacao'          
+        '400':
+          description: Os dados enviados na requisição não estão corretos
+        '404':
+          description: Não foi possível encontrar nenhum dado para retorno
+        '500':
+          description: Erro na Model ou Controller
+
+    put:
+      tags:
+        - Atuacao
+      summary: Atualizar uma atuação existente pelo ID
+      description: Localizar e atualizar uma atuação buscando pelo ID
+      parameters:
+        - name: id
+          in: path
+          description: ID para localizar e atualizar a atuação
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Dados para atualizar a atuação
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Atuacao'
+        required: true
+      responses:
+        '200':
+          description: Registro atualizado com sucesso
+        '400':
+          description: Os dados enviados na requisição não estão corretos
+        '404':
+          description: Não foi possível encontrar nenhum dado para retorno
+        '415':
+          description: Não foi possível processar a requisição, pois o formato de dados aceito pela API é somente JSON
+        '500':
+          description: Erro na Model ou Controller
+       
+    delete:
+      tags:
+        - Atuacao
+      summary: Excluir uma atuação existente pelo ID
+      description: Excluir uma atuação pelo ID
+      parameters:
+        - name: id
+          in: path
+          description: ID para localizar e excluir a atuação
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Registro excluído com sucesso
+        '400':
+          description: Os dados enviados na requisição não estão corretos
+        '404':
+          description: Não foi possível encontrar nenhum dado para retorno
+        '500':
+          description: Erro na Model ou Controller 
+#---------------------------------------------------------------#
+
+#----------------[ inserir e listar dublagem ]------------------#
+  /v1/senai/locadora/dublagem:
+    post:
+      tags:
+        - Dublagem
+      summary: Adiciona uma nova dublagem
+      description: Adiciona uma nova dublagem no Banco de Dados
+      requestBody:
+        description: Registra uma nova dublagem
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dublagem'
+        required: true
+      responses:
+        '201':
+          description: Registro inserido com sucesso
+        '415':
+          description: Não foi possível processar a requisição, pois o formato de dados aceito pela API é somente JSON
+        '500':
+          description: Erro na Model ou Controller
+
+    get:
+      tags:
+        - Dublagem
+      summary: Lista todas as dublagens 
+      description: Listagem de todas as dublagens registradas no sistema
+      responses:
+        '200':
+          description: Busca feita com sucesso
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dublagem'          
+           
+        '404':
+          description: Não foi possível encontrar nenhum dado para retorno
+        '500':
+          description: Erro na Model ou Controller
+#---------------------------------------------------------------#
+
+#--------[ ver, atualizar e deletar dublagem pelo ID ]----------#
+  /v1/senai/locadora/dublagem/{id}:
+    get:
+      tags:
+        - Dublagem
+      summary: Busca uma dublagem pelo seu ID
+      description: Retorna uma dublagem pelo ID
+      parameters:
+        - name: id
+          in: path
+          description: Retorna uma dublagem pelo seu ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Busca feita com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dublagem'          
+        '400':
+          description: Os dados enviados na requisição não estão corretos
+        '404':
+          description: Não foi possível encontrar nenhum dado para retorno
+        '500':
+          description: Erro na Model ou Controller
+
+    put:
+      tags:
+        - Dublagem
+      summary: Atualizar uma dublagem existente pelo ID
+      description: Localizar e atualizar uma dublagem buscando pelo ID
+      parameters:
+        - name: id
+          in: path
+          description: ID para localizar e atualizar a dublagem
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Dados para atualizar a dublagem
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dublagem'
+        required: true
+      responses:
+        '200':
+          description: Registro atualizado com sucesso
+        '400':
+          description: Os dados enviados na requisição não estão corretos
+        '404':
+          description: Não foi possível encontrar nenhum dado para retorno
+        '415':
+          description: Não foi possível processar a requisição, pois o formato de dados aceito pela API é somente JSON
+        '500':
+          description: Erro na Model ou Controller
+       
+    delete:
+      tags:
+        - Dublagem
+      summary: Excluir uma dublagem existente pelo ID
+      description: Excluir uma dublagem pelo ID
+      parameters:
+        - name: id
+          in: path
+          description: ID para localizar e excluir a dublagem
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Registro excluído com sucesso
+        '400':
+          description: Os dados enviados na requisição não estão corretos
+        '404':
+          description: Não foi possível encontrar nenhum dado para retorno
+        '500':
+          description: Erro na Model ou Controller 
+#---------------------------------------------------------------#
+
+#--------------[ inserir e listar roteirização ]----------------#
+  /v1/senai/locadora/roteirizacao:
+    post:
+      tags:
+        - Roteirizacao
+      summary: Adiciona uma nova roteirização
+      description: Adiciona uma nova roteirização no Banco de Dados
+      requestBody:
+        description: Registra uma nova roteirização
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Roteirizacao'
+        required: true
+      responses:
+        '201':
+          description: Registro inserido com sucesso
+        '415':
+          description: Não foi possível processar a requisição, pois o formato de dados aceito pela API é somente JSON
+        '500':
+          description: Erro na Model ou Controller
+
+    get:
+      tags:
+        - Roteirizacao
+      summary: Lista todas as roteirizações 
+      description: Listagem de todas as roteirizações registradas no sistema
+      responses:
+        '200':
+          description: Busca feita com sucesso
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Roteirizacao'          
+           
+        '404':
+          description: Não foi possível encontrar nenhum dado para retorno
+        '500':
+          description: Erro na Model ou Controller
+#---------------------------------------------------------------#
+
+#------[ ver, atualizar e deletar roteirização pelo ID ]--------#
+  /v1/senai/locadora/roteirizacao/{id}:
+    get:
+      tags:
+        - Roteirizacao
+      summary: Busca uma roteirização pelo seu ID
+      description: Retorna uma roteirização pelo ID
+      parameters:
+        - name: id
+          in: path
+          description: Retorna uma roteirização pelo seu ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Busca feita com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Roteirizacao'          
+        '400':
+          description: Os dados enviados na requisição não estão corretos
+        '404':
+          description: Não foi possível encontrar nenhum dado para retorno
+        '500':
+          description: Erro na Model ou Controller
+
+    put:
+      tags:
+        - Roteirizacao
+      summary: Atualizar uma roteirização existente pelo ID
+      description: Localizar e atualizar uma roteirização buscando pelo ID
+      parameters:
+        - name: id
+          in: path
+          description: ID para localizar e atualizar a roteirização
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Dados para atualizar a roteirização
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Roteirizacao'
+        required: true
+      responses:
+        '200':
+          description: Registro atualizado com sucesso
+        '400':
+          description: Os dados enviados na requisição não estão corretos
+        '404':
+          description: Não foi possível encontrar nenhum dado para retorno
+        '415':
+          description: Não foi possível processar a requisição, pois o formato de dados aceito pela API é somente JSON
+        '500':
+          description: Erro na Model ou Controller
+       
+    delete:
+      tags:
+        - Roteirizacao
+      summary: Excluir uma roteirização existente pelo ID
+      description: Excluir uma roteirização pelo ID
+      parameters:
+        - name: id
+          in: path
+          description: ID para localizar e excluir a roteirização
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Registro excluído com sucesso
+        '400':
+          description: Os dados enviados na requisição não estão corretos
+        '404':
+          description: Não foi possível encontrar nenhum dado para retorno
+        '500':
+          description: Erro na Model ou Controller 
+#---------------------------------------------------------------#
 components:
   schemas:
     Filme:
@@ -1149,6 +1660,58 @@ components:
         texto:
           type: string
 
+    Diretoria:
+      required:
+        - marca_estilistica
+
+      type: object
+      properties:
+        id:
+          type: integer
+        marca_estilistica:
+          type: string
+        franquias_famosas:
+          type: string
+
+    Atuacao:
+      required:
+        - papel_obra
+        - tipo_personagem
+
+      type: object
+      properties:
+        id:
+          type: integer
+        papel_obra:
+          type: string
+        tipo_personagem:
+          type: string
+
+    Dublagem:
+      required:
+        - personagem
+
+      type: object
+      properties:
+        id:
+          type: integer
+        personagem:
+          type: string
+
+    Roteirizacao:
+      required:
+        - estilo_narrativo
+        - tema_recorrente
+
+      type: object
+      properties:
+        id:
+          type: integer
+        estilo_narrativo:
+          type: string
+        tema_recorrente:
+          type: string
+
   requestBodies:
     Filme:
       description: Objeto Filme
@@ -1205,3 +1768,31 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Biografia'
+
+    Diretoria:
+      description: Objeto Diretoria
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Diretoria'
+
+    Atuacao:
+      description: Objeto Atuacao
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Atuacao'
+
+    Dublagem:
+      description: Objeto Dublagem
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Dublagem'
+
+    Roteirizacao:
+      description: Objeto Roteirizacao
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Roteirizacao'

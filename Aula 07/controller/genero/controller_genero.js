@@ -10,7 +10,7 @@
 const config_message = require('../modulo/configMessages.js')
 
 // import do arquivo DAO para fazer o CRUD do gênero no banco de dados
-const generoDAO = require('../../model/DAO/genero_filme/genero_filme.js')
+const generoDAO = require('../../model/DAO/genero/genero.js')
 
 const inserirGenero = async function(genero, contentType){ 
     let message = JSON.parse(JSON.stringify(config_message))

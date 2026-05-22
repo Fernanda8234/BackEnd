@@ -1,5 +1,6 @@
 /* ******************************************************************************
-* Objetivo: Arquivo responsável pelo CRUD no Banco de dados MySQL na tabela de generos
+* Objetivo: Arquivo responsável pelo CRUD no Banco de dados MySQL na tabela de 
+*   relação entre Filme e Gênero
 * Data: 09/05/2026  
 * Autor: Fernanda
 * Versão: 1.0

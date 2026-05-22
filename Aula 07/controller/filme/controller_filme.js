@@ -14,6 +14,7 @@ const filmeDAO = require('../../model/DAO/filme/filme.js')
 
 // import de arquivos de Controller
 const controller_classificacao = require('../classificacao_indicativa/controller_classificacao_indicativa.js')
+const controller_filme_genero  = require('./controller_filme_genero.js')
 
 // função para inserir um novo filme
 const inserirNovoFilme = async function(filme, contentType){
@@ -54,6 +55,23 @@ const inserirNovoFilme = async function(filme, contentType){
                     o ID gerado após o insert
                 */
                 filme.id = result
+
+                // manipulação de dados para inserir os gêneros do filme
+                for(genero of filme.genero){
+
+                    // cria o objeto JSON com os Ids do filme e do gênero
+                    let filmeGenero = {"id_filme": filme.id,
+                                    "id_genero": genero.id 
+                    }
+                    
+                    // chama a controller do filme_genero para inserir os Ids
+                    let resultInsertGenero = await controller_filme_genero.inserirFilmeGenero(filmeGenero)
+                    //console.log(resultInsertGenero)
+
+                    if(!resultInsertGenero.status){
+                        return message.SUCCESS_CREATED_ITEM_WARNIRG // 201 com alerta de dados não inseridos
+                    }
+                }
 
                 message.DEFAULT_MESSAGE.status      = message.SUCCESS_CREATED_ITEM.status
                 message.DEFAULT_MESSAGE.status_code = message.SUCCESS_CREATED_ITEM.status_code
@@ -215,6 +233,12 @@ const buscarFilme = async function(id){
                             // apaga o atributo id_classificacao_indicativa do filme para não ficar repetido
                             delete filme.id_classificacao_indicativa
                         }
+
+                        // cria o objeto de gêneros relacionados ao filme
+                        let resultGenero = await controller_filme_genero.buscarGeneroIdFilme(filme.id)
+
+                        if(resultGenero.status)
+                            filme.genero = resultGenero.response.filme_genero
                     } 
 
                     message.DEFAULT_MESSAGE.status          = message.SUCCESS_RESPONSE.status

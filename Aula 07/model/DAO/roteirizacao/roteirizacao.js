@@ -1,5 +1,5 @@
 /* ******************************************************************************
-* Objetivo: Arquivo responsável pelo CRUD no Banco de dados MySQL na tabela diretoria
+* Objetivo: Arquivo responsável pelo CRUD no Banco de dados MySQL na tabela roteirização
 * Data: 20/05/2026  
 * Autor: Fernanda
 * Versão: 1.0
@@ -11,17 +11,17 @@ const knexConfig = require('../../database_config_knew/knexFile.js')
 
 const knexConex = knex(knexConfig.development)
 
-const insertDiretoria = async function(diretoria){
+const insertRoteirizacao = async function(roteirizacao){
     try {
         let sql = 
-            `insert into tbl_diretoria (
-			    marca_estilistica,
-                franquias_famosas
-            )   
-            values (
-			    '${diretoria.marca_estilistica}',
-                if('${diretoria.franquias_famosas}' = '', null, '${diretoria.franquias_famosas}')
-            )`
+                `insert into tbl_roteirizacao (
+                        estilo_narrativo,
+                        tema_recorrente
+                        )
+                values  (
+                        '${roteirizacao.estilo_narrativo}',
+                        '${roteirizacao.tema_recorrente}'
+                )`
 
         let result = await knexConex.raw(sql)
 
@@ -34,13 +34,13 @@ const insertDiretoria = async function(diretoria){
     }
 }
 
-const updateDiretoria = async function(diretoria){
+const updateRoteirizacao = async function(roteirizacao){
     try {
         let sql = 
-        `update tbl_diretoria set
-                marca_estilistica   = '${diretoria.marca_estilistica}',
-                franquias_famosas   = if('${diretoria.franquias_famosas}' = '', null, '${diretoria.franquias_famosas}')
-        where id                    = ${diretoria.id}`
+        `update tbl_roteirizacao set
+                estilo_narrativo    = '${roteirizacao.estilo_narrativo}',
+                tema_recorrente     = '${roteirizacao.tema_recorrente}'
+        where id                    = ${roteirizacao.id}`
 
         let result = await knexConex.raw(sql)
 
@@ -53,9 +53,9 @@ const updateDiretoria = async function(diretoria){
     }
 }
 
-const selectAllDiretoria = async function(){
+const selectAllRoteirizacao = async function(){
     try {
-        let sql = `select * from tbl_diretoria order by id desc`
+        let sql = `select * from tbl_roteirizacao order by id desc`
 
         let result = await knexConex.raw(sql)
 
@@ -68,9 +68,9 @@ const selectAllDiretoria = async function(){
     }
 }
 
-const selectByIdDiretoria = async function(id){
+const selectByIdRoteirizacao = async function(id){
     try {
-        let sql = `select * from tbl_diretoria where id = ${id}`
+        let sql = `select * from tbl_roteirizacao where id = ${id}`
 
         let result = await knexConex.raw(sql)
 
@@ -83,9 +83,9 @@ const selectByIdDiretoria = async function(id){
     }
 }
 
-const deleteDiretoria = async function(id){
+const deleteRoteirizacao = async function(id){
     try {
-        let sql= `delete from tbl_diretoria where id = ${id}`
+        let sql= `delete from tbl_roteirizacao where id = ${id}`
 
         let result = await knexConex.raw(sql)
 
@@ -99,9 +99,9 @@ const deleteDiretoria = async function(id){
 }
 
 module.exports = {
-    insertDiretoria,
-    updateDiretoria,
-    selectAllDiretoria,
-    selectByIdDiretoria,
-    deleteDiretoria
+    insertRoteirizacao,
+    updateRoteirizacao,
+    selectAllRoteirizacao,
+    selectByIdRoteirizacao,
+    deleteRoteirizacao
 }

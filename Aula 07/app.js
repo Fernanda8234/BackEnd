@@ -13,12 +13,16 @@ const bodyParser    = require('body-parser')
 /* import das CONTROLLERS do projeto */
 const controllerFilme                   = require('./controller/filme/controller_filme.js')
 const controllerClassificacaoIndicativa = require('./controller/classificacao_indicativa/controller_classificacao_indicativa.js')
-const controllerGenero                  = require('./controller/genero_filme/controller_genero_filme.js')
+const controllerGenero                  = require('./controller/genero/controller_genero.js')
 const controllerElenco                  = require('./controller/elenco/controller_elenco.js')
 const controllerNacionalidade           = require('./controller/nacionalidade/controller_nacionalidade.js')
 const controllerAtividades              = require('./controller/atividades/controller_atividades.js')
 const controllerNomeArtistico           = require('./controller/nome_artistico/controller_nome_artistico.js')
 const controllerBiografia               = require('./controller/biografia/controller_biografia.js')
+const controllerDiretoria               = require('./controller/diretoria/controller_diretoria.js')
+const controllerAtuacao                 = require('./controller/atuacao/controller_atuacao.js')
+const controllerDublagem                = require('./controller/dublagem/controller_dublagem.js')
+const controllerRoteirizacao            = require('./controller/roteirizacao/controller_roteirizacao.js')
 
 /* criando um objeto para manipular dados do body da API em formato JSON */
 const bodyParserJSON = bodyParser.json()
@@ -457,6 +461,203 @@ app.delete('/v1/senai/locadora/biografia/:id', async function(request, response)
     let id = request.params.id
     
     let result = await controllerBiografia.excluirBiografia(id)
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+
+// endpoints para diretoria
+app.post('/v1/senai/locadora/diretoria', bodyParserJSON, async function(request, response){
+    let dados = request.body
+
+    let contentType = request.headers['content-type']
+
+    let result = await controllerDiretoria.inserirDiretoria(dados, contentType)
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+app.get('/v1/senai/locadora/diretoria', async function(request, response){
+    let result = await controllerDiretoria.listarDiretoria()
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+app.get('/v1/senai/locadora/diretoria/:id', async function(request, response){
+    let id = request.params.id
+
+    let result = await controllerDiretoria.buscarDiretoria(id)
+    response.status(result.status_code)
+    response.json(result)
+})
+
+app.put('/v1/senai/locadora/diretoria/:id', bodyParserJSON, async function(request, response){
+    let id = request.params.id
+
+    let dados = request.body
+
+    let contentType = request.headers['content-type']
+
+    let result = await controllerDiretoria.atualizarDiretoria(dados, contentType, id)
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+app.delete('/v1/senai/locadora/diretoria/:id', async function(request, response){
+    let id = request.params.id
+    
+    let result = await controllerDiretoria.excluirDiretoria(id)
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+// endpoints para atuação
+app.post('/v1/senai/locadora/atuacao', bodyParserJSON, async function(request, response){
+    let dados = request.body
+
+    let contentType = request.headers['content-type']
+
+    let result = await controllerAtuacao.inserirAtuacao(dados, contentType)
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+app.get('/v1/senai/locadora/atuacao', async function(request, response){
+    let result = await controllerAtuacao.listarAtuacao()
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+app.get('/v1/senai/locadora/atuacao/:id', async function(request, response){
+    let id = request.params.id
+
+    let result = await controllerAtuacao.buscarAtuacao(id)
+    response.status(result.status_code)
+    response.json(result)
+})
+
+app.put('/v1/senai/locadora/atuacao/:id', bodyParserJSON, async function(request, response){
+    let id = request.params.id
+
+    let dados = request.body
+
+    let contentType = request.headers['content-type']
+
+    let result = await controllerAtuacao.atualizarAtuacao(dados, contentType, id)
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+app.delete('/v1/senai/locadora/atuacao/:id', async function(request, response){
+    let id = request.params.id
+    
+    let result = await controllerAtuacao.excluirAtuacao(id)
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+// endpoints para dublagem
+app.post('/v1/senai/locadora/dublagem', bodyParserJSON, async function(request, response){
+    let dados = request.body
+
+    let contentType = request.headers['content-type']
+
+    let result = await controllerDublagem.inserirDublagem(dados, contentType)
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+app.get('/v1/senai/locadora/dublagem', async function(request, response){
+    let result = await controllerDublagem.listarDublagem()
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+app.get('/v1/senai/locadora/dublagem/:id', async function(request, response){
+    let id = request.params.id
+
+    let result = await controllerDublagem.buscarDublagem(id)
+    response.status(result.status_code)
+    response.json(result)
+})
+
+app.put('/v1/senai/locadora/dublagem/:id', bodyParserJSON, async function(request, response){
+    let id = request.params.id
+
+    let dados = request.body
+
+    let contentType = request.headers['content-type']
+
+    let result = await controllerDublagem.atualizarDublagem(dados, contentType, id)
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+app.delete('/v1/senai/locadora/dublagem/:id', async function(request, response){
+    let id = request.params.id
+    
+    let result = await controllerDublagem.excluirDublagem(id)
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+// endpoints para roteirização
+app.post('/v1/senai/locadora/roteirizacao', bodyParserJSON, async function(request, response){
+    let dados = request.body
+
+    let contentType = request.headers['content-type']
+
+    let result = await controllerRoteirizacao.inserirRoteirizacao(dados, contentType)
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+app.get('/v1/senai/locadora/roteirizacao', async function(request, response){
+    let result = await controllerRoteirizacao.listarRoteirizacao()
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+app.get('/v1/senai/locadora/roteirizacao/:id', async function(request, response){
+    let id = request.params.id
+
+    let result = await controllerRoteirizacao.buscarRoteirizacao(id)
+    response.status(result.status_code)
+    response.json(result)
+})
+
+app.put('/v1/senai/locadora/roteirizacao/:id', bodyParserJSON, async function(request, response){
+    let id = request.params.id
+
+    let dados = request.body
+
+    let contentType = request.headers['content-type']
+
+    let result = await controllerRoteirizacao.atualizarRoteirizacao(dados, contentType, id)
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+app.delete('/v1/senai/locadora/roteirizacao/:id', async function(request, response){
+    let id = request.params.id
+    
+    let result = await controllerRoteirizacao.excluirRoteirizacao(id)
 
     response.status(result.status_code)
     response.json(result)

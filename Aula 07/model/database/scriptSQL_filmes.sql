@@ -104,7 +104,7 @@ create table tbl_genero (
     nome 		varchar(25) not null
 );
 
-insert into tbl_genero (nome) values ('aventura');
+insert into tbl_genero (nome) values ('suspense');
 
 update tbl_genero set
 		nome = 'terror'
