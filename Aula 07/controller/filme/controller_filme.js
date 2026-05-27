@@ -15,6 +15,7 @@ const filmeDAO = require('../../model/DAO/filme/filme.js')
 // import de arquivos de Controller
 const controller_classificacao = require('../classificacao_indicativa/controller_classificacao_indicativa.js')
 const controller_filme_genero  = require('./controller_filme_genero.js')
+const controller_filme_elenco  = require('./controller_filme_elenco.js')
 
 // função para inserir um novo filme
 const inserirNovoFilme = async function(filme, contentType){
@@ -73,6 +74,22 @@ const inserirNovoFilme = async function(filme, contentType){
                     }
                 }
 
+                for(elenco of filme.elenco){
+
+                    // cria o objeto JSON com os Ids do filme e do gênero
+                    let filmeElenco = {"id_filme": filme.id,
+                                        "id_elenco": elenco.id 
+                    }
+                    
+                    // chama a controller do filme_genero para inserir os Ids
+                    let resultInsertElenco = await controller_filme_elenco.inserirFilmeElenco(filmeElenco)
+                    //console.log(resultInsertElenco)
+
+                    if(!resultInsertElenco.status){
+                        return message.SUCCESS_CREATED_ITEM_WARNIRG // 201 com alerta de dados não inseridos
+                    }
+                }
+                
                 message.DEFAULT_MESSAGE.status      = message.SUCCESS_CREATED_ITEM.status
                 message.DEFAULT_MESSAGE.status_code = message.SUCCESS_CREATED_ITEM.status_code
                 message.DEFAULT_MESSAGE.message     = message.SUCCESS_CREATED_ITEM.message
@@ -89,7 +106,7 @@ const inserirNovoFilme = async function(filme, contentType){
         }
 
         } catch (error) {
-            console.log(error)
+            // console.log(error)
             return message.ERROR_INTERNAL_SERVER_CONTROLLER // 500 (controller)
     }
 }
@@ -143,6 +160,22 @@ const atualizarFilme = async function(filme, contentType, id){
                                 //console.log(resultInsertGenero)
 
                                 if(!resultInsertGenero.status){
+                                    return message.SUCCESS_CREATED_ITEM_WARNIRG // 201 com alerta de dados não inseridos
+                                }
+                            }
+
+                            for(elenco of filme.elenco){
+
+                                // cria o objeto JSON com os Ids do filme e do gênero
+                                let filmeElenco = {"id_filme": filme.id,
+                                                    "id_elenco": elenco.id 
+                                }
+                                
+                                // chama a controller do filme_genero para inserir os Ids
+                                let resultInsertElenco = await controller_filme_elenco.inserirFilmeElenco(filmeElenco)
+                                //console.log(resultInsertGenero)
+
+                                if(!resultInsertElenco.status){
                                     return message.SUCCESS_CREATED_ITEM_WARNIRG // 201 com alerta de dados não inseridos
                                 }
                             }
@@ -202,9 +235,15 @@ const listarFilme = async function(){
                     // apaga o atributo id_classificacao_indicativa do filme para não ficar repetido
                     delete filme.id_classificacao_indicativa
                 }
+                // para gênero
                 let resultGenero = await controller_filme_genero.buscarGeneroIdFilme(filme.id)
                     if(resultGenero.status)
                         filme.genero = resultGenero.response.filme_genero 
+
+                // para elenco
+                let resultElenco = await controller_filme_elenco.buscarElencoIdFilme(filme.id)
+                    if(resultElenco.status)
+                        filme.elenco = resultElenco.response.filme_elenco 
             } 
 
             // validação para verificar se existe conteúdo no Array
@@ -265,6 +304,10 @@ const buscarFilme = async function(id){
                     // console.log(resultGenero)
                         if(resultGenero.status)
                             filme.genero = resultGenero.response.filme_genero 
+
+                    let resultElenco = await controller_filme_elenco.buscarElencoIdFilme(filme.id)
+                        if(resultElenco.status)
+                            filme.elenco = resultElenco.response.filme_elenco 
                 }
 
                     message.DEFAULT_MESSAGE.status          = message.SUCCESS_RESPONSE.status
