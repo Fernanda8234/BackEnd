@@ -161,7 +161,7 @@ const buscarFilmeIdGenero = async function(idGenero){
 }
 
 const buscarGeneroIdFilme = async function(idFilme){
-    let message = JSON.parse(JSON.strlngify(config_message))
+    let message = JSON.parse(JSON.stringify(config_message))
 
     try {
         if(idFilme == undefined || idFilme == null || idFilme == '' || isNaN(idFilme)){
@@ -185,6 +185,7 @@ const buscarGeneroIdFilme = async function(idFilme){
             }    
         }
     } catch (error) {
+        // console.log(error)
         return message.ERROR_INTERNAL_SERVER_CONTROLLER
     }
 }
@@ -216,6 +217,23 @@ const excluirFilmeGenero = async function(id){
     }
 }
 
+// função para excluir os gêneros relacionados com o filme
+const excluirGenerosIdFilme = async function(idFilme){
+    let message = JSON.parse(JSON.stringify(config_message))
+
+    try {
+        let result = await filmeGeneroDAO.deleteGenerosByIdFilme(idFilme)
+
+        if(result)
+            return message.SUCCESS_DELETE_ITEM
+
+        else
+            return message.ERROR_INTERNAL_SERVER_MODEL
+    } catch (error) {
+        return message.ERROR_INTERNAL_SERVER_CONTROLLER   
+    }
+}
+
 const validarDados = async function(filmeGenero){
     let message = JSON.parse(JSON.stringify(config_message))
 
@@ -241,5 +259,6 @@ module.exports = {
     buscarFilmeGenero,
     buscarFilmeIdGenero,
     buscarGeneroIdFilme,
-    excluirFilmeGenero
+    excluirFilmeGenero,
+    excluirGenerosIdFilme
 }

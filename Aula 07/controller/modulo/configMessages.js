@@ -27,7 +27,7 @@ const ERROR_NOT_FOUND                   = {status: false, status_code: 404, mess
 const SUCCESS_CREATED_ITEM      = {status: true, status_code: 201, message: 'Registro inserido com sucesso.'}
 
 // mensagens de sucesso da 
-const SUCCESS_CREATED_ITEM_WARNIRG  = {status: true, status_code: 201, message: 'Os dados principais foram inserido com sucesso, pórem alguns apresentaram problemas!'}
+const SUCCESS_CREATED_ITEM_WARNIRG  = {status: true, status_code: 201, message: 'Os dados principais foram inserido com sucesso, porém alguns apresentaram problemas!'}
 
     // retornos para GET 200
 const SUCCESS_RESPONSE          = {status: true, status_code: 200}

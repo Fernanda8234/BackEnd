@@ -61,7 +61,7 @@ const inserirNovoFilme = async function(filme, contentType){
 
                     // cria o objeto JSON com os Ids do filme e do gênero
                     let filmeGenero = {"id_filme": filme.id,
-                                    "id_genero": genero.id 
+                                        "id_genero": genero.id 
                     }
                     
                     // chama a controller do filme_genero para inserir os Ids
@@ -124,6 +124,30 @@ const atualizarFilme = async function(filme, contentType, id){
                     let result = await filmeDAO.updateFilme(filme)
 
                     if(result){
+
+                        // manipulação de dados na tabela de relação entre filme e gênero
+                        let resultDeleteGenero = await controller_filme_genero.excluirGenerosIdFilme(filme.id)
+
+                        // após a exclusão de todos os gêneros relacionados com o filme
+                        if(resultDeleteGenero.status){
+                            // manipulação de dados para inserir os gêneros do filme
+                            for(genero of filme.genero){
+
+                                // cria o objeto JSON com os Ids do filme e do gênero
+                                let filmeGenero = {"id_filme": filme.id,
+                                                    "id_genero": genero.id 
+                                }
+                                
+                                // chama a controller do filme_genero para inserir os Ids
+                                let resultInsertGenero = await controller_filme_genero.inserirFilmeGenero(filmeGenero)
+                                //console.log(resultInsertGenero)
+
+                                if(!resultInsertGenero.status){
+                                    return message.SUCCESS_CREATED_ITEM_WARNIRG // 201 com alerta de dados não inseridos
+                                }
+                            }
+                        }
+
                         message.DEFAULT_MESSAGE.status      = message.SUCCESS_UPDATED_ITEM.status
                         message.DEFAULT_MESSAGE.status_code = message.SUCCESS_UPDATED_ITEM.status_code
                         message.DEFAULT_MESSAGE.message     = message.SUCCESS_UPDATED_ITEM.message
@@ -178,6 +202,9 @@ const listarFilme = async function(){
                     // apaga o atributo id_classificacao_indicativa do filme para não ficar repetido
                     delete filme.id_classificacao_indicativa
                 }
+                let resultGenero = await controller_filme_genero.buscarGeneroIdFilme(filme.id)
+                    if(resultGenero.status)
+                        filme.genero = resultGenero.response.filme_genero 
             } 
 
             // validação para verificar se existe conteúdo no Array
@@ -216,30 +243,29 @@ const buscarFilme = async function(id){
             if(result){
                 if(result.length > 0){
 
-                    for(filme of result){
-                        // busca na controller da classificação indicativa o ID referente aos dados
-                        let resultClassificacaoIndicativa = await controller_classificacao.buscarClassificacao(filme.id_classificacao_indicativa)
-        
-                        // se a classificação indicativa foi encontrada
-                        if(resultClassificacaoIndicativa.status){
-        
-                            /* 
-                                cria o atributo classificação indicativa no filme 
-                                e adiciona os dados referente a classificação
-                            */
-                            filme.classificacao_indicativa = resultClassificacaoIndicativa.response.classificacao
-                            
-        
-                            // apaga o atributo id_classificacao_indicativa do filme para não ficar repetido
-                            delete filme.id_classificacao_indicativa
-                        }
+                        // percorre o Array de filmes para identificar os dados da classificação
+                for(filme of result){
+                    // busca na controller da classificação indicativa o ID referente aos dados
+                    let resultClassificacaoIndicativa = await controller_classificacao.buscarClassificacao(filme.id_classificacao_indicativa)
 
-                        // cria o objeto de gêneros relacionados ao filme
-                        let resultGenero = await controller_filme_genero.buscarGeneroIdFilme(filme.id)
+                    // se a classificação indicativa foi encontrada
+                    if(resultClassificacaoIndicativa.status){
 
+                        /* 
+                            cria o atributo classificação indicativa no filme 
+                            e adiciona os dados referente a classificação
+                        */
+                        filme.classificacao_indicativa = resultClassificacaoIndicativa.response.classificacao
+                        
+
+                        // apaga o atributo id_classificacao_indicativa do filme para não ficar repetido
+                        delete filme.id_classificacao_indicativa
+                    }
+                    let resultGenero = await controller_filme_genero.buscarGeneroIdFilme(filme.id)
+                    // console.log(resultGenero)
                         if(resultGenero.status)
-                            filme.genero = resultGenero.response.filme_genero
-                    } 
+                            filme.genero = resultGenero.response.filme_genero 
+                }
 
                     message.DEFAULT_MESSAGE.status          = message.SUCCESS_RESPONSE.status
                     message.DEFAULT_MESSAGE.status_code     = message.SUCCESS_RESPONSE.status_code
