@@ -10,6 +10,9 @@ const config_message = require('../modulo/configMessages.js')
 
 const elencoDAO = require('../../model/DAO/elenco/elenco.js')
 
+// import de arquivos de Controller
+const controller_elenco_diretoria = require('./controller_elenco_diretoria.js')
+
 const inserirElenco = async function(elenco, contentType){
     let message = JSON.parse(JSON.stringify(config_message))
 
@@ -24,6 +27,25 @@ const inserirElenco = async function(elenco, contentType){
 
                 if(result){
                     elenco.id = result
+
+                    if(elenco.diretoria){
+                    for(diretoria of elenco.diretoria){
+
+                            // cria o objeto JSON com os Ids do filme e do gênero
+                            let elencoDiretoria = {"id_elenco": elenco.id,
+                                                "id_diretoria": diretoria.id 
+                            }
+                                            
+                            // chama a controller do filme_genero para inserir os Ids
+                            let resultInsertDiretoria = await controller_elenco_diretoria.inserirElencoDiretoria(elencoDiretoria)
+                                //console.log(resultInsertGenero)
+                        
+                            if(!resultInsertDiretoria.status){
+                                
+                                return message.SUCCESS_CREATED_ITEM_WARNIRG // 201 com alerta de dados não inseridos
+                            }
+                        }
+                    }
 
                     message.DEFAULT_MESSAGE.status      = message.SUCCESS_CREATED_ITEM.status
                     message.DEFAULT_MESSAGE.status_code = message.SUCCESS_CREATED_ITEM.status_code
@@ -88,6 +110,15 @@ const listarElenco = async function(){
         let result = await elencoDAO.selectAllElenco()
 
         if(result){
+
+            for(elenco of result){
+                let resultDiretoria = await controller_elenco_diretoria.buscarDiretoriaIdElenco(elenco.id)
+                console.log(resultDiretoria)
+                    if(resultDiretoria.status){
+                        elenco.diretoria = resultDiretoria.response.elenco_diretoria 
+                }
+            }
+
             if(result.length > 0){
                 message.DEFAULT_MESSAGE.status              = message.SUCCESS_RESPONSE.status
                 message.DEFAULT_MESSAGE.status_code         = message.SUCCESS_RESPONSE.status_code

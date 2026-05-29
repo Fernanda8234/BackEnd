@@ -1,7 +1,7 @@
 /* ******************************************************************************
 * Objetivo: Arquivo responsável pela validação, tratamento e manipulação de
-*   dados para o CRUD de filme e gêneros
-* Data: 22/05/2026  
+*   dados para o CRUD de elenco e diretoria
+* Data: 29/05/2026  
 * Autor: Fernanda
 * Versão: 1.0
 ********************************************************************************/
@@ -10,26 +10,26 @@
 const config_message = require('../modulo/configMessages.js')
 
 // import do arquivo DAO para fazer o CRUD do gênero no banco de dados
-const filmeGeneroDAO = require('../../model/DAO/filme_genero/filme_genero.js')
+const elencoDiretoriaDAO = require('../../model/DAO/elenco_diretoria/elenco_diretoria.js')
 
-const inserirFilmeGenero = async function(filmeGenero){ 
+const inserirElencoDiretoria = async function(elencoDiretoria){ 
     let message = JSON.parse(JSON.stringify(config_message))
 
     try {
-        let validar = await validarDados(filmeGenero)
+        let validar = await validarDados(elencoDiretoria)
 
         if(validar){
             return validar
         } else {
-            let result = await filmeGeneroDAO.insertFilmeGenero(filmeGenero)
+            let result = await elencoDiretoriaDAO.insertElencoDiretoria(elencoDiretoria)
 
             if(result){
-                filmeGenero.id = result
+                elencoDiretoria.id = result
 
                 message.DEFAULT_MESSAGE.status      = message.SUCCESS_CREATED_ITEM.status
                 message.DEFAULT_MESSAGE.status_code = message.SUCCESS_CREATED_ITEM.status_code
                 message.DEFAULT_MESSAGE.message     = message.SUCCESS_CREATED_ITEM.message
-                message.DEFAULT_MESSAGE.response    = filmeGenero
+                message.DEFAULT_MESSAGE.response    = elencoDiretoria
             } else{
                 return message.ERROR_INTERNAL_SERVER_MODEL
             }
@@ -40,27 +40,27 @@ const inserirFilmeGenero = async function(filmeGenero){
     }
 }
 
-const atualizarFilmeGenero = async function(filmeGenero, id){
+const atualizarElencoDiretoria = async function(elencoDiretoria, id){
     let message = JSON.parse(JSON.stringify(config_message))
 
     try {
 
-            let resultBuscarID = await buscarFilmeGenero(id)
+            let resultBuscarID = await buscarElencoDiretoria(id)
 
             if(resultBuscarID.status){
-                let validar = await validarDados(filmeGenero)
+                let validar = await validarDados(elencoDiretoria)
 
                 if(!validar){
-                    filmeGenero.id = id
+                    elencoDiretoria.id = id
 
-                    let result = await filmeGeneroDAO.updateFilmeGenero(filmeGenero)
+                    let result = await elencoDiretoriaDAO.updateElencoDiretoria(elencoDiretoria)
 
                     if(result){
 
                     message.DEFAULT_MESSAGE.status      = message.SUCCESS_UPDATED_ITEM.status
                     message.DEFAULT_MESSAGE.status_code = message.SUCCESS_UPDATED_ITEM.status_code
                     message.DEFAULT_MESSAGE.message     = message.SUCCESS_UPDATED_ITEM.message
-                    message.DEFAULT_MESSAGE.response    = filmeGenero
+                    message.DEFAULT_MESSAGE.response    = elencoDiretoria
 
                     return message.DEFAULT_MESSAGE
                     } else{
@@ -77,18 +77,18 @@ const atualizarFilmeGenero = async function(filmeGenero, id){
     }
 }
 
-const listarFilmeGenero = async function(){
+const listarElencoDiretoria = async function(){
     let message = JSON.parse(JSON.stringify(config_message))
 
     try {
-        let result = await filmeGeneroDAO.selectAllFilmeGenero()
+        let result = await elencoDiretoriaDAO.selectAllElencoDiretoria()
 
         if(result){
             if(result.length > 0){
-                message.DEFAULT_MESSAGE.status                  = message.SUCCESS_RESPONSE.status
-                message.DEFAULT_MESSAGE.status_code             = message.SUCCESS_RESPONSE.status_code
-                message.DEFAULT_MESSAGE.response.count          = result.length // para contar a qntd
-                message.DEFAULT_MESSAGE.response.filme_genero   = result //para mostrar no response
+                message.DEFAULT_MESSAGE.status                      = message.SUCCESS_RESPONSE.status
+                message.DEFAULT_MESSAGE.status_code                 = message.SUCCESS_RESPONSE.status_code
+                message.DEFAULT_MESSAGE.response.count              = result.length // para contar a qntd
+                message.DEFAULT_MESSAGE.response.elenco_diretoria   = result //para mostrar no response
 
                 return message.DEFAULT_MESSAGE // para mostrar tudo
             } else{
@@ -102,7 +102,7 @@ const listarFilmeGenero = async function(){
     }
 }
 
-const buscarFilmeGenero = async function(id){
+const buscarElencoDiretoria = async function(id){
     let message = JSON.parse(JSON.stringify(config_message))
 
     try {
@@ -110,13 +110,13 @@ const buscarFilmeGenero = async function(id){
             message.ERROR_BAD_REQUEST.field = "[ID] INVÁLIDO"
             return message.ERROR_BAD_REQUEST
         } else{
-            let result = await filmeGeneroDAO.selectByIdFilmeGenero(id)
+            let result = await elencoDiretoriaDAO.selectByIdElencoDiretoria(id)
 
             if(result){
                 if(result.length > 0){
-                    message.DEFAULT_MESSAGE.status                  = message.SUCCESS_RESPONSE.status
-                    message.DEFAULT_MESSAGE.status_code             = message.SUCCESS_RESPONSE.status_code
-                    message.DEFAULT_MESSAGE.response.filme_genero   = result
+                    message.DEFAULT_MESSAGE.status                      = message.SUCCESS_RESPONSE.status
+                    message.DEFAULT_MESSAGE.status_code                 = message.SUCCESS_RESPONSE.status_code
+                    message.DEFAULT_MESSAGE.response.elenco_diretoria   = result
 
                     return message.DEFAULT_MESSAGE
                 } else{
@@ -131,21 +131,21 @@ const buscarFilmeGenero = async function(id){
     }
 }
 
-const buscarFilmeIdGenero = async function(idGenero){
+const buscarElencoIdDiretoria = async function(idDiretoria){
     let message = JSON.parse(JSON.stringify(config_message))
 
     try {
-        if(idGenero == undefined || idGenero == null || idGenero == '' || isNaN(idGenero)){
-            message.ERROR_BAD_REQUEST.field = "[ID_GÊNERO] INVÁLIDO"
+        if(idDiretoria == undefined || idDiretoria == null || idDiretoria == '' || isNaN(idDiretoria)){
+            message.ERROR_BAD_REQUEST.field = "[ID_DIRETORIA] INVÁLIDA"
             return message.ERROR_BAD_REQUEST
         } else{
-            let result = await filmeGeneroDAO.selectFilmesByIdGenero(idGenero)
+            let result = await elencoDiretoriaDAO.selectElencoByIdDiretoria(idDiretoria)
 
             if(result){
                 if(result.length > 0){
-                    message.DEFAULT_MESSAGE.status                  = message.SUCCESS_RESPONSE.status
-                    message.DEFAULT_MESSAGE.status_code             = message.SUCCESS_RESPONSE.status_code
-                    message.DEFAULT_MESSAGE.response.filme_genero   = result
+                    message.DEFAULT_MESSAGE.status                      = message.SUCCESS_RESPONSE.status
+                    message.DEFAULT_MESSAGE.status_code                 = message.SUCCESS_RESPONSE.status_code
+                    message.DEFAULT_MESSAGE.response.elenco_diretoria   = result
 
                     return message.DEFAULT_MESSAGE
                 } else{
@@ -160,21 +160,21 @@ const buscarFilmeIdGenero = async function(idGenero){
     }
 }
 
-const buscarGeneroIdFilme = async function(idFilme){
+const buscarDiretoriaIdElenco = async function(idElenco){
     let message = JSON.parse(JSON.stringify(config_message))
 
     try {
-        if(idFilme == undefined || idFilme == null || idFilme == '' || isNaN(idFilme)){
-            message.ERROR_BAD_REQUEST.field = "[ID_FILME] INVÁLIDO"
+        if(idElenco == undefined || idElenco == null || idElenco == '' || isNaN(idElenco)){
+            message.ERROR_BAD_REQUEST.field = "[ID_ELENCO] INVÁLIDO"
             return message.ERROR_BAD_REQUEST
         } else{
-            let result = await filmeGeneroDAO.selectGenerosByIdFilme(idFilme)
+            let result = await elencoDiretoriaDAO.selectDiretoriasByIdElenco(idElenco)
 
             if(result){
                 if(result.length > 0){
-                    message.DEFAULT_MESSAGE.status                  = message.SUCCESS_RESPONSE.status
-                    message.DEFAULT_MESSAGE.status_code             = message.SUCCESS_RESPONSE.status_code
-                    message.DEFAULT_MESSAGE.response.filme_genero   = result
+                    message.DEFAULT_MESSAGE.status                      = message.SUCCESS_RESPONSE.status
+                    message.DEFAULT_MESSAGE.status_code                 = message.SUCCESS_RESPONSE.status_code
+                    message.DEFAULT_MESSAGE.response.elenco_diretoria   = result
 
                     return message.DEFAULT_MESSAGE
                 } else{
@@ -190,15 +190,15 @@ const buscarGeneroIdFilme = async function(idFilme){
     }
 }
 
-const excluirFilmeGenero = async function(id){
+const excluirElencoDiretoria = async function(id){
     let message = JSON.parse(JSON.stringify(config_message))
 
     try {
-        let resultBuscarID = await buscarFilmeGenero(id)
+        let resultBuscarID = await buscarElencoDiretoria(id)
 
         if(resultBuscarID.status){
 
-            let result = await filmeGeneroDAO.deleteFilmeGenero(id)
+            let result = await elencoDiretoriaDAO.deleteElencoDiretoria(id)
 
                 if(result){
                     message.DEFAULT_MESSAGE.status      = message.SUCCESS_DELETE_ITEM.status
@@ -218,11 +218,11 @@ const excluirFilmeGenero = async function(id){
 }
 
 // função para excluir os gêneros relacionados com o filme
-const excluirGenerosIdFilme = async function(idFilme){
+const excluirDiretoriaIdElenco = async function(idElenco){
     let message = JSON.parse(JSON.stringify(config_message))
 
     try {
-        let result = await filmeGeneroDAO.deleteGenerosByIdFilme(idFilme)
+        let result = await elencoDiretoriaDAO.deleteDiretoriasByIdElenco(idElenco)
 
         if(result)
             return message.SUCCESS_DELETE_ITEM
@@ -234,16 +234,16 @@ const excluirGenerosIdFilme = async function(idFilme){
     }
 }
 
-const validarDados = async function(filmeGenero){
+const validarDados = async function(elencoDiretoria){
     let message = JSON.parse(JSON.stringify(config_message))
 
-    if(filmeGenero.id_filme == undefined || filmeGenero.id_filme == '' || filmeGenero.id_filme == null || isNaN(filmeGenero.id_filme)){
-        message.ERROR_BAD_REQUEST.field = '[ID_FILME] INVÁLIDO'
+    if(elencoDiretoria.id_elenco == undefined || elencoDiretoria.id_elenco == '' || elencoDiretoria.id_elenco == null || isNaN(elencoDiretoria.id_elenco)){
+        message.ERROR_BAD_REQUEST.field = '[ID_ELENCO] INVÁLIDO'
         return message.ERROR_BAD_REQUEST // tá escrito errado
     }
 
-    else if(filmeGenero.id_genero == undefined || filmeGenero.id_genero == '' || filmeGenero.id_genero == null || isNaN(filmeGenero.id_genero)){
-        message.ERROR_BAD_REQUEST.field = '[ID_GÊNERO] INVÁLIDO'
+    else if(elencoDiretoria.id_diretoria == undefined || elencoDiretoria.id_diretoria == '' || elencoDiretoria.id_diretoria == null || isNaN(elencoDiretoria.id_diretoria)){
+        message.ERROR_BAD_REQUEST.field = '[ID_DIRETORIA] INVÁLIDA'
         return message.ERROR_BAD_REQUEST // tá escrito errado
     }
 
@@ -253,12 +253,12 @@ const validarDados = async function(filmeGenero){
 }
 
 module.exports = {
-    inserirFilmeGenero,
-    atualizarFilmeGenero,
-    listarFilmeGenero,
-    buscarFilmeGenero,
-    buscarFilmeIdGenero,
-    buscarGeneroIdFilme,
-    excluirFilmeGenero,
-    excluirGenerosIdFilme
+    inserirElencoDiretoria,
+    atualizarElencoDiretoria,
+    listarElencoDiretoria,
+    buscarElencoDiretoria,
+    buscarElencoIdDiretoria,
+    buscarDiretoriaIdElenco,
+    excluirElencoDiretoria,
+    excluirDiretoriaIdElenco
 }

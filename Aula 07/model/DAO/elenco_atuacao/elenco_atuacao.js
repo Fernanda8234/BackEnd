@@ -1,7 +1,7 @@
 /* ******************************************************************************
 * Objetivo: Arquivo responsável pelo CRUD no Banco de dados MySQL na tabela de 
-*   relação entre Filme e Gênero
-* Data: 22/05/2026  
+*   relação entre Elenco e Atuação
+* Data: 29/05/2026  
 * Autor: Fernanda
 * Versão: 1.0
 ********************************************************************************/
@@ -15,15 +15,15 @@ const knexConfig = require('../../database_config_knew/knexFile.js')
 // criar a conexão com o BD Mysql
 const knexConex = knex(knexConfig.development)
 
-const insertFilmeGenero = async function(filmeGenero){
+const insertElenco = async function(elenco){
     try {
-        let sql = `insert into tbl_filme_genero (
-                    id_filme, 
-                    id_genero
+        let sql = `insert into tbl_elenco_ (
+                    id_elenco,
+                    id_
                     ) 
             values (
-                    ${filmeGenero.id_filme},
-                    ${filmeGenero.id_genero}
+                    ${elenco.id_elenco},
+                    ${elenco.id_}
                     )`
 
         let result = await knexConex.raw(sql)
@@ -37,12 +37,12 @@ const insertFilmeGenero = async function(filmeGenero){
     }
 }
 
-const updateFilmeGenero = async function(filmeGenero){
+const updateElenco = async function(elenco){
     try {
-        let sql = `update tbl_filme_genero set
-                    id_filme = ${filmeGenero.id_filme},
-                    id_genero = ${filmeGenero.id_genero}
-                where id = ${filmeGenero.id}`
+        let sql = `update tbl_elenco_ set
+                    id_elenco = ${elenco.id_elenco},
+                    id_ = ${elenco.id_}
+                where id = ${elenco.id}`
 
         let result = await knexConex.raw(sql)
 
@@ -55,9 +55,9 @@ const updateFilmeGenero = async function(filmeGenero){
     }
 }
 
-const selectAllFilmeGenero = async function(){
+const selectAllElenco = async function(){
     try {
-        let sql = `select * from tbl_filme_genero order by id desc`
+        let sql = `select * from tbl_elenco_ order by id desc`
 
         let result = await knexConex.raw(sql)
 
@@ -70,9 +70,9 @@ const selectAllFilmeGenero = async function(){
     }
 }
 
-const selectByIdFilmeGenero = async function(id){
+const selectByIdFilmeElenco = async function(id){
     try {
-        let sql = `select * from tbl_filme_genero where id = ${id}`
+        let sql = `select * from tbl_elenco_ where id = ${id}`
 
         let result = await knexConex.raw(sql)
 
@@ -87,15 +87,15 @@ const selectByIdFilmeGenero = async function(id){
 }
 
 // função para retornar dados do filme filtrando pelo o ID do gênero
-const selectFilmesByIdGenero = async function(idGenero){
+const selectFilmeByIdElenco = async function(idElenco){
     try {
         let sql = `select tbl_filme.*
                         from tbl_filme
-                            inner join tbl_filme_genero
-                                on tbl_filme.id = tbl_filme_genero.id_filme 
-                            inner join tbl_genero
-                                on tbl_genero.id = tbl_filme_genero.id_genero
-                    where tbl_genero.id = ${idGenero}`
+                            inner join tbl_filme_elenco
+                                on tbl_filme.id = tbl_filme_elenco.id_filme 
+                            inner join tbl_elenco
+                                on tbl_elenco.id = tbl_filme_elenco.id_elenco
+                    where tbl_elenco.id = ${idElenco}`
 
         let result = await knexConex.raw(sql)
 
@@ -110,15 +110,15 @@ const selectFilmesByIdGenero = async function(idGenero){
 }
 
 // função para retornar dados dos gêneros filtrando pelo o ID do filme
-const selectGenerosByIdFilme = async function(idFilme){
+const selectElencoByIdFilme = async function(idElenco){
     try {
-        let sql = `select tbl_genero.*
+        let sql = `select tbl_elenco.*
                         from tbl_filme
-                            inner join tbl_filme_genero
-                                on tbl_filme.id = tbl_filme_genero.id_filme 
-                            inner join tbl_genero
-                                on tbl_genero.id = tbl_filme_genero.id_genero
-                    where tbl_filme.id = ${idFilme}`
+                            inner join tbl_filme_elenco
+                                on tbl_filme.id = tbl_filme_elenco.id_filme 
+                            inner join tbl_elenco
+                                on tbl_elenco.id = tbl_filme_elenco.id_elenco
+                    where tbl_filme.id = ${idElenco}`
 
         let result = await knexConex.raw(sql)
 
@@ -133,9 +133,9 @@ const selectGenerosByIdFilme = async function(idFilme){
 }
 
 // função para excluir um gênero pelo ID
-const deleteFilmeGenero = async function(id){
+const deleteFilmeElenco = async function(id){
     try {
-        let sql = `delete from tbl_filme_genero where id = ${id};`
+        let sql = `delete from tbl_elenco where id = ${id};`
 
         let result = await knexConex.raw(sql)
 
@@ -154,9 +154,9 @@ const deleteFilmeGenero = async function(id){
     apagar todos os gêneros relacionacionados com o filme para
     inserir as novas relações
 */
-const deleteGenerosByIdFilme = async function(idFilme){
+const deleteElencoByIdFilme = async function(idElenco){
     try {
-        let sql = `delete from tbl_filme_genero where id_filme = ${idFilme}`
+        let sql = `delete from tbl_elenco_ where id_filme = ${idElenco}`
 
         let result = await knexConex.raw(sql)
 
@@ -170,12 +170,12 @@ const deleteGenerosByIdFilme = async function(idFilme){
 }
 
 module.exports = {
-    insertFilmeGenero,
-    updateFilmeGenero,
-    selectAllFilmeGenero,
-    selectByIdFilmeGenero,
-    selectFilmesByIdGenero,
-    selectGenerosByIdFilme,
-    deleteFilmeGenero,
-    deleteGenerosByIdFilme
+    insertElenco,
+    updateElenco,
+    selectAllElenco,
+    selectByIdFilmeElenco,
+    selectFilmeByIdElenco,
+    selectElencoByIdFilme,
+    deleteFilmeElenco,
+    deleteElencoByIdFilme
 }

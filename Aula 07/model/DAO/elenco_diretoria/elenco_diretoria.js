@@ -1,7 +1,7 @@
 /* ******************************************************************************
 * Objetivo: Arquivo responsável pelo CRUD no Banco de dados MySQL na tabela de 
-*   relação entre Filme e Gênero
-* Data: 22/05/2026  
+*   relação entre Elenco e Diretoria
+* Data: 29/05/2026  
 * Autor: Fernanda
 * Versão: 1.0
 ********************************************************************************/
@@ -15,15 +15,15 @@ const knexConfig = require('../../database_config_knew/knexFile.js')
 // criar a conexão com o BD Mysql
 const knexConex = knex(knexConfig.development)
 
-const insertFilmeGenero = async function(filmeGenero){
+const insertElencoDiretoria = async function(elencoDiretoria){
     try {
-        let sql = `insert into tbl_filme_genero (
-                    id_filme, 
-                    id_genero
+        let sql = `insert into tbl_elenco_diretoria (
+                    id_elenco, 
+                    id_diretoria
                     ) 
             values (
-                    ${filmeGenero.id_filme},
-                    ${filmeGenero.id_genero}
+                    ${elencoDiretoria.id_elenco},
+                    ${elencoDiretoria.id_diretoria}
                     )`
 
         let result = await knexConex.raw(sql)
@@ -37,12 +37,12 @@ const insertFilmeGenero = async function(filmeGenero){
     }
 }
 
-const updateFilmeGenero = async function(filmeGenero){
+const updateElencoDiretoria = async function(elencoDiretoria){
     try {
-        let sql = `update tbl_filme_genero set
-                    id_filme = ${filmeGenero.id_filme},
-                    id_genero = ${filmeGenero.id_genero}
-                where id = ${filmeGenero.id}`
+        let sql = `update tbl_elenco_diretoria set
+                    id_elenco = ${elencoDiretoria.id_elenco},
+                    id_diretoria = ${elencoDiretoria.id_diretoria}
+                where id = ${elencoDiretoria.id}`
 
         let result = await knexConex.raw(sql)
 
@@ -55,9 +55,9 @@ const updateFilmeGenero = async function(filmeGenero){
     }
 }
 
-const selectAllFilmeGenero = async function(){
+const selectAllElencoDiretoria = async function(){
     try {
-        let sql = `select * from tbl_filme_genero order by id desc`
+        let sql = `select * from tbl_elenco_diretoria order by id desc`
 
         let result = await knexConex.raw(sql)
 
@@ -70,9 +70,9 @@ const selectAllFilmeGenero = async function(){
     }
 }
 
-const selectByIdFilmeGenero = async function(id){
+const selectByIdElencoDiretoria = async function(id){
     try {
-        let sql = `select * from tbl_filme_genero where id = ${id}`
+        let sql = `select * from tbl_elenco_diretoria where id = ${id}`
 
         let result = await knexConex.raw(sql)
 
@@ -87,15 +87,15 @@ const selectByIdFilmeGenero = async function(id){
 }
 
 // função para retornar dados do filme filtrando pelo o ID do gênero
-const selectFilmesByIdGenero = async function(idGenero){
+const selectElencoByIdDiretoria = async function(idDiretoria){
     try {
-        let sql = `select tbl_filme.*
-                        from tbl_filme
-                            inner join tbl_filme_genero
-                                on tbl_filme.id = tbl_filme_genero.id_filme 
-                            inner join tbl_genero
-                                on tbl_genero.id = tbl_filme_genero.id_genero
-                    where tbl_genero.id = ${idGenero}`
+        let sql = `select tbl_elenco.*
+                        from tbl_elenco
+                            inner join tbl_elenco_diretoria
+                                on tbl_elenco.id = tbl_elenco_diretoria.id_elenco 
+                            inner join tbl_diretoria
+                                on tbl_diretoria.id = tbl_elenco_diretoria.id_diretoria
+                    where tbl_diretoria.id = ${idDiretoria}`
 
         let result = await knexConex.raw(sql)
 
@@ -110,15 +110,15 @@ const selectFilmesByIdGenero = async function(idGenero){
 }
 
 // função para retornar dados dos gêneros filtrando pelo o ID do filme
-const selectGenerosByIdFilme = async function(idFilme){
+const selectDiretoriasByIdElenco = async function(idElenco){
     try {
-        let sql = `select tbl_genero.*
-                        from tbl_filme
-                            inner join tbl_filme_genero
-                                on tbl_filme.id = tbl_filme_genero.id_filme 
-                            inner join tbl_genero
-                                on tbl_genero.id = tbl_filme_genero.id_genero
-                    where tbl_filme.id = ${idFilme}`
+        let sql = `select tbl_diretoria.*
+                        from tbl_elenco
+                            inner join tbl_elenco_diretoria
+                                on tbl_elenco.id = tbl_elenco_diretoria.id_elenco 
+                            inner join tbl_diretoria
+                                on tbl_diretoria.id = tbl_elenco_diretoria.id_diretoria
+                    where tbl_elenco.id = ${idElenco}`
 
         let result = await knexConex.raw(sql)
 
@@ -133,9 +133,9 @@ const selectGenerosByIdFilme = async function(idFilme){
 }
 
 // função para excluir um gênero pelo ID
-const deleteFilmeGenero = async function(id){
+const deleteElencoDiretoria = async function(id){
     try {
-        let sql = `delete from tbl_filme_genero where id = ${id};`
+        let sql = `delete from tbl_elenco_diretoria where id = ${id};`
 
         let result = await knexConex.raw(sql)
 
@@ -154,9 +154,9 @@ const deleteFilmeGenero = async function(id){
     apagar todos os gêneros relacionacionados com o filme para
     inserir as novas relações
 */
-const deleteGenerosByIdFilme = async function(idFilme){
+const deleteDiretoriasByIdElenco = async function(idElenco){
     try {
-        let sql = `delete from tbl_filme_genero where id_filme = ${idFilme}`
+        let sql = `delete from tbl_elenco_diretoria where id_elenco = ${idElenco}`
 
         let result = await knexConex.raw(sql)
 
@@ -170,12 +170,12 @@ const deleteGenerosByIdFilme = async function(idFilme){
 }
 
 module.exports = {
-    insertFilmeGenero,
-    updateFilmeGenero,
-    selectAllFilmeGenero,
-    selectByIdFilmeGenero,
-    selectFilmesByIdGenero,
-    selectGenerosByIdFilme,
-    deleteFilmeGenero,
-    deleteGenerosByIdFilme
+    insertElencoDiretoria,
+    updateElencoDiretoria,
+    selectAllElencoDiretoria,
+    selectByIdElencoDiretoria,
+    selectElencoByIdDiretoria,
+    selectDiretoriasByIdElenco,
+    deleteElencoDiretoria,
+    deleteDiretoriasByIdElenco
 }

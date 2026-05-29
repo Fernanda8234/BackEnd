@@ -237,13 +237,14 @@ const listarFilme = async function(){
                 }
                 // para gênero
                 let resultGenero = await controller_filme_genero.buscarGeneroIdFilme(filme.id)
-                    if(resultGenero.status)
+                    if(resultGenero.status){
                         filme.genero = resultGenero.response.filme_genero 
-
-                // para elenco
-                let resultElenco = await controller_filme_elenco.buscarElencoIdFilme(filme.id)
-                    if(resultElenco.status)
-                        filme.elenco = resultElenco.response.filme_elenco 
+                    }
+                // // para elenco
+                // let resultElenco = await controller_filme_elenco.buscarElencoIdFilme(filme.id)
+                //     if(resultElenco.status){
+                //         filme.elenco = resultElenco.response.filme_elenco 
+                //     }
             } 
 
             // validação para verificar se existe conteúdo no Array
