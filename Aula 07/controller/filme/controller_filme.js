@@ -136,47 +136,55 @@ const atualizarFilme = async function(filme, contentType, id){
 
                     // adiciono o atributo ID do filme no JSON para ser enviado ao DAO
                     filme.id = id
+                    
 
                     // chama a função do DAO para atualizar o Filme (dados e o ID)
                     let result = await filmeDAO.updateFilme(filme)
 
                     if(result){
 
-                        // manipulação de dados na tabela de relação entre filme e gênero
-                        let resultDeleteGenero = await controller_filme_genero.excluirGenerosIdFilme(filme.id)
+                        if(filme.genero){
+                            // manipulação de dados na tabela de relação entre filme e gênero
+                            let resultDeleteGenero = await controller_filme_genero.excluirGenerosIdFilme(filme.id)
 
-                        // após a exclusão de todos os gêneros relacionados com o filme
-                        if(resultDeleteGenero.status){
-                            // manipulação de dados para inserir os gêneros do filme
-                            for(genero of filme.genero){
+                            // após a exclusão de todos os gêneros relacionados com o filme
+                            if(resultDeleteGenero.status){
+                                // manipulação de dados para inserir os gêneros do filme
+                                for(genero of filme.genero){
 
-                                // cria o objeto JSON com os Ids do filme e do gênero
-                                let filmeGenero = {"id_filme": filme.id,
-                                                    "id_genero": genero.id 
+                                    // cria o objeto JSON com os Ids do filme e do gênero
+                                    let filmeGenero = {"id_filme": filme.id,
+                                                        "id_genero": genero.id 
+                                    }
+                                    
+                                    // chama a controller do filme_genero para inserir os Ids
+                                    let resultInsertGenero = await controller_filme_genero.inserirFilmeGenero(filmeGenero)
+                                    //console.log(resultInsertGenero)
+
+                                    if(!resultInsertGenero.status){
+                                        return message.SUCCESS_CREATED_ITEM_WARNIRG // 201 com alerta de dados não inseridos
+                                    }
                                 }
-                                
-                                // chama a controller do filme_genero para inserir os Ids
-                                let resultInsertGenero = await controller_filme_genero.inserirFilmeGenero(filmeGenero)
-                                //console.log(resultInsertGenero)
+                            }  
+                        } 
 
-                                if(!resultInsertGenero.status){
-                                    return message.SUCCESS_CREATED_ITEM_WARNIRG // 201 com alerta de dados não inseridos
-                                }
-                            }
+                        if(filme.elenco){
+                            let resultDeleteElenco = await controller_filme_elenco.excluirElencoIdFilme(filme.id)
+                            if(resultDeleteElenco.status){
+                                for(elenco of filme.elenco){
 
-                            for(elenco of filme.elenco){
+                                    // cria o objeto JSON com os Ids do filme e do gênero
+                                    let filmeElenco = {"id_filme": filme.id,
+                                                        "id_elenco": elenco.id 
+                                    }
+                                    
+                                    // chama a controller do filme_genero para inserir os Ids
+                                    let resultInsertElenco = await controller_filme_elenco.inserirFilmeElenco(filmeElenco)
+                                    //console.log(resultInsertGenero)
 
-                                // cria o objeto JSON com os Ids do filme e do gênero
-                                let filmeElenco = {"id_filme": filme.id,
-                                                    "id_elenco": elenco.id 
-                                }
-                                
-                                // chama a controller do filme_genero para inserir os Ids
-                                let resultInsertElenco = await controller_filme_elenco.inserirFilmeElenco(filmeElenco)
-                                //console.log(resultInsertGenero)
-
-                                if(!resultInsertElenco.status){
-                                    return message.SUCCESS_CREATED_ITEM_WARNIRG // 201 com alerta de dados não inseridos
+                                    if(!resultInsertElenco.status){
+                                        return message.SUCCESS_CREATED_ITEM_WARNIRG // 201 com alerta de dados não inseridos
+                                    }
                                 }
                             }
                         }

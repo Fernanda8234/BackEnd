@@ -15,15 +15,15 @@ const knexConfig = require('../../database_config_knew/knexFile.js')
 // criar a conexão com o BD Mysql
 const knexConex = knex(knexConfig.development)
 
-const insertElenco = async function(elenco){
+const insertElencoAtuacao = async function(elencoAtuacao){
     try {
-        let sql = `insert into tbl_elenco_ (
-                    id_elenco,
-                    id_
+        let sql = `insert into tbl_elenco_atuacao (
+                    id_elenco, 
+                    id_atuacao
                     ) 
             values (
-                    ${elenco.id_elenco},
-                    ${elenco.id_}
+                    ${elencoAtuacao.id_elenco},
+                    ${elencoAtuacao.id_atuacao}
                     )`
 
         let result = await knexConex.raw(sql)
@@ -37,12 +37,12 @@ const insertElenco = async function(elenco){
     }
 }
 
-const updateElenco = async function(elenco){
+const updateElencoAtuacao = async function(elencoAtuacao){
     try {
-        let sql = `update tbl_elenco_ set
-                    id_elenco = ${elenco.id_elenco},
-                    id_ = ${elenco.id_}
-                where id = ${elenco.id}`
+        let sql = `update tbl_elenco_atuacao set
+                    id_elenco = ${elencoAtuacao.id_elenco},
+                    id_atuacao = ${elencoAtuacao.id_atuacao}
+                where id = ${elencoAtuacao.id}`
 
         let result = await knexConex.raw(sql)
 
@@ -55,9 +55,9 @@ const updateElenco = async function(elenco){
     }
 }
 
-const selectAllElenco = async function(){
+const selectAllElencoAtuacao = async function(){
     try {
-        let sql = `select * from tbl_elenco_ order by id desc`
+        let sql = `select * from tbl_elenco_atuacao order by id desc`
 
         let result = await knexConex.raw(sql)
 
@@ -70,9 +70,9 @@ const selectAllElenco = async function(){
     }
 }
 
-const selectByIdFilmeElenco = async function(id){
+const selectByIdElencoAtuacao = async function(id){
     try {
-        let sql = `select * from tbl_elenco_ where id = ${id}`
+        let sql = `select * from tbl_elenco_atuacao where id = ${id}`
 
         let result = await knexConex.raw(sql)
 
@@ -86,15 +86,36 @@ const selectByIdFilmeElenco = async function(id){
     }
 }
 
-// função para retornar dados do filme filtrando pelo o ID do gênero
-const selectFilmeByIdElenco = async function(idElenco){
+const selectElencoByIdAtuacao = async function(idAtuacao){
     try {
-        let sql = `select tbl_filme.*
-                        from tbl_filme
-                            inner join tbl_filme_elenco
-                                on tbl_filme.id = tbl_filme_elenco.id_filme 
-                            inner join tbl_elenco
-                                on tbl_elenco.id = tbl_filme_elenco.id_elenco
+        let sql = `select tbl_elenco.*
+                        from tbl_elenco
+                            inner join tbl_elenco_atuacao
+                                on tbl_elenco.id = tbl_elenco_atuacao.id_elenco 
+                            inner join tbl_atuacao
+                                on tbl_atuacao.id = tbl_elenco_atuacao.id_atuacao
+                    where tbl_atuacao.id = ${idAtuacao}`
+
+        let result = await knexConex.raw(sql)
+
+        if(Array.isArray(result)){
+            return result[0]
+        } else{
+            return false
+        }
+    } catch (error) {
+        return false   
+    }
+}
+
+const selectAtuacoesByIdElenco = async function(idElenco){
+    try {
+        let sql = `select tbl_atuacao.*
+                        from tbl_elenco
+                            inner join tbl_elenco_atuacao
+                                on tbl_elenco.id = tbl_elenco_atuacao.id_elenco 
+                            inner join tbl_atuacao
+                                on tbl_atuacao.id = tbl_elenco_atuacao.id_atuacao
                     where tbl_elenco.id = ${idElenco}`
 
         let result = await knexConex.raw(sql)
@@ -109,33 +130,9 @@ const selectFilmeByIdElenco = async function(idElenco){
     }
 }
 
-// função para retornar dados dos gêneros filtrando pelo o ID do filme
-const selectElencoByIdFilme = async function(idElenco){
+const deleteElencoAtuacao = async function(id){
     try {
-        let sql = `select tbl_elenco.*
-                        from tbl_filme
-                            inner join tbl_filme_elenco
-                                on tbl_filme.id = tbl_filme_elenco.id_filme 
-                            inner join tbl_elenco
-                                on tbl_elenco.id = tbl_filme_elenco.id_elenco
-                    where tbl_filme.id = ${idElenco}`
-
-        let result = await knexConex.raw(sql)
-
-        if(Array.isArray(result)){
-            return result[0]
-        } else{
-            return false
-        }
-    } catch (error) {
-        return false   
-    }
-}
-
-// função para excluir um gênero pelo ID
-const deleteFilmeElenco = async function(id){
-    try {
-        let sql = `delete from tbl_elenco where id = ${id};`
+        let sql = `delete from tbl_elenco_atuacao where id = ${id};`
 
         let result = await knexConex.raw(sql)
 
@@ -148,15 +145,9 @@ const deleteFilmeElenco = async function(id){
     }
 }
 
-/*
-    função para excluir os gêneros filtrando pelo ID do filme
-    essa função será utilizada no Update do filme, pois precisa
-    apagar todos os gêneros relacionacionados com o filme para
-    inserir as novas relações
-*/
-const deleteElencoByIdFilme = async function(idElenco){
+const deleteAtuacoesByIdElenco = async function(idElenco){
     try {
-        let sql = `delete from tbl_elenco_ where id_filme = ${idElenco}`
+        let sql = `delete from tbl_elenco_atuacao where id_elenco = ${idElenco}`
 
         let result = await knexConex.raw(sql)
 
@@ -170,12 +161,12 @@ const deleteElencoByIdFilme = async function(idElenco){
 }
 
 module.exports = {
-    insertElenco,
-    updateElenco,
-    selectAllElenco,
-    selectByIdFilmeElenco,
-    selectFilmeByIdElenco,
-    selectElencoByIdFilme,
-    deleteFilmeElenco,
-    deleteElencoByIdFilme
+    insertElencoAtuacao,
+    updateElencoAtuacao,
+    selectAllElencoAtuacao,
+    selectByIdElencoAtuacao,
+    selectElencoByIdAtuacao,
+    selectAtuacoesByIdElenco,
+    deleteElencoAtuacao,
+    deleteAtuacoesByIdElenco
 }

@@ -11,13 +11,21 @@ const config_message = require('../modulo/configMessages.js')
 const elencoDAO = require('../../model/DAO/elenco/elenco.js')
 
 // import de arquivos de Controller
-const controller_elenco_diretoria = require('./controller_elenco_diretoria.js')
+const controller_elenco_diretoria       = require('./controller_elenco_diretoria.js')
+const controller_elenco_atuacao         = require('./controller_elenco_atuacao.js')
+const controller_elenco_dublagem        = require('./controller_elenco_dublagem.js')
+const controller_elenco_roteirizacao    = require('./controller_elenco_roteirizacao.js')
+const controller_elenco_nacionalidade   = require('./controller_elenco_nacionalidade.js')
+const controller_elenco_atividades      = require('./controller_elenco_atividades.js')
+const controller_elenco_nome_artistico  = require('./controller_elenco_nome_artistico.js')
+const controller_elenco_biografia       = require('./controller_elenco_biografia.js')
 
 const inserirElenco = async function(elenco, contentType){
     let message = JSON.parse(JSON.stringify(config_message))
 
     try {
-        if(String(contentType).toUpperCase() == 'APPLICATION/JSON'){
+        if(String(contentType).toUpperCase() == 'APPLICATION/JSON'){ 
+
             let validar = await validarDados(elenco)
 
             if(validar){
@@ -29,19 +37,121 @@ const inserirElenco = async function(elenco, contentType){
                     elenco.id = result
 
                     if(elenco.diretoria){
-                    for(diretoria of elenco.diretoria){
+                        for(diretoria of elenco.diretoria){
 
-                            // cria o objeto JSON com os Ids do filme e do gênero
                             let elencoDiretoria = {"id_elenco": elenco.id,
                                                 "id_diretoria": diretoria.id 
                             }
                                             
-                            // chama a controller do filme_genero para inserir os Ids
                             let resultInsertDiretoria = await controller_elenco_diretoria.inserirElencoDiretoria(elencoDiretoria)
-                                //console.log(resultInsertGenero)
+                                // console.log(resultInsertDiretoria)
                         
                             if(!resultInsertDiretoria.status){
-                                
+                                return message.SUCCESS_CREATED_ITEM_WARNIRG // 201 com alerta de dados não inseridos
+                            }
+                        }
+                    }
+
+                    if(elenco.atuacao){
+                        for(atuacao of elenco.atuacao){
+
+                            let elencoAtuacao = {"id_elenco": elenco.id,
+                                                "id_atuacao": atuacao.id 
+                            }
+                                            
+                            let resultInsertAtuacao = await controller_elenco_atuacao.inserirElencoAtuacao(elencoAtuacao)
+                        
+                            if(!resultInsertAtuacao.status){
+                                return message.SUCCESS_CREATED_ITEM_WARNIRG // 201 com alerta de dados não inseridos
+                            }
+                        }
+                    }
+
+                    if(elenco.dublagem){
+                        for(dublagem of elenco.dublagem){
+
+                            let elencoDublagem = {"id_elenco": elenco.id,
+                                                "id_dublagem": dublagem.id 
+                            }
+                                            
+                            let resultInsertDublagem = await controller_elenco_dublagem.inserirElencoDublagem(elencoDublagem)
+                        
+                            if(!resultInsertDublagem.status){
+                                return message.SUCCESS_CREATED_ITEM_WARNIRG // 201 com alerta de dados não inseridos
+                            }
+                        }
+                    }
+
+                    if(elenco.roteirizacao){
+                        for(roteirizacao of elenco.roteirizacao){
+
+                            let elencoRoteirizacao = {"id_elenco": elenco.id,
+                                                "id_roteirizacao": roteirizacao.id 
+                            }
+                                            
+                            let resultInsertRoteirizacao = await controller_elenco_roteirizacao.inserirElencoRoteirizacao(elencoRoteirizacao)
+                        
+                            if(!resultInsertRoteirizacao.status){
+                                return message.SUCCESS_CREATED_ITEM_WARNIRG // 201 com alerta de dados não inseridos
+                            }
+                        }
+                    }
+
+                    if(elenco.nacionalidade){
+                        for(nacionalidade of elenco.nacionalidade){
+
+                            let elencoNacionalidade = {"id_elenco": elenco.id,
+                                                "id_nacionalidade": nacionalidade.id 
+                            }
+                                            
+                            let resultInsertNacionalidade = await controller_elenco_nacionalidade.inserirElencoNacionalidade(elencoNacionalidade)
+                        
+                            if(!resultInsertNacionalidade.status){
+                                return message.SUCCESS_CREATED_ITEM_WARNIRG // 201 com alerta de dados não inseridos
+                            }
+                        }
+                    }
+
+                    if(elenco.atividades){
+                        for(atividades of elenco.atividades){
+
+                            let elencoAtividades = {"id_elenco": elenco.id,
+                                                "id_atividades": atividades.id 
+                            }
+                                            
+                            let resultInsertAtividades = await controller_elenco_atividades.inserirElencoAtividades(elencoAtividades)
+                        
+                            if(!resultInsertAtividades.status){
+                                return message.SUCCESS_CREATED_ITEM_WARNIRG // 201 com alerta de dados não inseridos
+                            }
+                        }
+                    }
+
+                    if(elenco.nome_artistico){
+                        for(nome_artistico of elenco.nome_artistico){
+
+                            let elencoNomeArtistico = {"id_elenco": elenco.id,
+                                                "id_nome_artistico": nome_artistico.id 
+                            }
+                                            
+                            let resultInsertNomeArtistico = await controller_elenco_nome_artistico.inserirElencoNomeArtistico(elencoNomeArtistico)
+                        
+                            if(!resultInsertNomeArtistico.status){
+                                return message.SUCCESS_CREATED_ITEM_WARNIRG // 201 com alerta de dados não inseridos
+                            }
+                        }
+                    }
+
+                    if(elenco.biografia){
+                        for(biografia of elenco.biografia){
+
+                            let elencoBiografia = {"id_elenco": elenco.id,
+                                                "id_biografia": biografia.id 
+                            }
+                                            
+                            let resultInsertBiografia = await controller_elenco_biografia.inserirElencoBiografia(elencoBiografia)
+                        
+                            if(!resultInsertBiografia.status){
                                 return message.SUCCESS_CREATED_ITEM_WARNIRG // 201 com alerta de dados não inseridos
                             }
                         }
@@ -80,6 +190,151 @@ const atualizarElenco = async function(elenco, contentType, id){
                     let result = await elencoDAO.updateElenco(elenco)
                 
                     if(result){
+
+                        if(elenco.diretoria){
+                            let resultDeleteDiretoria = await controller_elenco_diretoria.excluirDiretoriaIdElenco(elenco.id)
+                            if(resultDeleteDiretoria.status){
+                                for(diretoria of elenco.diretoria){
+                                                                                
+                                    let elencoDiretoria = {"id_elenco": elenco.id,
+                                                        "id_diretoria": diretoria.id 
+                                    }
+                                                                                                                    
+                                    let resultInsertDiretoria = await controller_elenco_diretoria.inserirElencoDiretoria(elencoDiretoria)
+                            
+                                    if(!resultInsertDiretoria.status){
+                                        return message.SUCCESS_CREATED_ITEM_WARNIRG // 201 com alerta de dados não inseridos
+                                    }
+                                }
+                            }
+                        }
+
+                        if(elenco.atuacao){
+                            let resultDeleteAtuacao = await controller_elenco_atuacao.excluirAtuacoesIdElenco(elenco.id)
+                            if(resultDeleteAtuacao.status){
+                                for(atuacao of elenco.atuacao){
+                                                                                
+                                    let elencoAtuacao = {"id_elenco": elenco.id,
+                                                        "id_atuacao": atuacao.id 
+                                    }
+                                                                                                                    
+                                    let resultInsertAtuacao = await controller_elenco_atuacao.inserirElencoAtuacao(elencoAtuacao)
+                            
+                                    if(!resultInsertAtuacao.status){
+                                        return message.SUCCESS_CREATED_ITEM_WARNIRG // 201 com alerta de dados não inseridos
+                                    }
+                                }
+                            }
+                        }
+
+                        if(elenco.dublagem){
+                            let resultDeleteDublagem = await controller_elenco_dublagem.excluirDublagensIdElenco(elenco.id)
+                            if(resultDeleteDublagem.status){
+                                for(dublagem of elenco.dublagem){
+                                                                                
+                                    let elencoDublagem = {"id_elenco": elenco.id,
+                                                        "id_dublagem": dublagem.id 
+                                    }
+                                                                                                                    
+                                    let resultInsertDublagem = await controller_elenco_dublagem.inserirElencoDublagem(elencoDublagem)
+                            
+                                    if(!resultInsertDublagem.status){
+                                        return message.SUCCESS_CREATED_ITEM_WARNIRG // 201 com alerta de dados não inseridos
+                                    }
+                                }
+                            }
+                        }
+
+                        if(elenco.roteirizacao){
+                            let resultDeleteRoteirizacao = await controller_elenco_roteirizacao.excluirRoteirizacoesIdElenco(elenco.id)
+                            if(resultDeleteRoteirizacao.status){
+                                for(roteirizacao of elenco.roteirizacao){
+                                                                                
+                                    let elencoRoteirizacao = {"id_elenco": elenco.id,
+                                                        "id_roteirizacao": roteirizacao.id 
+                                    }
+                                                                                                                    
+                                    let resultInsertRoteirizacao = await controller_elenco_roteirizacao.inserirElencoRoteirizacao(elencoRoteirizacao)
+                            
+                                    if(!resultInsertRoteirizacao.status){
+                                        return message.SUCCESS_CREATED_ITEM_WARNIRG // 201 com alerta de dados não inseridos
+                                    }
+                                }
+                            }
+                        }
+
+                        if(elenco.nacionalidade){
+                            let resultDeleteNacionalidade = await controller_elenco_nacionalidade.excluirNacionalidadesIdElenco(elenco.id)
+                            if(resultDeleteNacionalidade.status){
+                                for(nacionalidade of elenco.nacionalidade){
+                                                                                
+                                    let elencoNacionalidade = {"id_elenco": elenco.id,
+                                                        "id_nacionalidade": nacionalidade.id 
+                                    }
+                                                                                                                    
+                                    let resultInsertNacionalidade = await controller_elenco_nacionalidade.inserirElencoNacionalidade(elencoNacionalidade)
+                            
+                                    if(!resultInsertNacionalidade.status){
+                                        return message.SUCCESS_CREATED_ITEM_WARNIRG // 201 com alerta de dados não inseridos
+                                    }
+                                }
+                            }
+                        }
+
+                        if(elenco.atividades){
+                            let resultDeleteAtividades = await controller_elenco_atividades.excluirAtividadesIdElenco(elenco.id)
+                            if(resultDeleteAtividades.status){
+                                for(atividades of elenco.atividades){
+                                                                                
+                                    let elencoAtividades = {"id_elenco": elenco.id,
+                                                        "id_atividades": atividades.id 
+                                    }
+                                                                                                                    
+                                    let resultInsertAtividades = await controller_elenco_atividades.inserirElencoAtividades(elencoAtividades)
+                            
+                                    if(!resultInsertAtividades.status){
+                                        return message.SUCCESS_CREATED_ITEM_WARNIRG // 201 com alerta de dados não inseridos
+                                    }
+                                }
+                            }
+                        }
+
+                        if(elenco.nome_artistico){
+                            let resultDeleteNomeArtistico = await controller_elenco_nome_artistico.excluirNomesArtisticosIdElenco(elenco.id)
+                            if(resultDeleteNomeArtistico.status){
+                                for(nome_artistico of elenco.nome_artistico){
+                                                                                
+                                    let elencoNomeArtistico = {"id_elenco": elenco.id,
+                                                        "id_nome_artistico": nome_artistico.id 
+                                    }
+                                                                                                                    
+                                    let resultInsertNomeArtistico = await controller_elenco_nome_artistico.inserirElencoNomeArtistico(elencoNomeArtistico)
+                            
+                                    if(!resultInsertNomeArtistico.status){
+                                        return message.SUCCESS_CREATED_ITEM_WARNIRG // 201 com alerta de dados não inseridos
+                                    }
+                                }
+                            }
+                        }
+
+                        if(elenco.biografia){
+                            let resultDeleteBiografia = await controller_elenco_biografia.excluirBiografiasIdElenco(elenco.id)
+                            if(resultDeleteBiografia.status){
+                                for(biografia of elenco.biografia){
+                                                                                
+                                    let elencoBiografia = {"id_elenco": elenco.id,
+                                                        "id_biografia": biografia.id 
+                                    }
+                                                                                                                    
+                                    let resultInsertBiografia = await controller_elenco_biografia.inserirElencoBiografia(elencoBiografia)
+                            
+                                    if(!resultInsertBiografia.status){
+                                        return message.SUCCESS_CREATED_ITEM_WARNIRG // 201 com alerta de dados não inseridos
+                                    }
+                                }
+                            }
+                        }
+
                         message.DEFAULT_MESSAGE.status      = message.SUCCESS_UPDATED_ITEM.status
                         message.DEFAULT_MESSAGE.status_code = message.SUCCESS_UPDATED_ITEM.status_code
                         message.DEFAULT_MESSAGE.message     = message.SUCCESS_UPDATED_ITEM.message
@@ -99,6 +354,7 @@ const atualizarElenco = async function(elenco, contentType, id){
             return message.ERROR_CONTENT_TYPE
         }
     } catch (error) {
+        //console.log(error)
         return message.ERROR_INTERNAL_SERVER_CONTROLLER
     }
 }
@@ -111,15 +367,50 @@ const listarElenco = async function(){
 
         if(result){
 
-            for(elenco of result){
-                let resultDiretoria = await controller_elenco_diretoria.buscarDiretoriaIdElenco(elenco.id)
-                console.log(resultDiretoria)
-                    if(resultDiretoria.status){
-                        elenco.diretoria = resultDiretoria.response.elenco_diretoria 
-                }
-            }
-
             if(result.length > 0){
+
+                for(elenco of result){
+                    let resultDiretoria = await controller_elenco_diretoria.buscarDiretoriaIdElenco(elenco.id)
+                        if(resultDiretoria.status){
+                            elenco.diretoria = resultDiretoria.response.elenco_diretoria 
+                        }
+
+                    let resultAtuacao = await controller_elenco_atuacao.buscarAtuacaoIdElenco(elenco.id)
+                        if(resultAtuacao.status){
+                            elenco.atuacao = resultAtuacao.response.elenco_atuacao
+                        }
+
+                    let resultDublagem = await controller_elenco_dublagem.buscarDublagemIdElenco(elenco.id)
+                        if(resultDublagem.status){
+                            elenco.dublagem = resultDublagem.response.elenco_dublagem
+                        }
+
+                    let resultRoteirizacao = await controller_elenco_roteirizacao.buscarRoteirizacaoIdElenco(elenco.id)
+                        if(resultRoteirizacao.status){
+                            elenco.roteirizacao = resultRoteirizacao.response.elenco_roteirizacao
+                        }
+
+                    let resultNacionalidade = await controller_elenco_nacionalidade.buscarNacionalidadeIdElenco(elenco.id)
+                        if(resultNacionalidade.status){
+                            elenco.nacionalidade = resultNacionalidade.response.elenco_nacionalidade
+                        }
+
+                    let resultAtividades = await controller_elenco_atividades.buscarAtividadesIdElenco(elenco.id)
+                        if(resultAtividades.status){
+                            elenco.atividades = resultAtividades.response.elenco_atividades
+                        }
+                    
+                    let resultNomeArtistico = await controller_elenco_nome_artistico.buscarNomeArtisticoIdElenco(elenco.id)
+                        if(resultNomeArtistico.status){
+                            elenco.nome_artistico = resultNomeArtistico.response.elenco_nome_artistico
+                        }
+
+                    let resultBiografia = await controller_elenco_biografia.buscarBiografiaIdElenco(elenco.id)
+                        if(resultBiografia.status){
+                            elenco.biografia = resultBiografia.response.elenco_biografia
+                        }
+                }
+
                 message.DEFAULT_MESSAGE.status              = message.SUCCESS_RESPONSE.status
                 message.DEFAULT_MESSAGE.status_code         = message.SUCCESS_RESPONSE.status_code
                 message.DEFAULT_MESSAGE.response.count      = result.length
@@ -149,6 +440,49 @@ const buscarElenco = async function(id){
 
             if(result){
                 if(result.length > 0){
+
+                    for(elenco of result){
+                        let resultDiretoria = await controller_elenco_diretoria.buscarDiretoriaIdElenco(elenco.id)
+                            if(resultDiretoria.status){
+                                elenco.diretoria = resultDiretoria.response.elenco_diretoria 
+                            }
+
+                        let resultAtuacao = await controller_elenco_atuacao.buscarAtuacaoIdElenco(elenco.id)
+                            if(resultAtuacao.status){
+                                elenco.atuacao = resultAtuacao.response.elenco_atuacao
+                            }
+
+                        let resultDublagem = await controller_elenco_dublagem.buscarDublagemIdElenco(elenco.id)
+                            if(resultDublagem.status){
+                                elenco.dublagem = resultDublagem.response.elenco_dublagem
+                            }
+                        
+                        let resultRoteirizacao = await controller_elenco_roteirizacao.buscarRoteirizacaoIdElenco(elenco.id)
+                            if(resultRoteirizacao.status){
+                                elenco.roteirizacao = resultRoteirizacao.response.elenco_roteirizacao
+                            }
+
+                        let resultNacionalidade = await controller_elenco_nacionalidade.buscarNacionalidadeIdElenco(elenco.id)
+                            if(resultNacionalidade.status){
+                                elenco.nacionalidade = resultNacionalidade.response.elenco_nacionalidade
+                            }
+
+                        let resultAtividades = await controller_elenco_atividades.buscarAtividadesIdElenco(elenco.id)
+                            if(resultAtividades.status){
+                                elenco.atividades = resultAtividades.response.elenco_atividades
+                            }
+                        
+                        let resultNomeArtistico = await controller_elenco_nome_artistico.buscarNomeArtisticoIdElenco(elenco.id)
+                            if(resultNomeArtistico.status){
+                                elenco.nome_artistico = resultNomeArtistico.response.elenco_nome_artistico
+                            }
+                        
+                        let resultBiografia = await controller_elenco_biografia.buscarBiografiaIdElenco(elenco.id)
+                            if(resultBiografia.status){
+                                elenco.biografia = resultBiografia.response.elenco_biografia
+                            }
+                    }
+
                     message.DEFAULT_MESSAGE.status              = message.SUCCESS_RESPONSE.status
                     message.DEFAULT_MESSAGE.status_code         = message.SUCCESS_RESPONSE.status_code
                     message.DEFAULT_MESSAGE.response.elenco     = result

@@ -1,35 +1,33 @@
 /* ******************************************************************************
 * Objetivo: Arquivo responsável pela validação, tratamento e manipulação de
-*   dados para o CRUD de filme e gêneros
-* Data: 22/05/2026  
+*   dados para o CRUD de elenco e dublagem
+* Data: 29/05/2026  
 * Autor: Fernanda
 * Versão: 1.0
 ********************************************************************************/
 
-//import do arquivo de padronização de mensagens
 const config_message = require('../modulo/configMessages.js')
 
-// import do arquivo DAO para fazer o CRUD do gênero no banco de dados
-const filmeElencoDAO = require('../../model/DAO/filme_elenco/filme_elenco.js')
+const elencoDublagemDAO = require('../../model/DAO/elenco_dublagem/elenco_dublagem.js')
 
-const inserirFilmeElenco = async function(filmeElenco){ 
+const inserirElencoDublagem = async function(elencoDublagem){ 
     let message = JSON.parse(JSON.stringify(config_message))
 
     try {
-        let validar = await validarDados(filmeElenco)
+        let validar = await validarDados(elencoDublagem)
 
         if(validar){
             return validar
         } else {
-            let result = await filmeElencoDAO.insertFilmeElenco(filmeElenco)
+            let result = await elencoDublagemDAO.insertElencoDublagem(elencoDublagem)
 
             if(result){
-                filmeElenco.id = result
+                elencoDublagem.id = result
 
                 message.DEFAULT_MESSAGE.status      = message.SUCCESS_CREATED_ITEM.status
                 message.DEFAULT_MESSAGE.status_code = message.SUCCESS_CREATED_ITEM.status_code
                 message.DEFAULT_MESSAGE.message     = message.SUCCESS_CREATED_ITEM.message
-                message.DEFAULT_MESSAGE.response    = filmeElenco
+                message.DEFAULT_MESSAGE.response    = elencoDublagem
             } else{
                 return message.ERROR_INTERNAL_SERVER_MODEL
             }
@@ -40,26 +38,26 @@ const inserirFilmeElenco = async function(filmeElenco){
     }
 }
 
-const atualizarFilmeElenco = async function(filmeElenco, id){
+const atualizarElencoDublagem = async function(elencoDublagem, id){
     let message = JSON.parse(JSON.stringify(config_message))
 
     try {
-        let resultBuscarID = await buscarFilmeElenco(id)
+            let resultBuscarID = await buscarElencoDublagem(id)
 
             if(resultBuscarID.status){
-                let validar = await validarDados(filmeElenco)
+                let validar = await validarDados(elencoDublagem)
 
                 if(!validar){
-                    filmeElenco.id = id
+                    elencoDublagem.id = id
 
-                    let result = await filmeElencoDAO.updateFilmeElenco(filmeElenco)
+                    let result = await elencoDublagemDAO.updateElencoDublagem(elencoDublagem)
 
                     if(result){
 
                     message.DEFAULT_MESSAGE.status      = message.SUCCESS_UPDATED_ITEM.status
                     message.DEFAULT_MESSAGE.status_code = message.SUCCESS_UPDATED_ITEM.status_code
                     message.DEFAULT_MESSAGE.message     = message.SUCCESS_UPDATED_ITEM.message
-                    message.DEFAULT_MESSAGE.response    = filmeElenco
+                    message.DEFAULT_MESSAGE.response    = elencoDublagem
 
                     return message.DEFAULT_MESSAGE
                     } else{
@@ -76,22 +74,22 @@ const atualizarFilmeElenco = async function(filmeElenco, id){
     }
 }
 
-const listarFilmeElenco = async function(){
+const listarElencoDublagem = async function(){
     let message = JSON.parse(JSON.stringify(config_message))
 
     try {
-        let result = await filmeElencoDAO.selectAllFilmeElenco()
+        let result = await elencoDublagemDAO.selectAllElencoDublagem()
 
         if(result){
             if(result.length > 0){
-                message.DEFAULT_MESSAGE.status                  = message.SUCCESS_RESPONSE.status
-                message.DEFAULT_MESSAGE.status_code             = message.SUCCESS_RESPONSE.status_code
-                message.DEFAULT_MESSAGE.response.count          = result.length // para contar a qntd
-                message.DEFAULT_MESSAGE.response.filme_elenco   = result //para mostrar no response
+                message.DEFAULT_MESSAGE.status                      = message.SUCCESS_RESPONSE.status
+                message.DEFAULT_MESSAGE.status_code                 = message.SUCCESS_RESPONSE.status_code
+                message.DEFAULT_MESSAGE.response.count              = result.length
+                message.DEFAULT_MESSAGE.response.elenco_dublagem    = result
 
-                return message.DEFAULT_MESSAGE // para mostrar tudo
+                return message.DEFAULT_MESSAGE
             } else{
-                return message.ERROR_NOT_FOUND // não foi encontrado
+                return message.ERROR_NOT_FOUND
             }
         } else{
             return message.ERROR_INTERNAL_SERVER_MODEL
@@ -101,7 +99,7 @@ const listarFilmeElenco = async function(){
     }
 }
 
-const buscarFilmeElenco = async function(id){
+const buscarElencoDublagem = async function(id){
     let message = JSON.parse(JSON.stringify(config_message))
 
     try {
@@ -109,13 +107,13 @@ const buscarFilmeElenco = async function(id){
             message.ERROR_BAD_REQUEST.field = "[ID] INVÁLIDO"
             return message.ERROR_BAD_REQUEST
         } else{
-            let result = await filmeElencoDAO.selectByIdFilmeElenco(id)
+            let result = await elencoDublagemDAO.selectByIdElencoDublagem(id)
 
             if(result){
                 if(result.length > 0){
-                    message.DEFAULT_MESSAGE.status                  = message.SUCCESS_RESPONSE.status
-                    message.DEFAULT_MESSAGE.status_code             = message.SUCCESS_RESPONSE.status_code
-                    message.DEFAULT_MESSAGE.response.filme_elenco   = result
+                    message.DEFAULT_MESSAGE.status                      = message.SUCCESS_RESPONSE.status
+                    message.DEFAULT_MESSAGE.status_code                 = message.SUCCESS_RESPONSE.status_code
+                    message.DEFAULT_MESSAGE.response.elenco_dublagem    = result
 
                     return message.DEFAULT_MESSAGE
                 } else{
@@ -130,7 +128,36 @@ const buscarFilmeElenco = async function(id){
     }
 }
 
-const buscarFilmeIdElenco = async function(idElenco){
+const buscarElencoIdDublagem = async function(idDublagem){
+    let message = JSON.parse(JSON.stringify(config_message))
+
+    try {
+        if(idDublagem == undefined || idDublagem == null || idDublagem == '' || isNaN(idDublagem)){
+            message.ERROR_BAD_REQUEST.field = "[ID_DUBLAGEM] INVÁLIDA"
+            return message.ERROR_BAD_REQUEST
+        } else{
+            let result = await elencoDublagemDAO.selectElencoByIdDublagem(idDublagem)
+
+            if(result){
+                if(result.length > 0){
+                    message.DEFAULT_MESSAGE.status                      = message.SUCCESS_RESPONSE.status
+                    message.DEFAULT_MESSAGE.status_code                 = message.SUCCESS_RESPONSE.status_code
+                    message.DEFAULT_MESSAGE.response.elenco_dublagem    = result
+
+                    return message.DEFAULT_MESSAGE
+                } else{
+                    return message.ERROR_NOT_FOUND 
+                } 
+            } else{
+                return message.ERROR_INTERNAL_SERVER_MODEL
+            }    
+        }
+    } catch (error) {
+        return message.ERROR_INTERNAL_SERVER_CONTROLLER
+    }
+}
+
+const buscarDublagemIdElenco = async function(idElenco){
     let message = JSON.parse(JSON.stringify(config_message))
 
     try {
@@ -138,13 +165,13 @@ const buscarFilmeIdElenco = async function(idElenco){
             message.ERROR_BAD_REQUEST.field = "[ID_ELENCO] INVÁLIDO"
             return message.ERROR_BAD_REQUEST
         } else{
-            let result = await filmeElencoDAO.selectFilmeByIdElenco(idElenco)
+            let result = await elencoDublagemDAO.selectDublagensByIdElenco(idElenco)
 
             if(result){
                 if(result.length > 0){
-                    message.DEFAULT_MESSAGE.status                  = message.SUCCESS_RESPONSE.status
-                    message.DEFAULT_MESSAGE.status_code             = message.SUCCESS_RESPONSE.status_code
-                    message.DEFAULT_MESSAGE.response.filme_genero   = result
+                    message.DEFAULT_MESSAGE.status                      = message.SUCCESS_RESPONSE.status
+                    message.DEFAULT_MESSAGE.status_code                 = message.SUCCESS_RESPONSE.status_code
+                    message.DEFAULT_MESSAGE.response.elenco_dublagem    = result
 
                     return message.DEFAULT_MESSAGE
                 } else{
@@ -159,45 +186,15 @@ const buscarFilmeIdElenco = async function(idElenco){
     }
 }
 
-const buscarElencoIdFilme = async function(idFilme){
+const excluirElencoDublagem = async function(id){
     let message = JSON.parse(JSON.stringify(config_message))
 
     try {
-        if(idFilme == undefined || idFilme == null || idFilme == '' || isNaN(idFilme)){
-            message.ERROR_BAD_REQUEST.field = "[ID_FILME] INVÁLIDO"
-            return message.ERROR_BAD_REQUEST
-        } else{
-            let result = await filmeElencoDAO.selectElencoByIdFilme(idFilme)
-
-            if(result){
-                if(result.length > 0){
-                    message.DEFAULT_MESSAGE.status                  = message.SUCCESS_RESPONSE.status
-                    message.DEFAULT_MESSAGE.status_code             = message.SUCCESS_RESPONSE.status_code
-                    message.DEFAULT_MESSAGE.response.filme_elenco   = result
-
-                    return message.DEFAULT_MESSAGE
-                } else{
-                    return message.ERROR_NOT_FOUND 
-                } 
-            } else{
-                return message.ERROR_INTERNAL_SERVER_MODEL
-            }    
-        }
-    } catch (error) {
-        // console.log(error)
-        return message.ERROR_INTERNAL_SERVER_CONTROLLER
-    }
-}
-
-const excluirFilmeElenco = async function(id){
-    let message = JSON.parse(JSON.stringify(config_message))
-
-    try {
-        let resultBuscarID = await buscarFilmeElenco(id)
+        let resultBuscarID = await buscarElencoDublagem(id)
 
         if(resultBuscarID.status){
 
-            let result = await filmeElencoDAO.deleteFilmeElenco(id)
+            let result = await elencoDublagemDAO.deleteElencoDublagem(id)
 
                 if(result){
                     message.DEFAULT_MESSAGE.status      = message.SUCCESS_DELETE_ITEM.status
@@ -216,12 +213,11 @@ const excluirFilmeElenco = async function(id){
     }
 }
 
-// função para excluir os gêneros relacionados com o filme
-const excluirElencoIdFilme = async function(idFilme){
+const excluirDublagensIdElenco = async function(idElenco){
     let message = JSON.parse(JSON.stringify(config_message))
 
     try {
-        let result = await filmeElencoDAO.deleteElencoByIdFilme(idFilme)
+        let result = await elencoDublagemDAO.deleteDublagensByIdElenco(idElenco)
 
         if(result)
             return message.SUCCESS_DELETE_ITEM
@@ -233,17 +229,17 @@ const excluirElencoIdFilme = async function(idFilme){
     }
 }
 
-const validarDados = async function(filmeElenco){
+const validarDados = async function(elencoDublagem){
     let message = JSON.parse(JSON.stringify(config_message))
 
-    if(filmeElenco.id_filme == undefined || filmeElenco.id_filme == '' || filmeElenco.id_filme == null || isNaN(filmeElenco.id_filme)){
-        message.ERROR_BAD_REQUEST.field = '[ID_FILME] INVÁLIDO'
-        return message.ERROR_BAD_REQUEST // tá escrito errado
+    if(elencoDublagem.id_elenco == undefined || elencoDublagem.id_elenco == '' || elencoDublagem.id_elenco == null || isNaN(elencoDublagem.id_elenco)){
+        message.ERROR_BAD_REQUEST.field = '[ID_ELENCO] INVÁLIDO'
+        return message.ERROR_BAD_REQUEST
     }
 
-    else if(filmeElenco.id_elenco == undefined || filmeElenco.id_elenco == '' || filmeElenco.id_elenco == null || isNaN(filmeElenco.id_elenco)){
-        message.ERROR_BAD_REQUEST.field = '[ID_ELENCO] INVÁLIDO'
-        return message.ERROR_BAD_REQUEST // tá escrito errado
+    else if(elencoDublagem.id_dublagem == undefined || elencoDublagem.id_dublagem == '' || elencoDublagem.id_dublagem == null || isNaN(elencoDublagem.id_dublagem)){
+        message.ERROR_BAD_REQUEST.field = '[ID_DUBLAGEM] INVÁLIDA'
+        return message.ERROR_BAD_REQUEST
     }
 
     else {
@@ -252,12 +248,12 @@ const validarDados = async function(filmeElenco){
 }
 
 module.exports = {
-    inserirFilmeElenco,
-    atualizarFilmeElenco,
-    listarFilmeElenco,
-    buscarFilmeElenco,
-    buscarFilmeIdElenco,
-    buscarElencoIdFilme,
-    excluirFilmeElenco,
-    excluirElencoIdFilme
+    inserirElencoDublagem,
+    atualizarElencoDublagem,
+    listarElencoDublagem,
+    buscarElencoDublagem,
+    buscarElencoIdDublagem,
+    buscarDublagemIdElenco,
+    excluirElencoDublagem,
+    excluirDublagensIdElenco
 }

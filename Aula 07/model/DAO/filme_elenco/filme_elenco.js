@@ -1,7 +1,7 @@
 /* ******************************************************************************
 * Objetivo: Arquivo responsável pelo CRUD no Banco de dados MySQL na tabela de 
-*   relação entre Filme e Gênero
-* Data: 22/05/2026  
+*   relação entre Filme e Elenco
+* Data: 31/05/2026  
 * Autor: Fernanda
 * Versão: 1.0
 ********************************************************************************/
@@ -86,7 +86,6 @@ const selectByIdFilmeElenco = async function(id){
     }
 }
 
-// função para retornar dados do filme filtrando pelo o ID do gênero
 const selectFilmeByIdElenco = async function(idElenco){
     try {
         let sql = `select tbl_filme.*
@@ -109,7 +108,6 @@ const selectFilmeByIdElenco = async function(idElenco){
     }
 }
 
-// função para retornar dados dos gêneros filtrando pelo o ID do filme
 const selectElencoByIdFilme = async function(idFilme){
     try {
         let sql = `select tbl_elenco.*
@@ -132,7 +130,6 @@ const selectElencoByIdFilme = async function(idFilme){
     }
 }
 
-// função para excluir um gênero pelo ID
 const deleteFilmeElenco = async function(id){
     try {
         let sql = `delete from tbl_filme_elenco where id = ${id};`
@@ -148,12 +145,6 @@ const deleteFilmeElenco = async function(id){
     }
 }
 
-/*
-    função para excluir os gêneros filtrando pelo ID do filme
-    essa função será utilizada no Update do filme, pois precisa
-    apagar todos os gêneros relacionacionados com o filme para
-    inserir as novas relações
-*/
 const deleteElencoByIdFilme = async function(idFilme){
     try {
         let sql = `delete from tbl_filme_elenco where id_filme = ${idFilme}`

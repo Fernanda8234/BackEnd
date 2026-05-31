@@ -104,7 +104,7 @@ create table tbl_genero (
     nome 		varchar(25) not null
 );
 
-insert into tbl_genero (nome) values ('suspense');
+insert into tbl_genero (nome) values ('aventura');
 
 update tbl_genero set
 		nome = 'terror'
@@ -187,13 +187,21 @@ create table tbl_biografia (
     texto 		text default null
 );
 #--------------------------------------------------------------#
-
+show tables;
 
 #-------------------[ Tabela de diretoria ]--------------------#
 create table tbl_diretoria (
 	id 					int not null primary key auto_increment,
     marca_estilistica   varchar(120) not null,
     franquias_famosas 	varchar(200) default null
+);
+
+insert into tbl_diretoria (
+			marca_estilistica,
+            franquias_famosas
+) values(
+			'a',
+            ''
 );
 #------------------------------------------------------------#
 

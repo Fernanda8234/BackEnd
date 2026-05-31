@@ -1,7 +1,7 @@
 /* ******************************************************************************
 * Objetivo: Arquivo responsável pelo CRUD no Banco de dados MySQL na tabela de 
-*   relação entre Elenco e Diretoria
-* Data: 29/05/2026  
+*   relação entre Elenco e Nacionalidade
+* Data: 31/05/2026  
 * Autor: Fernanda
 * Versão: 1.0
 ********************************************************************************/
@@ -15,15 +15,15 @@ const knexConfig = require('../../database_config_knew/knexFile.js')
 // criar a conexão com o BD Mysql
 const knexConex = knex(knexConfig.development)
 
-const insertElencoDiretoria = async function(elencoDiretoria){
+const insertElencoNacionalidade = async function(elencoNacionalidade){
     try {
-        let sql = `insert into tbl_elenco_diretoria (
+        let sql = `insert into tbl_elenco_nacionalidade (
                     id_elenco, 
-                    id_diretoria
+                    id_nacionalidade
                     ) 
             values (
-                    ${elencoDiretoria.id_elenco},
-                    ${elencoDiretoria.id_diretoria}
+                    ${elencoNacionalidade.id_elenco},
+                    ${elencoNacionalidade.id_nacionalidade}
                     )`
 
         let result = await knexConex.raw(sql)
@@ -33,17 +33,17 @@ const insertElencoDiretoria = async function(elencoDiretoria){
         else
             return false
     } catch (error) {
-         console.log(error)
+        console.log(error)
         return false
     }
 }
 
-const updateElencoDiretoria = async function(elencoDiretoria){
+const updateElencoNacionalidade = async function(elencoNacionalidade){
     try {
-        let sql = `update tbl_elenco_diretoria set
-                    id_elenco = ${elencoDiretoria.id_elenco},
-                    id_diretoria = ${elencoDiretoria.id_diretoria}
-                where id = ${elencoDiretoria.id}`
+        let sql = `update tbl_elenco_nacionalidade set
+                    id_elenco = ${elencoNacionalidade.id_elenco},
+                    id_nacionalidade = ${elencoNacionalidade.id_nacionalidade}
+                where id = ${elencoNacionalidade.id}`
 
         let result = await knexConex.raw(sql)
 
@@ -56,9 +56,9 @@ const updateElencoDiretoria = async function(elencoDiretoria){
     }
 }
 
-const selectAllElencoDiretoria = async function(){
+const selectAllElencoNacionalidade = async function(){
     try {
-        let sql = `select * from tbl_elenco_diretoria order by id desc`
+        let sql = `select * from tbl_elenco_nacionalidade order by id desc`
 
         let result = await knexConex.raw(sql)
 
@@ -71,9 +71,9 @@ const selectAllElencoDiretoria = async function(){
     }
 }
 
-const selectByIdElencoDiretoria = async function(id){
+const selectByIdElencoNacionalidade = async function(id){
     try {
-        let sql = `select * from tbl_elenco_diretoria where id = ${id}`
+        let sql = `select * from tbl_elenco_nacionalidade where id = ${id}`
 
         let result = await knexConex.raw(sql)
 
@@ -87,15 +87,15 @@ const selectByIdElencoDiretoria = async function(id){
     }
 }
 
-const selectElencoByIdDiretoria = async function(idDiretoria){
+const selectElencoByIdNacionalidade = async function(idNacionalidade){
     try {
         let sql = `select tbl_elenco.*
                         from tbl_elenco
-                            inner join tbl_elenco_diretoria
-                                on tbl_elenco.id = tbl_elenco_diretoria.id_elenco 
-                            inner join tbl_diretoria
-                                on tbl_diretoria.id = tbl_elenco_diretoria.id_diretoria
-                    where tbl_diretoria.id = ${idDiretoria}`
+                            inner join tbl_elenco_nacionalidade
+                                on tbl_elenco.id = tbl_elenco_nacionalidade.id_elenco 
+                            inner join tbl_nacionalidade
+                                on tbl_nacionalidade.id = tbl_elenco_nacionalidade.id_nacionalidade
+                    where tbl_nacionalidade.id = ${idNacionalidade}`
 
         let result = await knexConex.raw(sql)
 
@@ -109,14 +109,14 @@ const selectElencoByIdDiretoria = async function(idDiretoria){
     }
 }
 
-const selectDiretoriasByIdElenco = async function(idElenco){
+const selectNacionalidadesByIdElenco = async function(idElenco){
     try {
-        let sql = `select tbl_diretoria.*
+        let sql = `select tbl_nacionalidade.*
                         from tbl_elenco
-                            inner join tbl_elenco_diretoria
-                                on tbl_elenco.id = tbl_elenco_diretoria.id_elenco 
-                            inner join tbl_diretoria
-                                on tbl_diretoria.id = tbl_elenco_diretoria.id_diretoria
+                            inner join tbl_elenco_nacionalidade
+                                on tbl_elenco.id = tbl_elenco_nacionalidade.id_elenco 
+                            inner join tbl_nacionalidade
+                                on tbl_nacionalidade.id = tbl_elenco_nacionalidade.id_nacionalidade
                     where tbl_elenco.id = ${idElenco}`
 
         let result = await knexConex.raw(sql)
@@ -131,9 +131,9 @@ const selectDiretoriasByIdElenco = async function(idElenco){
     }
 }
 
-const deleteElencoDiretoria = async function(id){
+const deleteElencoNacionalidade = async function(id){
     try {
-        let sql = `delete from tbl_elenco_diretoria where id = ${id};`
+        let sql = `delete from tbl_elenco_nacionalidade where id = ${id};`
 
         let result = await knexConex.raw(sql)
 
@@ -146,9 +146,9 @@ const deleteElencoDiretoria = async function(id){
     }
 }
 
-const deleteDiretoriasByIdElenco = async function(idElenco){
+const deleteNacionalidadesByIdElenco = async function(idElenco){
     try {
-        let sql = `delete from tbl_elenco_diretoria where id_elenco = ${idElenco}`
+        let sql = `delete from tbl_elenco_nacionalidade where id_elenco = ${idElenco}`
 
         let result = await knexConex.raw(sql)
 
@@ -162,12 +162,12 @@ const deleteDiretoriasByIdElenco = async function(idElenco){
 }
 
 module.exports = {
-    insertElencoDiretoria,
-    updateElencoDiretoria,
-    selectAllElencoDiretoria,
-    selectByIdElencoDiretoria,
-    selectElencoByIdDiretoria,
-    selectDiretoriasByIdElenco,
-    deleteElencoDiretoria,
-    deleteDiretoriasByIdElenco
+    insertElencoNacionalidade,
+    updateElencoNacionalidade,
+    selectAllElencoNacionalidade,
+    selectByIdElencoNacionalidade,
+    selectElencoByIdNacionalidade,
+    selectNacionalidadesByIdElenco,
+    deleteElencoNacionalidade,
+    deleteNacionalidadesByIdElenco
 }

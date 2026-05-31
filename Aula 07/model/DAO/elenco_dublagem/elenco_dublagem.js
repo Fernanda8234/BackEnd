@@ -1,29 +1,24 @@
 /* ******************************************************************************
 * Objetivo: Arquivo responsável pelo CRUD no Banco de dados MySQL na tabela de 
-*   relação entre Elenco e Diretoria
+*   relação entre Elenco e Dublagem
 * Data: 29/05/2026  
 * Autor: Fernanda
 * Versão: 1.0
 ********************************************************************************/
 
-// import da biblioteca para gerenciar o banco de dados Mysql no node.JS
 const knex = require('knex')
-
-// import do arquivo de configuração para conexão com o BD Mysql
 const knexConfig = require('../../database_config_knew/knexFile.js')
-
-// criar a conexão com o BD Mysql
 const knexConex = knex(knexConfig.development)
 
-const insertElencoDiretoria = async function(elencoDiretoria){
+const insertElencoDublagem = async function(elencoDublagem){
     try {
-        let sql = `insert into tbl_elenco_diretoria (
+        let sql = `insert into tbl_elenco_dublagem (
                     id_elenco, 
-                    id_diretoria
+                    id_dublagem
                     ) 
             values (
-                    ${elencoDiretoria.id_elenco},
-                    ${elencoDiretoria.id_diretoria}
+                    ${elencoDublagem.id_elenco},
+                    ${elencoDublagem.id_dublagem}
                     )`
 
         let result = await knexConex.raw(sql)
@@ -33,17 +28,16 @@ const insertElencoDiretoria = async function(elencoDiretoria){
         else
             return false
     } catch (error) {
-         console.log(error)
         return false
     }
 }
 
-const updateElencoDiretoria = async function(elencoDiretoria){
+const updateElencoDublagem = async function(elencoDublagem){
     try {
-        let sql = `update tbl_elenco_diretoria set
-                    id_elenco = ${elencoDiretoria.id_elenco},
-                    id_diretoria = ${elencoDiretoria.id_diretoria}
-                where id = ${elencoDiretoria.id}`
+        let sql = `update tbl_elenco_dublagem set
+                    id_elenco = ${elencoDublagem.id_elenco},
+                    id_dublagem = ${elencoDublagem.id_dublagem}
+                where id = ${elencoDublagem.id}`
 
         let result = await knexConex.raw(sql)
 
@@ -56,9 +50,9 @@ const updateElencoDiretoria = async function(elencoDiretoria){
     }
 }
 
-const selectAllElencoDiretoria = async function(){
+const selectAllElencoDublagem = async function(){
     try {
-        let sql = `select * from tbl_elenco_diretoria order by id desc`
+        let sql = `select * from tbl_elenco_dublagem order by id desc`
 
         let result = await knexConex.raw(sql)
 
@@ -71,9 +65,9 @@ const selectAllElencoDiretoria = async function(){
     }
 }
 
-const selectByIdElencoDiretoria = async function(id){
+const selectByIdElencoDublagem = async function(id){
     try {
-        let sql = `select * from tbl_elenco_diretoria where id = ${id}`
+        let sql = `select * from tbl_elenco_dublagem where id = ${id}`
 
         let result = await knexConex.raw(sql)
 
@@ -87,15 +81,15 @@ const selectByIdElencoDiretoria = async function(id){
     }
 }
 
-const selectElencoByIdDiretoria = async function(idDiretoria){
+const selectElencoByIdDublagem = async function(idDublagem){
     try {
         let sql = `select tbl_elenco.*
                         from tbl_elenco
-                            inner join tbl_elenco_diretoria
-                                on tbl_elenco.id = tbl_elenco_diretoria.id_elenco 
-                            inner join tbl_diretoria
-                                on tbl_diretoria.id = tbl_elenco_diretoria.id_diretoria
-                    where tbl_diretoria.id = ${idDiretoria}`
+                            inner join tbl_elenco_dublagem
+                                on tbl_elenco.id = tbl_elenco_dublagem.id_elenco 
+                            inner join tbl_dublagem
+                                on tbl_dublagem.id = tbl_elenco_dublagem.id_dublagem
+                    where tbl_dublagem.id = ${idDublagem}`
 
         let result = await knexConex.raw(sql)
 
@@ -109,14 +103,14 @@ const selectElencoByIdDiretoria = async function(idDiretoria){
     }
 }
 
-const selectDiretoriasByIdElenco = async function(idElenco){
+const selectDublagensByIdElenco = async function(idElenco){
     try {
-        let sql = `select tbl_diretoria.*
+        let sql = `select tbl_dublagem.*
                         from tbl_elenco
-                            inner join tbl_elenco_diretoria
-                                on tbl_elenco.id = tbl_elenco_diretoria.id_elenco 
-                            inner join tbl_diretoria
-                                on tbl_diretoria.id = tbl_elenco_diretoria.id_diretoria
+                            inner join tbl_elenco_dublagem
+                                on tbl_elenco.id = tbl_elenco_dublagem.id_elenco 
+                            inner join tbl_dublagem
+                                on tbl_dublagem.id = tbl_elenco_dublagem.id_dublagem
                     where tbl_elenco.id = ${idElenco}`
 
         let result = await knexConex.raw(sql)
@@ -131,9 +125,9 @@ const selectDiretoriasByIdElenco = async function(idElenco){
     }
 }
 
-const deleteElencoDiretoria = async function(id){
+const deleteElencoDublagem = async function(id){
     try {
-        let sql = `delete from tbl_elenco_diretoria where id = ${id};`
+        let sql = `delete from tbl_elenco_dublagem where id = ${id};`
 
         let result = await knexConex.raw(sql)
 
@@ -146,9 +140,9 @@ const deleteElencoDiretoria = async function(id){
     }
 }
 
-const deleteDiretoriasByIdElenco = async function(idElenco){
+const deleteDublagensByIdElenco = async function(idElenco){
     try {
-        let sql = `delete from tbl_elenco_diretoria where id_elenco = ${idElenco}`
+        let sql = `delete from tbl_elenco_dublagem where id_elenco = ${idElenco}`
 
         let result = await knexConex.raw(sql)
 
@@ -162,12 +156,12 @@ const deleteDiretoriasByIdElenco = async function(idElenco){
 }
 
 module.exports = {
-    insertElencoDiretoria,
-    updateElencoDiretoria,
-    selectAllElencoDiretoria,
-    selectByIdElencoDiretoria,
-    selectElencoByIdDiretoria,
-    selectDiretoriasByIdElenco,
-    deleteElencoDiretoria,
-    deleteDiretoriasByIdElenco
+    insertElencoDublagem,
+    updateElencoDublagem,
+    selectAllElencoDublagem,
+    selectByIdElencoDublagem,
+    selectElencoByIdDublagem,
+    selectDublagensByIdElenco,
+    deleteElencoDublagem,
+    deleteDublagensByIdElenco
 }

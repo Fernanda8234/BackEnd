@@ -1,29 +1,24 @@
 /* ******************************************************************************
 * Objetivo: Arquivo responsável pelo CRUD no Banco de dados MySQL na tabela de 
-*   relação entre Elenco e Diretoria
+*   relação entre Elenco e Biografia
 * Data: 29/05/2026  
 * Autor: Fernanda
 * Versão: 1.0
 ********************************************************************************/
 
-// import da biblioteca para gerenciar o banco de dados Mysql no node.JS
 const knex = require('knex')
-
-// import do arquivo de configuração para conexão com o BD Mysql
 const knexConfig = require('../../database_config_knew/knexFile.js')
-
-// criar a conexão com o BD Mysql
 const knexConex = knex(knexConfig.development)
 
-const insertElencoDiretoria = async function(elencoDiretoria){
+const insertElencoBiografia = async function(elencoBiografia){
     try {
-        let sql = `insert into tbl_elenco_diretoria (
+        let sql = `insert into tbl_elenco_biografia (
                     id_elenco, 
-                    id_diretoria
+                    id_biografia
                     ) 
             values (
-                    ${elencoDiretoria.id_elenco},
-                    ${elencoDiretoria.id_diretoria}
+                    ${elencoBiografia.id_elenco},
+                    ${elencoBiografia.id_biografia}
                     )`
 
         let result = await knexConex.raw(sql)
@@ -33,17 +28,16 @@ const insertElencoDiretoria = async function(elencoDiretoria){
         else
             return false
     } catch (error) {
-         console.log(error)
         return false
     }
 }
 
-const updateElencoDiretoria = async function(elencoDiretoria){
+const updateElencoBiografia = async function(elencoBiografia){
     try {
-        let sql = `update tbl_elenco_diretoria set
-                    id_elenco = ${elencoDiretoria.id_elenco},
-                    id_diretoria = ${elencoDiretoria.id_diretoria}
-                where id = ${elencoDiretoria.id}`
+        let sql = `update tbl_elenco_biografia set
+                    id_elenco = ${elencoBiografia.id_elenco},
+                    id_biografia = ${elencoBiografia.id_biografia}
+                where id = ${elencoBiografia.id}`
 
         let result = await knexConex.raw(sql)
 
@@ -56,9 +50,9 @@ const updateElencoDiretoria = async function(elencoDiretoria){
     }
 }
 
-const selectAllElencoDiretoria = async function(){
+const selectAllElencoBiografia = async function(){
     try {
-        let sql = `select * from tbl_elenco_diretoria order by id desc`
+        let sql = `select * from tbl_elenco_biografia order by id desc`
 
         let result = await knexConex.raw(sql)
 
@@ -71,9 +65,9 @@ const selectAllElencoDiretoria = async function(){
     }
 }
 
-const selectByIdElencoDiretoria = async function(id){
+const selectByIdElencoBiografia = async function(id){
     try {
-        let sql = `select * from tbl_elenco_diretoria where id = ${id}`
+        let sql = `select * from tbl_elenco_biografia where id = ${id}`
 
         let result = await knexConex.raw(sql)
 
@@ -87,15 +81,15 @@ const selectByIdElencoDiretoria = async function(id){
     }
 }
 
-const selectElencoByIdDiretoria = async function(idDiretoria){
+const selectElencoByIdBiografia = async function(idBiografia){
     try {
         let sql = `select tbl_elenco.*
                         from tbl_elenco
-                            inner join tbl_elenco_diretoria
-                                on tbl_elenco.id = tbl_elenco_diretoria.id_elenco 
-                            inner join tbl_diretoria
-                                on tbl_diretoria.id = tbl_elenco_diretoria.id_diretoria
-                    where tbl_diretoria.id = ${idDiretoria}`
+                            inner join tbl_elenco_biografia
+                                on tbl_elenco.id = tbl_elenco_biografia.id_elenco 
+                            inner join tbl_biografia
+                                on tbl_biografia.id = tbl_elenco_biografia.id_biografia
+                    where tbl_biografia.id = ${idBiografia}`
 
         let result = await knexConex.raw(sql)
 
@@ -109,14 +103,14 @@ const selectElencoByIdDiretoria = async function(idDiretoria){
     }
 }
 
-const selectDiretoriasByIdElenco = async function(idElenco){
+const selectBiografiasByIdElenco = async function(idElenco){
     try {
-        let sql = `select tbl_diretoria.*
+        let sql = `select tbl_biografia.*
                         from tbl_elenco
-                            inner join tbl_elenco_diretoria
-                                on tbl_elenco.id = tbl_elenco_diretoria.id_elenco 
-                            inner join tbl_diretoria
-                                on tbl_diretoria.id = tbl_elenco_diretoria.id_diretoria
+                            inner join tbl_elenco_biografia
+                                on tbl_elenco.id = tbl_elenco_biografia.id_elenco 
+                            inner join tbl_biografia
+                                on tbl_biografia.id = tbl_elenco_biografia.id_biografia
                     where tbl_elenco.id = ${idElenco}`
 
         let result = await knexConex.raw(sql)
@@ -131,9 +125,9 @@ const selectDiretoriasByIdElenco = async function(idElenco){
     }
 }
 
-const deleteElencoDiretoria = async function(id){
+const deleteElencoBiografia = async function(id){
     try {
-        let sql = `delete from tbl_elenco_diretoria where id = ${id};`
+        let sql = `delete from tbl_elenco_biografia where id = ${id};`
 
         let result = await knexConex.raw(sql)
 
@@ -146,9 +140,9 @@ const deleteElencoDiretoria = async function(id){
     }
 }
 
-const deleteDiretoriasByIdElenco = async function(idElenco){
+const deleteBiografiasByIdElenco = async function(idElenco){
     try {
-        let sql = `delete from tbl_elenco_diretoria where id_elenco = ${idElenco}`
+        let sql = `delete from tbl_elenco_biografia where id_elenco = ${idElenco}`
 
         let result = await knexConex.raw(sql)
 
@@ -162,12 +156,12 @@ const deleteDiretoriasByIdElenco = async function(idElenco){
 }
 
 module.exports = {
-    insertElencoDiretoria,
-    updateElencoDiretoria,
-    selectAllElencoDiretoria,
-    selectByIdElencoDiretoria,
-    selectElencoByIdDiretoria,
-    selectDiretoriasByIdElenco,
-    deleteElencoDiretoria,
-    deleteDiretoriasByIdElenco
+    insertElencoBiografia,
+    updateElencoBiografia,
+    selectAllElencoBiografia,
+    selectByIdElencoBiografia,
+    selectElencoByIdBiografia,
+    selectBiografiasByIdElenco,
+    deleteElencoBiografia,
+    deleteBiografiasByIdElenco
 }
