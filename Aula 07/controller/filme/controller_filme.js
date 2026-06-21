@@ -106,7 +106,7 @@ const inserirNovoFilme = async function(filme, contentType){
         }
 
         } catch (error) {
-            // console.log(error)
+            console.log(error)
             return message.ERROR_INTERNAL_SERVER_CONTROLLER // 500 (controller)
     }
 }
@@ -248,11 +248,11 @@ const listarFilme = async function(){
                     if(resultGenero.status){
                         filme.genero = resultGenero.response.filme_genero 
                     }
-                // // para elenco
-                // let resultElenco = await controller_filme_elenco.buscarElencoIdFilme(filme.id)
-                //     if(resultElenco.status){
-                //         filme.elenco = resultElenco.response.filme_elenco 
-                //     }
+                // para elenco
+                let resultElenco = await controller_filme_elenco.buscarElencoIdFilme(filme.id)
+                    if(resultElenco.status){
+                        filme.elenco = resultElenco.response.filme_elenco 
+                    }
             } 
 
             // validação para verificar se existe conteúdo no Array

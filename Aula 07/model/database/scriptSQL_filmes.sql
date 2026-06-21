@@ -8,14 +8,19 @@ show tables;
 
 #-------------------[ Tabela de Filme ]--------------------#
 create table tbl_filme (
-	id 				int not null primary key auto_increment,
-    nome 			varchar(80) not null,
-    data_lancamento date not null,
-    duracao 		time not null,
-    sinopse 		text not null,
-    avaliacao 		decimal(3,2) default null,
-    valor 			decimal(5,2) not null default 0,
-    capa 			varchar(255)
+	id 							int not null primary key auto_increment,
+    nome 						varchar(80) not null,
+    data_lancamento 			date not null,
+    duracao 					time not null,
+    sinopse 					text not null,
+    avaliacao 					decimal(3,2) default null,
+    valor 						decimal(5,2) not null default 0,
+    capa 						varchar(255),
+    id_classificacao_indicativa int not null,
+    
+    constraint FK_CLASSIFICACAO_INDICATIVA
+    foreign key (id_classificacao_indicativa)
+    references tbl_classificacao_indicativa(id)
 );
 
 # inserir dados
