@@ -354,7 +354,6 @@ const atualizarElenco = async function(elenco, contentType, id){
             return message.ERROR_CONTENT_TYPE
         }
     } catch (error) {
-        //console.log(error)
         return message.ERROR_INTERNAL_SERVER_CONTROLLER
     }
 }
@@ -507,6 +506,15 @@ const excluirElenco = async function(id){
         let resultBuscarID = await buscarElenco(id)
 
         if(resultBuscarID.status){
+            
+            await controller_elenco_diretoria.excluirDiretoriaIdElenco(id)
+            await controller_elenco_atuacao.excluirAtuacoesIdElenco(id)
+            await controller_elenco_dublagem.excluirDublagensIdElenco(id)
+            await controller_elenco_roteirizacao.excluirRoteirizacoesIdElenco(id)
+            await controller_elenco_nacionalidade.excluirNacionalidadesIdElenco(id)
+            await controller_elenco_atividades.excluirAtividadesIdElenco(id)
+            await controller_elenco_nome_artistico.excluirNomesArtisticosIdElenco(id)
+            await controller_elenco_biografia.excluirBiografiasIdElenco(id)
 
             let result = await elencoDAO.deleteElenco(id)
 
@@ -515,14 +523,16 @@ const excluirElenco = async function(id){
                 message.DEFAULT_MESSAGE.status_code = message.SUCCESS_DELETE_ITEM.status_code
                 message.DEFAULT_MESSAGE.message     = message.SUCCESS_DELETE_ITEM.message
 
-                return message.DEFAULT_MESSAGE 
+                return message.DEFAULT_MESSAGE
             } else{
-                return message.ERROR_INTERNAL_SERVER_MODEL 
+                return message.ERROR_INTERNAL_SERVER_MODEL
             }
+
         } else{
-            return resultBuscarID       
+            return resultBuscarID
         }
     } catch (error) {
+        console.log(error)
         return message.ERROR_INTERNAL_SERVER_CONTROLLER
     }
 }

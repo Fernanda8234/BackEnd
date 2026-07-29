@@ -341,33 +341,33 @@ const excluirFilme = async function(id){
     let message = JSON.parse(JSON.stringify(config_message))
     
     try {
-            // validação do erro 400 e 404
-            let resultBuscarID = await buscarFilme(id)
+        let resultBuscarID = await buscarFilme(id)
 
-            // validação para verificar se o status é verdadeiro(se existe o filme)
-            if(resultBuscarID.status){
+        if(resultBuscarID.status){
 
-                    // chama a função do DAO para excluir o filme
-                    let result = await filmeDAO.deleteFilme(id)
+            // exclui os relacionamentos do filme
+            await controller_filme_genero.excluirGenerosIdFilme(id)
+            await controller_filme_elenco.excluirElencoIdFilme(id)
 
-                    if(result){
-                        message.DEFAULT_MESSAGE.status      = message.SUCCESS_DELETE_ITEM.status
-                        message.DEFAULT_MESSAGE.status_code = message.SUCCESS_DELETE_ITEM.status_code
-                        message.DEFAULT_MESSAGE.message     = message.SUCCESS_DELETE_ITEM.message
+            // exclui o filme
+            let result = await filmeDAO.deleteFilme(id)
 
-                        return message.DEFAULT_MESSAGE // 200 (deletado)
+            if(result){
+                message.DEFAULT_MESSAGE.status      = message.SUCCESS_DELETE_ITEM.status
+                message.DEFAULT_MESSAGE.status_code = message.SUCCESS_DELETE_ITEM.status_code
+                message.DEFAULT_MESSAGE.message     = message.SUCCESS_DELETE_ITEM.message
 
-                        // return message.SUCCESS_DELETE_ITEM
-                    } else{
-                        return message.ERROR_INTERNAL_SERVER_MODEL // 500
-                    }
+                return message.DEFAULT_MESSAGE
             } else{
-                return resultBuscarID // 400, 404 ou 500
+                return message.ERROR_INTERNAL_SERVER_MODEL
             }
-            
+
+        } else{
+            return resultBuscarID
+        }
+
     } catch (error) {
-        console.log(error)
-        return message.ERROR_INTERNAL_SERVER_CONTROLLER // 500
+        return message.ERROR_INTERNAL_SERVER_CONTROLLER
     }
 }
 
